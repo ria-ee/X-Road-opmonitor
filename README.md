@@ -12,10 +12,10 @@ Further analysis about anomalies (possible incidents) is made.
 Usage reports are created and published. 
 Logs are anonymized and published as opendata.
 
-Instructions to install all components, as well as all modules source code, can be found at (ACL-protected):
+Instructions to install all components, as well as all modules source code, can be found at:
 
 ```
-https://stash.ria.ee/projects/XTEE6/repos/monitor/browse 
+https://github.com/ria-ee/X-Road-opmonitor.git
 ```
 
 ## Installation instructions:
