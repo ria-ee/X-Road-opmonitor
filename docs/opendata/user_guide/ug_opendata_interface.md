@@ -6,9 +6,11 @@
 
 The project maintains X-Road v6 log of service calls (queries), published as opendata.
 
-Data is collected from Estonian X-Road members security servers available by X-Road Center (Republic of Estonia Information System Authority, Riigi Infosüsteemi Amet, RIA) according to [Operational Monitoring Protocol] (https://github.com/ria-ee/X-Road/tree/develop/doc/OperationalMonitoring).
+X-Road [monitoring data](https://github.com/ria-ee/X-Road/tree/develop/doc/OperationalMonitoring) is collected from Estonian X-Road members security servers available 
+by X-Road Center (Republic of Estonia Information System Authority, Riigi Infosüsteemi Amet, RIA) 
+and published as opendata with a delay of 10 days from actual transaction execution time.
 
-Data is renewed nightly, between 0:00-6:00 (EET UTC+2h / EEST UTC+3h). Data since current day -10 days is available for public.
+Data is renewed nightly, between 0:00-6:00 (EET UTC+2h / EEST UTC+3h).
 
 Logs are anonymized, ie sensitive fields are removed, incl:
 
@@ -17,13 +19,16 @@ Logs are anonymized, ie sensitive fields are removed, incl:
 - messageUserId - Personal code of the client that initiated the request
 - messageIssue - Client's internal identifier of a file or document related to the service
 
-Timestamps in logs are rounded off as hours and presented in form of Unix timstamp (epoch time).
+Timestamps (specifically *requestInTs*) are rounded to hour precision and presented in form of Unix timstamp (epoch time).
 
 Additional calculations from timestamps available are made:
 
 - requestInDate - human-readable date presentation of timestamp requestInTs
 - producerDurationProducerView - when available, then calculated as substraction 'Producer responseOutTs (6)' - 'Producer requestInTs (3)'
 - totalDuration - when available, then calculated as substraction 'Client responseOutTs (8)' - 'Client requestInTs (1)'
+
+Explanation of timestamps (1) - (8):
+![Timestamps](../../img/opendata/0_timestamps.png "Timestamps")
 
 
 ## Initial page
