@@ -140,5 +140,5 @@ apt-get update
 apt-get dist-upgrade
 ```
 
-Pärast uuendust veenduge, et teenuste monitooringut pakid on paigaldatud.
+Pärast uuendust veenduge, et teenuste monitooringu pakid on paigaldatud.
 
