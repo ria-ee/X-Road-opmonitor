@@ -17,7 +17,7 @@ In order to achieve that, handlers allow to query the following data:
 
 URL below is used as 
 
-```
+```bash
 export INSTANCE="ee-dev"
 export URL="http://logs.x-road.ee/${INSTANCE}"
 ```
@@ -32,8 +32,8 @@ export URL="http://logs.x-road.ee/${INSTANCE}"
 
 All API error messages are in JSON format and look similar to
 
-```bash
-{"error": "Missing \\"date\\" field."}
+```json
+{"error": "error message"}
 ```
 
 ### Supported HTTP request methods
@@ -41,33 +41,11 @@ All API error messages are in JSON format and look similar to
 API supports all the HTTP request methods:
 
 * GET
-* POST (and its derivates PUT and DELETE)
+* POST (and its derivates)
 
-### POST payload
+**Note:** all resources (handlers) are available for both GET and POST type of requests.
 
 POST expects query to be in JSON format and be the whole request body. 
-
-#### Examples
-
-**cURL:**
-
-```bash
-# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
-curl -XPOST ${URL}/api/daily_logs -d '{"date": "2017-09-15"}' > /tmp/test.tgz
-tar tzvf /tmp/test.tgz # See download content
-# tar xzvf /tmp/test.tgz # Unpack / extract download content
-```
-
-**Python:**
-
-```python
-# INSTANCE="ee-dev"; URL="http://logs.x-road.ee/${0}".format(INSTANCE)
-import requests
-import json
-
-requests.post('${URL}/api/daily_logs', data=json.dumps({'date': '2017-09-15'}))
-```
-
 
 ## Handlers
 
@@ -77,7 +55,14 @@ Logs can only be downloaded on a daily basis. The handler provides a date range,
 
 ```bash
 # export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
-GET ${URL}/api/date_range
+curl -GET ${URL}/api/date_range
+```
+
+There's also a POST version:
+
+```bash
+# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+curl -X POST ${URL}/api/date_range
 ```
 
 #### Parameters
@@ -86,10 +71,10 @@ None
 
 #### Returns
 
-Minimum and maximum date of the logs in the database.
+Minimum and maximum date of the logs in the database, sample.
 
-```bash
-{'date': {'min': '2017-09-19', 'max': '2017-09-25'}}
+```json
+{"date": {"min": "2017-09-19", "max": "2017-09-25"}}
 ```
 
 ### Column data
@@ -98,7 +83,14 @@ It is possible to provide several data column specific parameters when querying 
 
 ```bash
 # export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
-GET ${URL}/api/column_data
+curl -GET ${URL}/api/column_data
+```
+
+There's also a POST version:
+
+```bash
+# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+curl -X POST ${URL}/api/column_data
 ```
 
 #### Parameters
@@ -107,10 +99,9 @@ None
 
 #### Returns
 
-
 Metadata of the existing columns.
 
-```bash
+```json
 {"columns": [
     {"type": "string", "valid_operators": ["=", "!="], "name": "clientSubsystemCode", "description": "Subsystem code of the X-Road member (client)"},
     {"type": "integer", "valid_operators": ["=", "!=", "<", "<=", ">", ">="], "name": "responseAttachmentCount", "description": "Number of attachments of the response"},
@@ -127,11 +118,18 @@ Metadata of the existing columns.
 
 ### Logs sample
 
-Retrieve N first logs, which have matched the query, in JSON format.
+Retrieve first PREVIEW_LIMIT = 100 logs, which have matched the query, in JSON format.
 
 ```bash
 # export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
-POST ${URL}/api/logs_sample
+curl -GET ${URL}/api/logs_sample
+```
+
+There's also a POST version:
+
+```bash
+# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+curl -X POST ${URL}/api/logs_sample
 ```
 
 #### Parameters
@@ -177,9 +175,11 @@ _Note:_ Different order clauses may return different logs, depending on whether 
 
 #### Returns
 
-JSON object with "data" key holding list of logs. Each log is represented as a list with deterministic column order (in the same order as the columns were provided). If columns were not provide, the order is identical to the column order from [column data](#column-data).
+JSON object with "data" key holding list of logs. 
+Each log is represented as a list with deterministic column order (in the same order as the columns were provided). 
+If columns were not provide, the order is identical to the column order from [column data](#column-data).
 
-```bash
+```json
 {"data": [
 	["4905", "001e90e8-c1c4-4edc-80a4-1a0f8945774a", "2017-09-21", "3", "True", "113"],
 	["10325", "00336a85-1a72-48e4-bf5a-215c3f9af497", "2017-09-21", "3", "True", "146"],
@@ -192,14 +192,25 @@ JSON object with "data" key holding list of logs. Each log is represented as a l
 
 ```bash
 # export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
-curl -XPOST ${URL}/api/logs_sample -d '
-{
-    "date": "2017-09-21",
-    "columns": ["id","messageId","requestInDate","responseAttachmentCount","succeeded","totalDuration"],
-    "constraints": [{"column":"totalDuration","operator":"<=","value":"150"}],
-    "order-clauses": [{"column":"messageId","order":"asc"}]
-}
-'
+# export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
+curl -GET ${URL}/api/logs_sample \
+    --data-urlencode "date=${DATE}" \
+    --data-urlencode "columns=[\"id\",\"messageId\",\"requestInDate\",\"responseAttachmentCount\",\"succeeded\",\"totalDuration\"]" \
+    --data-urlencode "constraints=[{\"column\":\"totalDuration\",\"operator\":\"<=\",\"value\":\"150\"}]" \
+    --data-urlencode "order-clauses=[{\"column\":\"messageId\",\"order\":\"asc\"}]"
+```
+
+The same in POST version:
+
+```bash
+# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+# export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
+curl -X POST ${URL}/api/logs_sample \
+    --header "Content-Type:application/json" \
+    --data "{\"date\": \"${DATE}\", \
+           \"columns\": [\"id\", \"messageId\", \"requestInDate\", \"responseAttachmentCount\", \"succeeded\", \"totalDuration\"], \
+           \"constraints\": [{\"column\": \"totalDuration\", \"operator\": \"<=\", \"value\": \"150\"}], \
+           \"order-clauses\": [{\"column\": \"messageId\", \"order\": \"asc\"}]}"
 ```
 
 ### Daily logs
@@ -209,29 +220,51 @@ Retrieve all logs for a specified date in a **tar.gz** archive. The archive cons
 * **YYYY-MM-DD.json**
 * **meta.json**
 
-```bash
-# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
-POST ${URL}/api/daily_logs
-```
-
 #### Parameters
 
 Identical to [logs' sample](#logs-sample).
 
 #### Returns
 
-Binary `YYYY-MM-DD@QUERY_TIMSTAMP.tar.gz` file with MIME type "application/gzip".
+Binary file with MIME type "application/gzip".
 
 #### Example query
 
+GET version:
+
 ```bash
 # export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
-curl -XPOST ${URL}/api/daily_logs -d '
-{
-    "date": "2017-09-21",
-    "columns": ["id","messageId","requestInDate","responseAttachmentCount","succeeded","totalDuration"],
-    "constraints": [{"column":"totalDuration","operator":"<=","value":"150"}],
-    "order-clauses": [{"column":"messageId","order":"asc"}]
-}
-'
+# export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
+
+TEMPFILE=$(tempfile)
+curl -GET ${URL}/api/daily_logs \
+    --data-urlencode "date=${DATE}" \
+    --data-urlencode "columns=[\"id\",\"messageId\",\"requestInDate\",\"responseAttachmentCount\",\"succeeded\",\"totalDuration\"]" \
+    --data-urlencode "constraints=[{\"column\":\"totalDuration\",\"operator\":\"<=\",\"value\":\"150\"}]" \
+    --data-urlencode "order-clauses=[{\"column\":\"messageId\",\"order\":\"asc\"}]"
+    > ${TEMPFILE}
+
+tar tzvf ${TEMPFILE} # See download content
+# tar xzvf ${TEMPFILE} # Unpack / extract download content
+/bin/rm --force ${TEMPFILE}
+```
+
+There's also a POST version:
+
+```bash
+# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+# export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
+
+TEMPFILE=$(tempfile)
+curl -X POST ${URL}/api/daily_logs \
+    --header "Content-Type:application/json" \
+    --data "{\"date\": \"${DATE}\", \
+           \"columns\": [\"id\", \"messageId\", \"requestInDate\", \"responseAttachmentCount\", \"succeeded\", \"totalDuration\"], \
+           \"constraints\": [{\"column\": \"totalDuration\", \"operator\": \"<=\", \"value\": \"150\"}], \
+           \"order-clauses\": [{\"column\": \"messageId\", \"order\": \"asc\"}]}" \
+    > ${TEMPFILE}
+
+tar tzvf ${TEMPFILE} # See download content
+# tar xzvf ${TEMPFILE} # Unpack / extract download content
+/bin/rm --force ${TEMPFILE}
 ```
