@@ -12,7 +12,7 @@ Raportid võiksid anda neile ülevaate, mis üldse toimub X-teel Teie vastavas a
 - kes ja kui palju seda kasutab (Osutatud teenused) ning 
 - kas ja kui palju Teie alamsüsteemist päringuid teistesse alamsüsteemidesse välja läheb (Kasutatud teenused). 
 
-Mõlemad neist osadest on veel omakorda jagatud kaheks, eraldi nn „päris-teenused“ (äriteenused) ja X-tee metateenused. Kõigis neljas tabelis on toodud päringute kaupa (Teenus) nende kasutajad (Klient/Osutaja), õnnestunud ja ebaõnnestunud päringute arvud, samuti õnnestunud päringute kestvused (millisekundites) ning päringute ja vastuste suurused (baitides).
+Mõlemad neist osadest on veel omakorda jagatud kaheks, eraldi nn „päris-teenused“ (äriteenused) ja X-tee metateenused. Kõigis neljas tabelis on toodud päringute kaupa (Teenus) nende kasutajad (Klient/Osutaja), õnnestunud ja ebaõnnestunud päringute arvud, samuti õnnestunud päringute kestused (millisekundites) ning päringute ja vastuste suurused (baitides).
 
 Usume, et raportitest on kasu ka oma klientidest või andmevahetuspartneritest parema ülevaate saamisel.
 Raportid võiksid oma andmetes anda ülevaate enim kasutatud, kõige vigasemate, kõige kauem kestvate või kõige kiiremate, samuti kõige mahukamate päringute kohta ning olla abiks teenuste paremal disainimisel ning kasutamisel, mahuhinnangutes.
@@ -65,27 +65,27 @@ Soovitame üle vaadata RIHAs iga alamsüsteemi kontaktisikud ning otsustada, kas
 
 Raportite koostamise aluseks on X-tee keskusele (RIA) kättesaadavad andmed liikmete X-tee turvaserveritest. Juhul kui ühel või teisel põhjusel ei ole Teie turvaserver kättesaadav, siis koostatakse Teie raporti andmed Teie andmevahetuspartnerite X-tee turvaserveritest pärineva põhjal. On võimalik, et ka osa nendest ei ole olnud kättesaadavad.
 
-### Misasi on, kuidas on arvutatud kestvus?
+### Misasi on, kuidas on arvutatud kestus?
 
-Päringute kestvused fikseeritakse ja kajastatakse raportis kliendipoolelt vaadatuna, st leitakse aeg Teie turvaserveri poolt infosüsteemile / lõppkasutajale tagastatud vastuse hetke ning Teie infosüsteemi / lõppkasutaja poolt tehtud päringu hetk vahena (Client ResponseOutTs - Client RequestInTs).
-Kestvus on esitatud millisekundites.
+Päringute kestused fikseeritakse ja kajastatakse raportis kliendipoolelt vaadatuna, st leitakse aeg Teie turvaserveri poolt infosüsteemile / lõppkasutajale tagastatud vastuse hetke ning Teie infosüsteemi / lõppkasutaja poolt tehtud päringu hetk vahena (Client ResponseOutTs - Client RequestInTs).
+Kestus on esitatud millisekundites.
 Juhul kui andmeid Teie turvaserveris pole / ei saa, siis ei saa me neid ka raportis kajastada (on kajastatud kui `None`)
 
 Lisatud ülevaatlik pilt, mis hetkede kellaajad eri andmevahetuspartnerite turvaserverites fikseeritakse ja mida arvutusteks kasutame.
 
 ![Timestamps](0_timestamps.png "Timestamps")
 
-**Päringu kestvus kliendi (lõppkasutaja) vaates**
+**Päringu kestus kliendi (lõppkasutaja) vaates**
 
-X-tee päringu kestvus kliendi (lõppkasutaja) vaates arvutatakse X-tee kliendi rollis oleva liikme alamsüsteemi teenindavas turvaserveris fikseeritud kliendi turvaserve-rist kliendi infosüsteemile vastuse saatmise aja (8) ning kliendi infosüsteemi poolt algatatud päringu kliendi turvaserverisse jõudmise aja (1) vahena.
+X-tee päringu kestus kliendi (lõppkasutaja) vaates arvutatakse X-tee kliendi rollis oleva liikme alamsüsteemi teenindavas turvaserveris fikseeritud kliendi turvaserve-rist kliendi infosüsteemile vastuse saatmise aja (8) ning kliendi infosüsteemi poolt algatatud päringu kliendi turvaserverisse jõudmise aja (1) vahena.
 
 ```
 totalDuration = Client responseOutTs (8) - Client requestInTs (1)
 ```
 
-**Päringu kestvus teenusepakkuja vaates**
+**Päringu kestus teenusepakkuja vaates**
 
-X-tee päringu kestvus teenusepakkuja turvaserveri vaates arvutatakse X-tee teenusepakkuja rollis oleva liikme alamsüsteemi teenindavas turvaserveris fikseeritud teenusepakkuja turvaserverist kliendi turvaserverisse vastuse saatmise aja (6) ning kliendi turvaserverist teenusepakkuja turvaserverisse saadetud päringu kohale jõudmise aja (3) vahena.
+X-tee päringu kestus teenusepakkuja turvaserveri vaates arvutatakse X-tee teenusepakkuja rollis oleva liikme alamsüsteemi teenindavas turvaserveris fikseeritud teenusepakkuja turvaserverist kliendi turvaserverisse vastuse saatmise aja (6) ning kliendi turvaserverist teenusepakkuja turvaserverisse saadetud päringu kohale jõudmise aja (3) vahena.
 
 ```
 producerDurationProducerView = Producer responseOutTs (6) - Producer requestInTs (3)
