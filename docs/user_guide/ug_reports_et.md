@@ -6,7 +6,7 @@
 
 ## Üldist
 
-Raportid on mõeldud eelkõige isikutele, kes on märgitud [RIHAs](http://www.riha.ee/) vastava alamsüsteemi kontaktisikuteks (infosüsteemi ülematele).
+Raportid on mõeldud eelkõige isikutele, kes on märgitud [RIHAs](https://www.riha.ee/) vastava alamsüsteemi kontaktisikuteks (infosüsteemi ülematele).
 
 Raportid võiksid anda neile ülevaate, mis üldse toimub X-teel Teie vastavas alamsüsteemis: 
 - kes ja kui palju seda kasutab (Osutatud teenused) ning 
@@ -29,20 +29,20 @@ Raportid koostatakse nii arendus- (ee-dev), test- (ee-test) kui toodangukeskkonn
 Juhul kui on soovitusi raporti sisu, vormi jms osas, palun lahkesti teada anda, püüame RIA poolt kaasa aidata parema selguse ja läbipaistvuse loomisele selles, mis X-tee peal tegelikult toimub. Palun andke märku aadressil help@ria.ee kõikides seotud küsimustes.
 
 Visualiseeritud pilt X-tee v6 toimuva kohta on:
-- toodangukeskkonna (EE) kohta aadressil http://logs.x-road.ee/visualizer/EE
-- testkeskkonna (ee-test) kohta aadressil http://logs.x-road.ee/visualizer/ee-test ja 
-- arenduskeskkonna (ee-dev) kohta aadressil http://logs.x-road.ee/visualizer/ee-dev
+- toodangukeskkonna (EE) kohta aadressil https://logs.x-road.ee/visualizer/EE
+- testkeskkonna (ee-test) kohta aadressil https://logs.x-road.ee/visualizer/ee-test ja 
+- arenduskeskkonna (ee-dev) kohta aadressil https://logs.x-road.ee/visualizer/ee-dev
 
 ## Korduma Kippuvad Küsimused
 
 ### Miks just MINA selle raporti sain?
 
-Sest just Teie olete selle X-tee alamsüsteemi kontakt [RIHA](http://www.riha.ee/) andmetel. 
+Sest just Teie olete selle X-tee alamsüsteemi kontakt [RIHA](https://www.riha.ee/) andmetel. 
 Palun veenduge RIHA andmete ajakohasuses (vajalik autentimine).
 
 ### Miks just TEMA selle raporti sai?
 
-Sest just tema on selle X-tee alamsüsteemi kontakt [RIHA](http://www.riha.ee/) andmetel. 
+Sest just tema on selle X-tee alamsüsteemi kontakt [RIHA](https://www.riha.ee/) andmetel. 
 Palun veenduge RIHA andmete ajakohasuses (vajalik autentimine).
 
 ### Kas ma võin mulle saadetud raporti edasi saata?
@@ -104,9 +104,9 @@ Eraldi liikmetele mõeldud ja kontohaldusega monitooringusüsteemi (*data wareho
 Raporti koostamise aluseks olev andmestik on kättesaadav ka Teie X-tee turvaserverist ning Teie andmevahetuspartneri turvaserveri(te)st. Heameelega nõustame, mil viisil saate seda ise koondada ning ise koostada endale vajalik raport.
 
 Raporti koostamise aluseks olev andmestik on üldjoontes kättesaadav ka avaandmetena:
-- Toodangukeskkonna `EE` avaandmed on avaldatud aadressil http://logs.x-road.ee/EE/gui/, 
-- testkeskkonna `ee-test`omad aadressil http://logs.x-road.ee/ee-test/gui/ ja 
-- arenduskeskkonna `ee-dev` omad aadressil http://logs.x-road.ee/ee-dev/gui/. 
+- Toodangukeskkonna `EE` avaandmed on avaldatud aadressil https://logs.x-road.ee/EE/gui/, 
+- testkeskkonna `ee-test`omad aadressil https://logs.x-road.ee/ee-test/gui/ ja 
+- arenduskeskkonna `ee-dev` omad aadressil https://logs.x-road.ee/ee-dev/gui/. 
 
 ### Kuidas Te seda infot kogute? 
 
@@ -124,13 +124,13 @@ Läbi RIA keskserveri ei käi mitte mingit X-tee tegelikku liiklust, ei ole kuna
 
 Pikem ja põhjalikum kirjeldus koos paigaldusjuhendite ja lähtekoodiga avaldatakse peatselt (2017.a. lõpus) Githubi repositooriumis https://github.com/ria-ee/X-Road-opmonitor
 
-Tööd telliti riigihanke RHR 183990 alusel, teostaja [Tarkvara Tehnoloogia Arenduskeskus OÜ (STACC)](http://www.stacc.ee/). 
+Tööd telliti riigihanke RHR 183990 alusel, teostaja [Tarkvara Tehnoloogia Arenduskeskus OÜ (STACC)](https://www.stacc.ee/). 
 Tõenäoliselt saab ka nendelt abi juhul kui otsustate teha just Teile sobiva süsteemi.
 
 ## Tehnilist
 
 Monitooringuandmete saamiseks Teie X-tee v6 turvaserverist palun veenduge, et:
-- kasutusel on uusim versioon (ver 6.16, http://x-road.eu/packages/ , arendus- ja testkeskkond http://x-road.eu/.test/packages/)
+- kasutusel on uusim versioon (ver 6.16, https://x-road.eu/packages/ , arendus- ja testkeskkond https://x-road.eu/.test/packages/)
 - tulemüür lubab X-tee päringuid RIA monitooringusüsteemist EE IP 195.80.123.159 (ee-dev IP 195.80.123.169, ee-test IP 195.80.123.164)
 
 Tagamaks turvaserveri tarkvara pakettide korrektset paigaldumist, palume v6 turvaserveri uuendusi paigaldada alati käsuga (vaata ka https://github.com/ria-ee/X-Road/blob/develop/doc/Manuals/ig-ss_x-road_v6_security_server_installation_guide.md#45-different-versions-of-xroad--packages-after-successful-upgrade )

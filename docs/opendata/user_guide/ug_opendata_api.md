@@ -19,7 +19,8 @@ URL below is used as
 
 ```bash
 export INSTANCE="ee-dev"
-export URL="http://logs.x-road.ee/${INSTANCE}"
+export URL="https://logs.x-road.ee/${INSTANCE}"
+# or http:// when security certificate not in place yet)
 ```
 
 ### Response codes
@@ -36,9 +37,9 @@ All API error messages are in JSON format and look similar to
 {"error": "error message"}
 ```
 
-### Supported HTTP request methods
+### Supported HTTP/HTTPS request methods
 
-API supports all the HTTP request methods:
+API supports all the HTTP/HTTPS request methods:
 
 * GET
 * POST (and its derivates)
@@ -54,14 +55,14 @@ POST expects query to be in JSON format and be the whole request body.
 Logs can only be downloaded on a daily basis. The handler provides a date range, from which it is sensible to query.
 
 ```bash
-# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="ee-dev"; export URL="https://logs.x-road.ee/${INSTANCE}"
 curl -GET ${URL}/api/date_range
 ```
 
 There's also a POST version:
 
 ```bash
-# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="ee-dev"; export URL="https://logs.x-road.ee/${INSTANCE}"
 curl -X POST ${URL}/api/date_range
 ```
 
@@ -82,14 +83,14 @@ Minimum and maximum date of the logs in the database, sample.
 It is possible to provide several data column specific parameters when querying daily logs. This handler gives an overview of the columns.
 
 ```bash
-# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="ee-dev"; export URL="https://logs.x-road.ee/${INSTANCE}"
 curl -GET ${URL}/api/column_data
 ```
 
 There's also a POST version:
 
 ```bash
-# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="ee-dev"; export URL="https://logs.x-road.ee/${INSTANCE}"
 curl -X POST ${URL}/api/column_data
 ```
 
@@ -121,14 +122,14 @@ Metadata of the existing columns.
 Retrieve first PREVIEW_LIMIT = 100 logs, which have matched the query, in JSON format.
 
 ```bash
-# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="ee-dev"; export URL="https://logs.x-road.ee/${INSTANCE}"
 curl -GET ${URL}/api/logs_sample
 ```
 
 There's also a POST version:
 
 ```bash
-# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="ee-dev"; export URL="https://logs.x-road.ee/${INSTANCE}"
 curl -X POST ${URL}/api/logs_sample
 ```
 
@@ -191,7 +192,7 @@ If columns were not provide, the order is identical to the column order from [co
 #### Example query
 
 ```bash
-# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="ee-dev"; export URL="https://logs.x-road.ee/${INSTANCE}"
 # export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
 curl -GET ${URL}/api/logs_sample \
     --data-urlencode "date=${DATE}" \
@@ -203,7 +204,7 @@ curl -GET ${URL}/api/logs_sample \
 The same in POST version:
 
 ```bash
-# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="ee-dev"; export URL="https://logs.x-road.ee/${INSTANCE}"
 # export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
 curl -X POST ${URL}/api/logs_sample \
     --header "Content-Type:application/json" \
@@ -233,7 +234,7 @@ Binary file with MIME type "application/gzip".
 GET version:
 
 ```bash
-# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="ee-dev"; export URL="https://logs.x-road.ee/${INSTANCE}"
 # export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
 
 TEMPFILE=$(tempfile)
@@ -252,7 +253,7 @@ tar tzvf ${TEMPFILE} # See download content
 There's also a POST version:
 
 ```bash
-# export INSTANCE="ee-dev"; export URL="http://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="ee-dev"; export URL="https://logs.x-road.ee/${INSTANCE}"
 # export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
 
 TEMPFILE=$(tempfile)
