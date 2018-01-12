@@ -33,7 +33,7 @@ Explanation of timestamps (1) - (8):
 
 ## Initial page
 
-After navigating to `https://logs.x-road.ee/{ee-dev,ee-test,EE}/gui`, (or http:// when security certificate not in place yet) we should see the following page:
+After navigating to `https://logs.x-road.ee/EE/gui`, (or http:// when security certificate not in place yet) we should see the following page:
 
 ![Initial Interface page](../../img/opendata/1_interface_initial_screen.png "Initial Interface page")
 
