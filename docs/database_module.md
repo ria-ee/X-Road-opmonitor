@@ -187,7 +187,13 @@ db.grantRolesToUser( "reports_sample", [{ role: "read", db: "query_db_sample" }]
 db.grantRolesToUser( "reports_sample", [{ role: "readWrite", db: "reports_state_sample" }])
 ```
 
-#### Configure analyzer module user
+#### Configure analyzer module users
+
+Analyzer module has two sub-modules, calculation ('training or updateing historic average models' and 'finding anomalies') and web interface. 
+It is suggested to have separate users for them although the access rights are the same. 
+Web interface user needs access to the query database as well because list of queries, that belong to an anomaly are loaded from there.
+
+##### Configure analyzer module calculation user
 
 Inside the MongoDB client shell, create the **analyzer_sample** user in the **auth_db** database. 
 Replace **MODULE_PWD** with the desired module password.
@@ -198,6 +204,19 @@ use auth_db
 db.createUser({ user: "analyzer_sample", pwd: "MODULE_PWD", roles: [] })
 db.grantRolesToUser( "analyzer_sample", [{ role: "read", db: "query_db_sample" }])
 db.grantRolesToUser( "analyzer_sample", [{ role: "readWrite", db: "analyzer_database_sample" }])
+```
+
+##### Configure analyzer module interface user
+
+Inside the MongoDB client shell, create the **analyzer_interface_sample** user in the **auth_db** database. 
+Replace **MODULE_PWD** with the desired module password.
+The analyzer interface user has "read" permissions to "query_db" database and "readWrite" permission to "analyzer_database" database (here, **query_db_sample** and **analyzer_database_sample**).
+
+```
+use auth_db
+db.createUser({ user: "analyzer_interface_sample", pwd: "MODULE_PWD", roles: [] })
+db.grantRolesToUser( "analyzer_interface_sample", [{ role: "read", db: "query_db_sample" }])
+db.grantRolesToUser( "analyzer_interface_sample", [{ role: "readWrite", db: "analyzer_database_sample" }])
 ```
 
 #### Configure anonymizer module user
