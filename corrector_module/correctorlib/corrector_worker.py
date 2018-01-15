@@ -55,7 +55,7 @@ class CorrectorWorker:
                 """
                 :logger_manager.log_warning('batch_duplicated',
                 :'_id : ObjectId(\'' + str(current_document['_id']) + '\'),
-                :messageId : ' + current_document['messageId'])
+                :messageId : ' + str(current_document['messageId']))
                 """
                 continue
 
@@ -68,7 +68,7 @@ class CorrectorWorker:
                 """
                 :logger_manager.log_warning('database_duplicated',
                 :'_id : ObjectId(\'' + str(current_document['_id']) + '\'),
-                :messageId : ' + current_document['messageId'])
+                :messageId : ' + str(current_document['messageId']))
                 """
                 continue
 
