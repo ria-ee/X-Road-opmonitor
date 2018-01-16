@@ -26,20 +26,19 @@ The system architecture is described ==> [here](./docs/system_architecture.md) <
 
 ### Installing/setting up the Mongo Database (MongoDB)
 
-The first thing that should be done is setting up the MongoDB. 
-
+The **first thing** that should be done is setting up the MongoDB. 
 Instructions on setting up the MongoDB can be found ==> [here](./docs/database_module.md) <==
 
 ### Module installation precedence
 
 The modules should be set up in the following order:
  
-1. [Collector](./docs/collector_module.md)
-2. [Corrector](./docs/corrector_module.md)
-3. [Reports](./docs/reports_module.md)
-4. [Opendata](./docs/opendata_module.md)
-5. [Analyzer](./docs/analysis_module.md)
-6. [Networking](./docs/networking_module.md)
+1. [Collector](./docs/collector_module.md) (before others)
+2. [Corrector](./docs/corrector_module.md) (after Collector, before others)
+3. [Analyzer](./docs/analysis_module.md) (optional, after previous)
+4. [Reports](./docs/reports_module.md) (optional, after previous)
+5. [Opendata](./docs/opendata_module.md) (optional, after previous)
+6. [Networking](./docs/networking_module.md) (optional, after Opendata)
 
 ## Programming language
 
@@ -51,9 +50,10 @@ Networking module is written in **R** [https://www.r-project.org/](https://www.r
 
 Efforts have been made to ensure everything is easy, correct, secure. 
 Please report any bugs and feature requests on the Github issue tracker. 
-We will read all reports!
+We will **read** all reports!
 
-We accept pull requests from forks. If possible please follow guidelines https://github.com/vrk-kpa/xroad-joint-development/blob/master/WORKFLOW.md
+We also accept pull requests from forks. 
+If possible please follow guidelines https://github.com/vrk-kpa/xroad-joint-development/blob/master/WORKFLOW.md
 Very grateful to accept contributions from folks.
 
 ## Stay Safe
@@ -66,5 +66,3 @@ Developed by: [STACC (Software Technology and Applications Competence Center)](h
 Released by [Riigi Infosüsteemi Amet, Data Exchange Layer X-Road](https://www.ria.ee/en/x-road.html), under the [MIT License](http://www.opensource.org/licenses/MIT).
 
 Product owner: Toomas Mölder, toomas.molder@ria.ee; (desk) +372 666 8822 / (mobile) +372 55 22000; skype: toomas.molder@ria
-
-Support: help@ria.ee
