@@ -170,6 +170,8 @@ for time_window, train_mode in analyzer_conf.historic_averages_time_windows:
         logger_m.log_heartbeat("Saving the %s model" % time_window['timeunit_name'], settings.HEARTBEAT_PATH,
                                settings.HEARTBEAT_FILE, 'SUCCEEDED')
         db_manager.save_model(averages_by_time_period_model.dt_avgs.reset_index())
+        logger_m.log_info('_tmp_train_or_update_historic_averages_models_4_2', 
+                          "Save the updated model ... Done!")
     
     else:
         logger_m.log_error('train_or_update_historic_averages_models', "Unknown training mode.")
