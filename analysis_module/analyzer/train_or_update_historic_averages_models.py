@@ -176,14 +176,16 @@ for time_window, train_mode in analyzer_conf.historic_averages_time_windows:
     else:
         logger_m.log_error('train_or_update_historic_averages_models', "Unknown training mode.")
 
-    max_request_timestamp = data[analyzer_conf.timestamp_field].max()
-    logger_m.log_info('train_or_update_historic_averages_models',
-                      "Maximum aggregated request timestamp used: %s" % max_request_timestamp)
+    if len(data) > 0:
+        max_request_timestamp = data[analyzer_conf.timestamp_field].max()
+        logger_m.log_info('train_or_update_historic_averages_models',
+                          "Maximum aggregated request timestamp used: %s" % max_request_timestamp)
 
-    logger_m.log_heartbeat("Updating last train timestamp (model %s)" % time_window['timeunit_name'],
-                           settings.HEARTBEAT_PATH, settings.HEARTBEAT_FILE, 'SUCCEEDED')
-    db_manager.set_timestamp(ts_type="last_fit_timestamp", model_type=time_window['timeunit_name'],
-                             value=max_request_timestamp)
+        logger_m.log_heartbeat("Updating last train timestamp (model %s)" % time_window['timeunit_name'],
+                               settings.HEARTBEAT_PATH, settings.HEARTBEAT_FILE, 'SUCCEEDED')
+        db_manager.set_timestamp(ts_type="last_fit_timestamp", model_type=time_window['timeunit_name'],
+                                 value=max_request_timestamp)
+
     logger_m.log_info('_tmp_train_or_update_historic_averages_models_4', 
                       "Comparison with historic averages (timeunit %s, mode %s) ... Done!" % (str(time_window['timeunit_name']), train_mode))
 
