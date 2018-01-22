@@ -168,7 +168,7 @@ BASE_FILE_NAME = "data_v6.json"
 interannual_factsheet_publishing_user = ""
 interannual_factsheet_publishing_server = ""
 interannual_factsheet_publishing_directory = ""
-INTERANNUAL_FACTSHEET_TARGET = "{0}@{1}:{2}/{3}/".format(interannual_factsheet_publishing_user, 
-                                                         interannual_factsheet_publishing_server, 
-                                                         interannual_factsheet_publishing_directory, 
-                                                         INSTANCE)
+INTERANNUAL_FACTSHEET_TARGET = "{0}@{1}:{2}/{3}/js/".format(interannual_factsheet_publishing_user,
+                                                            interannual_factsheet_publishing_server, 
+                                                            interannual_factsheet_publishing_directory, 
+                                                            INSTANCE)
