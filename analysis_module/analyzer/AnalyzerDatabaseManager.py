@@ -75,7 +75,7 @@ class AnalyzerDatabaseManager(object):
                 "mean_client_duration": {"$avg": "$totalDuration"},
                 "mean_producer_duration": {"$avg": "$producerDurationProducerView"},
                 "request_ids": {"$push": "$_id"}}}],
-            allowDiskUse=True)
+            allowDiskUse=True, maxTimeMS=14400000)
         
         return self._generate_dataframe(list(res))
     
@@ -103,7 +103,7 @@ class AnalyzerDatabaseManager(object):
             {'$group': {
                 "_id": group_dict,
                 self._config.timestamp_field: {"$min": "$%s" % self._config.timestamp_field}}}],
-            allowDiskUse=True)
+            allowDiskUse=True, maxTimeMS=14400000)
         
         res = list(res)
         if len(res) == 0:
@@ -185,7 +185,7 @@ class AnalyzerDatabaseManager(object):
                 "_id": group_dict,
                 'count': {'$sum': 1},
                 "request_ids": {"$push": "$_id"}}}],
-            allowDiskUse=True)
+            allowDiskUse=True, maxTimeMS=14400000)
         
         return self._generate_dataframe(list(res))
     
@@ -228,7 +228,7 @@ class AnalyzerDatabaseManager(object):
                         'message_id_count': {'$sum': 1},
                         "request_ids": {"$push": "$_id"}}},
             {'$match': {'message_id_count': {"$gt": 1}}}],
-            allowDiskUse=True)
+            allowDiskUse=True, maxTimeMS=14400000)
         
         return self._generate_dataframe(list(res))
     
@@ -279,7 +279,7 @@ class AnalyzerDatabaseManager(object):
                         "request_count": {"$first": "$request_count"},
                         "request_ids": {"$push": "$docs.id"}}}
 
-        ], allowDiskUse=True)
+        ], allowDiskUse=True, maxTimeMS=14400000)
         
         return self._generate_dataframe(list(res))
     
