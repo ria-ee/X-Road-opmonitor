@@ -11,8 +11,9 @@ error_handler(){
         return 1;
 }
 
-INSTANCE=$(python3 get_settings.py INSTANCE) || error_handler "FACTSHEET:Error_while_getting_INSTANCE"
+# INSTANCE=$(python3 get_settings.py INSTANCE) || error_handler "FACTSHEET:Error_while_getting_INSTANCE"
 FACTSHEET_PATH=$(python3 get_settings.py FACTSHEET_PATH) || error_handler "FACTSHEET:Error_while_getting_FACTSHEET_PATH"
+FACTSHEET_TARGET=$(python3 get_settings.py FACTSHEET_TARGET) || error_handler "FACTSHEET:Error_while_getting_FACTSHEET_TARGET"
 
 echo "`date "+[%F %T]"` Start ${0}"
 
@@ -29,7 +30,7 @@ echo "`date "+[%F %T]"` ... Done."
 #
 echo "`date "+[%F %T]"` Publish factsheet ..."
 cd ./reports_module
-/usr/bin/rsync -qtzr --include='*.txt' --include='*/' --exclude='*' ${FACTSHEET_PATH} reports@web2a.vm.kit:/srv/www/www.ria.ee/x-tee/factsheets/${INSTANCE}/ || error_handler "FACTSHEET:Error_while_publishing_factsheets"
+/usr/bin/rsync -qtzr --include='*.txt' --include='*/' --exclude='*' ${FACTSHEET_PATH} ${FACTSHEET_TARGET} || error_handler "FACTSHEET:Error_while_publishing_factsheets"
 echo "`date "+[%F %T]"` ... Done."
 
 echo "`date "+[%F %T]"` End ${0}"

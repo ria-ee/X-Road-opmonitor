@@ -49,8 +49,8 @@ fi
 
 - The reports module needs access to the Database Module (see ==> [Database_Module](database_module.md) <==).
 - The reports module needs access to the X-Road Central Server (http, port 80).
-- The reports module needs access to the reports public publishing server (via rsync / scp, port 22).
-- The reports module needs access to the SMTP to announce member/subsystem contacts about reports created and published (port 25).
+- The reports module needs access to the reports public publishing server (via rsync or scp, port 22 (SSH)).
+- The reports module needs access to the SMTP to announce member/subsystem contacts about reports created and published (port 25 (SMTP)).
 
 ### Incoming
 
@@ -105,13 +105,13 @@ Additionally, key-based, password-less accesses between modules are needed:
 # Generate keys
 sudo --user reports ssh-keygen -t rsa
 #
-# Set administrative user and publishing server values, also home directory in publishing server before usage
+# Set publishing user and publishing server values, also home directory in publishing server before usage
 # Appending public key to a remote file via SSH
 # Alternatively, administrative user might be used for that
 #
-# export admin_user=""; export publishing_server=""
-sudo --user reports cat /opt/reports/.ssh/id_rsa.pub | \
-    ssh ${admin_user}@${publishing_server} "cat >> /opt/reports/.ssh/authorized_keys"
+# export publishing_user=""; export publishing_server=""
+sudo --user reports /bin/cat ${HOME}/.ssh/id_rsa.pub | \
+    ssh ${publishing_user}@${publishing_server} "/bin/cat >> ${HOME}/.ssh/authorized_keys"
 ```
 
 The module files should be installed in the APPDIR directory, within a sub-folder named after the desired X-Road instance. 
@@ -178,6 +178,18 @@ MONGODB_USER = ""
 MONGODB_PWD  = ""
 MONGODB_SERVER = ""
 MONGODB_SUFFIX = ""
+
+# --------------------------------------------------------
+# Configure general report settings
+# --------------------------------------------------------
+# Set publishing user and publishing server values, also home directory in publishing server before usage
+reports_publishing_user = ""
+reports_publishing_server = ""
+reports_publishing_directory = ""
+REPORTS_TARGET = "{0}@{1}:{2}/{3}/".format(reports_publishing_user, 
+                                           reports_publishing_server, 
+                                           reports_publishing_directory, 
+                                           INSTANCE)
 
 # --------------------------------------------------------
 # Configure notifications
@@ -284,8 +296,8 @@ sudo --user reports /usr/bin/python3 -m reports_module.report_worker \
 	--subsystem_code monitoring \
 	--member_class GOV \
 	--x_road_instance sample \
-	--start_date 2017-1-1 \
-	--end_date 2018-1-1 \
+	--start_date 2017-5-1 \
+	--end_date 2017-5-31 \
 	--language et
 ```
 
@@ -298,8 +310,8 @@ sudo --user reports /usr/bin/python3 -m reports_module.report_worker \
     --member_code 70006317 \
 	--member_class GOV \
 	--x_road_instance sample \
-	--start_date 2017-1-1 \
-	--end_date 2018-1-1 \
+	--start_date 2017-5-1 \
+	--end_date 2017-5-31 \
 	--language et
 ```
 
@@ -318,10 +330,10 @@ Add **reports module** as a **cron job** to the **reports** user.
 sudo crontab -u reports -e
 ```
 
-The **cron job** entry (executes in 10th day of month 1:00:
+The **cron job** entry (executes in 10th day of month 12:34:
 
 ```
-0 1 10 * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/reports_module; ./cron_reports.sh
+34 12 10 * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/reports_module; ./cron_reports.sh
 ```
 
 **Note:** The prediction of 10th date comes from timeschedule:
@@ -345,20 +357,20 @@ ls -l --recursive ${APPDIR}/${INSTANCE}/reports
 ```
 
 The Report naming convention is the following: `memberCode_startDate_endDate_creationDate_creationTime.pdf`.
-For example: subsystemCodeA_2017-01-01_2017-12-31_2018-02-01_13-52-17-453770.pdf
+For example: subsystemCodeA_2017-05-01_2017-05-31_2017-06-10_12-34-56-123456.pdf
 
 The "startDate", "endDate" & the "creationDate" have the following format: YYYY-MM-DD.
-For example: 2017-12-31
+For example: 2017-05-31
 
 The creationTime has the hour-minute-second-millisecond format: HH-mm-ss-MMMSSS.
-For example: 13-52-17-453770
+For example: 12-34-56-123456
 
 ## Open reports / Factsheet
 
 * Factsheet is generated based on the previous calendar month's usage statistics. The Factsheet is generated and extraced into a text file, which is in a JSON format.
 * The Factsheet uses some of the reports module's logic/functionality (code), then it it is located inside the reports module folder as well. 
 * The Factsheet shares Logger with memberCode / subSystemCode monthly reports, ie. the logging is done into the same file as for the reports (reports_module.settings -> LOGGER_PATH).
-* The Factsheet naming convention is the following: `start_date_end_date_creation_time.txt` (Ex: `2017-6-1_2017-6-30_2017-8-4_15-14-56-311873.txt`)
+* The Factsheet naming convention is the following: `start_date_end_date_creation_time.txt` (Ex: `2017-5-1_2017-5-31_2017-6-10_12-34-56-123456.txt`)
 
 ### Diagram
 
@@ -385,6 +397,14 @@ excluded_client_member_code = ["code_1", "code_2"]
 FACTSHEET_PATH = "{0}/{1}/factsheets/".format(APPDIR, INSTANCE)
 # The path where the dates will be taken for the FactSheet.
 FACTSHEET_DATES_PATH = "reports_module/external_files/get_dates_factsheet.sh"
+# Set publishing user and publishing server values, also home directory in publishing server before usage
+factsheet_publishing_user = ""
+factsheet_publishing_server = ""
+factsheet_publishing_directory = ""
+FACTSHEET_TARGET = "{0}@{1}:{2}/{3}/".format(factsheet_publishing_user, 
+                                             factsheet_publishing_server, 
+                                             factsheet_publishing_directory, 
+                                             INSTANCE)
 ```
 
 ### Manual usage
@@ -394,7 +414,7 @@ Run the factsheet_worker.py with start_date(`YYYY-MM-DD`) and end_date(`YYYY-MM-
 ```bash
 # export APPDIR="/srv/app"; export INSTANCE="sample"
 cd ${APPDIR}/${INSTANCE}
-sudo --user reports /usr/bin/python3 -m reports_module.factsheet_worker "2017-01-01" "2018-01-01"
+sudo --user reports /usr/bin/python3 -m reports_module.factsheet_worker "2017-05-01" "2017-05-31"
 ```
 
 Check the Factsheet at the factsheets folder:
@@ -413,17 +433,17 @@ sudo crontab -u reports -e
 ```
 
 ```
-0 11 10 * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/reports_module; ./cron_factsheet.sh
+34 12 10 * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/reports_module; ./cron_factsheet.sh
 ```
 
 The FactSheet naming convention is the following: "startDate_endDate_creationDate_creationTime.txt".
-For example: 2017-08-01_2017-08-31_2017-9-19_13-52-17-453770.txt
+For example: 2017-05-01_2017-05-31_2017-6-10_12-34-56-123456.txt
 
 The "startDate", "endDate" & the "creationDate" have the following format: YYYY-MM-DD.
-For example: 2017-12-31
+For example: 2017-05-01
 
 The creationTime has the hour-minute-second-millisecond format: HH-mm-ss-MMMSSS.
-For example: 13-52-17-453770
+For example: 12-34-56-123456
 
 ### Monitoring and Status
 
@@ -444,7 +464,7 @@ The time format for durations in the log files is the following: "HH:MM:SS".
 For example:
 
 ```
-"Finished process. Processing time: 00:02:56"
+"Finished process. Processing time: 00:00:56"
 ```
 
 ## Interannual factsheet
@@ -480,7 +500,7 @@ The following settings are relevant for interannual factsheet generation:
 
 ```python
 # "last_incident"
-LAST_INCIDENT = "2017-09-12T22:44:00.000Z"
+LAST_INCIDENT = "2001-12-17T18:25:43.511Z"
 # "affected_parties"
 AFFECTED_PARTIES = 52000
 # "effective_query_proportion"
@@ -493,6 +513,14 @@ PROTOCOL_CHANGES = 4
 BASE_FILE_LOCATION = "{0}/{1}/interannual_factsheet/".format(APPDIR, INSTANCE)
 # Base file name
 BASE_FILE_NAME = "data_v6.json"
+# Set publishing user and publishing server values, also home directory in publishing server before usage
+interannual_factsheet_publishing_user = ""
+interannual_factsheet_publishing_server = ""
+interannual_factsheet_publishing_directory = ""
+INTERANNUAL_FACTSHEET_TARGET = "{0}@{1}:{2}/{3}/".format(interannual_factsheet_publishing_user, 
+                                                         interannual_factsheet_publishing_server, 
+                                                         interannual_factsheet_publishing_directory, 
+                                                         INSTANCE)
 ```
 
 It is very important that the **base_file** is added into the BASE_FILE_LOCATION before running the interannual factsheet.
@@ -500,22 +528,22 @@ The **example** base file is located in the reports_module/external_files/data_v
 
 ### CRON usage
 
-Set cron to run interannual factsheet every 10th day of month at 19 am:
+**Note:** this is suggested to run interannual factsheet right after monthly factsheet. 
+In this case, one can use it in a way (run every 11th day of month at 12:34):
 
 ```bash
 sudo crontab -u reports -e
 ```
 
 ```
-0 19 10 * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/reports_module; ./cron_interannual.sh
+34 12 11 * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/reports_module; ./cron_interannual.sh
 ```
 
-**Note:** this is suggested to run interannual factsheet right after monthly factsheet. In this case, one can use it in a way (run every 10th day of month at 11 am):
+Or include them into the same cron job sequently (run every 10th day of month at 12:34):
 
 ```
-0 11 10 * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/reports_module; ./cron_factsheet.sh; ./cron_interannual.sh
+34 12 10 * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/reports_module; ./cron_factsheet.sh; ./cron_interannual.sh; 
 ```
-
 
 ### Monitoring and Status
 
@@ -536,7 +564,7 @@ The time format for durations in the log files is the following: "HH:MM:SS".
 For example:
 
 ```
-"Finished process. Processing time: 00:02:56"
+"Finished process. Processing time: 00:01:23"
 ```
 
 ### Heartbeat

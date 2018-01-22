@@ -26,6 +26,14 @@ REPORT_USERNAME = "reports_{0}".format(INSTANCE)
 REPORTS_PATH = "{0}/{1}/reports/".format(APPDIR, INSTANCE)
 REPORT_DATES_PATH = "reports_module/external_files/get_dates_reports.sh"
 SUBSYSTEM_INFO_PATH = "reports_module/external_files/riha.json"
+# Set publishing user and publishing server values, also home directory in publishing server before usage
+reports_publishing_user = ""
+reports_publishing_server = ""
+reports_publishing_directory = ""
+REPORTS_TARGET = "{0}@{1}:{2}/{3}/".format(reports_publishing_user, 
+                                           reports_publishing_server, 
+                                           reports_publishing_directory, 
+                                           INSTANCE)
 
 # --------------------------------------------------------
 # Report constants
@@ -107,6 +115,14 @@ excluded_client_member_code = ["code_1", "code_2"]
 FACTSHEET_PATH = "{0}/{1}/factsheets/".format(APPDIR, INSTANCE)
 # The path where the dates will be taken for the FactSheet.
 FACTSHEET_DATES_PATH = "reports_module/external_files/get_dates_factsheet.sh"
+# Set publishing user and publishing server values, also home directory in publishing server before usage
+factsheet_publishing_user = ""
+factsheet_publishing_server = ""
+factsheet_publishing_directory = ""
+FACTSHEET_TARGET = "{0}@{1}:{2}/{3}/".format(factsheet_publishing_user, 
+                                             factsheet_publishing_server, 
+                                             factsheet_publishing_directory, 
+                                             INSTANCE)
 
 # --------------------------------------------------------
 # Configure notifications
@@ -135,9 +151,7 @@ Riigi Infosüsteemi Amet
 # Configure inter-annual statistics
 # --------------------------------------------------------
 # "last_incident"
-# LAST_INCIDENT = "2001-12-17T18:25:43.511Z"
-# LAST_INCIDENT = "2017-09-12T22:44:00.000Z"
-LAST_INCIDENT = "2017-11-23T23:44:00.000Z"
+LAST_INCIDENT = "2001-12-17T18:25:43.511Z"
 # "affected_parties"
 AFFECTED_PARTIES = 52000
 # "effective_query_proportion"
@@ -150,3 +164,11 @@ PROTOCOL_CHANGES = 4
 BASE_FILE_LOCATION = "{0}/{1}/interannual_factsheet/".format(APPDIR, INSTANCE)
 # Base file name
 BASE_FILE_NAME = "data_v6.json"
+# Set publishing user and publishing server values, also home directory in publishing server before usage
+interannual_factsheet_publishing_user = ""
+interannual_factsheet_publishing_server = ""
+interannual_factsheet_publishing_directory = ""
+INTERANNUAL_FACTSHEET_TARGET = "{0}@{1}:{2}/{3}/".format(interannual_factsheet_publishing_user, 
+                                                         interannual_factsheet_publishing_server, 
+                                                         interannual_factsheet_publishing_directory, 
+                                                         INSTANCE)

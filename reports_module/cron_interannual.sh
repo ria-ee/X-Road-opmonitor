@@ -11,9 +11,10 @@ error_handler(){
         return 1;
 }
 
-INSTANCE=$(python3 get_settings.py INSTANCE) || error_handler "INTERANNUAL_FACTSHEET:Error_while_getting_INSTANCE"
+# INSTANCE=$(python3 get_settings.py INSTANCE) || error_handler "INTERANNUAL_FACTSHEET:Error_while_getting_INSTANCE"
 BASE_FILE_LOCATION=$(python3 get_settings.py BASE_FILE_LOCATION) || error_handler "INTERANNUAL_FACTSHEET:Error_while_getting_BASE_FILE_LOCATION"
 BASE_FILE_NAME=$(python3 get_settings.py BASE_FILE_NAME) || error_handler "INTERANNUAL_FACTSHEET:Error_while_getting_BASE_FILE_NAME"
+INTERANNUAL_FACTSHEET_TARGET=$(python3 get_settings.py INTERANNUAL_FACTSHEET_TARGET) || error_handler "INTERANNUAL_FACTSHEET:Error_while_getting_INTERANNUAL_FACTSHEET_TARGET"
 
 echo "`date "+[%F %T]"` Start ${0}"
 
@@ -27,9 +28,9 @@ echo "`date "+[%F %T]"` ... Done."
 echo "`date "+[%F %T]"` Publish script for Inter-annual statistics ..."
 # BASE_FILE_NAME, X-Road ver 6
 cd reports_module
-scp ${BASE_FILE_LOCATION}/${BASE_FILE_NAME} reports@web2a.vm.kit:/srv/www/www.ria.ee/x-tee/interannual_factsheets/${INSTANCE}/ || error_handler "INTERANNUAL_FACTSHEET:Error_while_publishing_V6_interannual_factsheet"
+scp ${BASE_FILE_LOCATION}/${BASE_FILE_NAME} ${INTERANNUAL_FACTSHEET_TARGET} || error_handler "INTERANNUAL_FACTSHEET:Error_while_publishing_V6_interannual_factsheet"
 # data.js, X-Road ver 5
-scp external_files/fact/js/data.js reports@web2a.vm.kit:/srv/www/www.ria.ee/x-tee/interannual_factsheets/${INSTANCE}/ || error_handler "INTERANNUAL_FACTSHEET:Error_while_publishing_V5_interannual_factsheet"
+scp external_files/fact/js/data.js ${INTERANNUAL_FACTSHEET_TARGET} || error_handler "INTERANNUAL_FACTSHEET:Error_while_publishing_V5_interannual_factsheet"
 
 echo "`date "+[%F %T]"` End ${0}"
 

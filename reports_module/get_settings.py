@@ -20,12 +20,16 @@ if __name__ == '__main__':
         else:
             reports_path = reports_path + "/" + settings.INSTANCE + "/"
         print(reports_path)
+    elif args[1] == 'REPORTS_TARGET':
+        print(settings.REPORTS_TARGET)
     elif args[1] == 'FACTSHEET_PATH':
         factsheet_path = settings.FACTSHEET_PATH
         if factsheet_path.endswith("/"):
             print(settings.FACTSHEET_PATH)
         else:
             print(settings.FACTSHEET_PATH + "/")
+    elif args[1] == 'FACTSHEET_TARGET':
+        print(settings.FACTSHEET_TARGET)
     elif args[1] == 'BASE_FILE_LOCATION':
         interannual_factsheet_path = settings.BASE_FILE_LOCATION
         if interannual_factsheet_path.endswith("/"):
@@ -34,6 +38,8 @@ if __name__ == '__main__':
             print(settings.BASE_FILE_LOCATION + "/")
     elif args[1] == 'BASE_FILE_NAME':
         print(settings.BASE_FILE_NAME)
+    elif args[1] == 'INTERANNUAL_FACTSHEET_TARGET':
+        print(settings.INTERANNUAL_FACTSHEET_TARGET)
     else:
         logger_m = LoggerManager(settings.LOGGER_NAME, 'reports_module')
         logger_m.log_error('getting_settings', "Invalid argument for get_settings")

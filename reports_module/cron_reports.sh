@@ -11,8 +11,9 @@ error_handler(){
         return 1;
 }
 
-INSTANCE=$(python3 get_settings.py INSTANCE) || error_handler "REPORTS:Error_while_getting_INSTANCE"
+# INSTANCE=$(python3 get_settings.py INSTANCE) || error_handler "REPORTS:Error_while_getting_INSTANCE"
 REPORTS_PATH=$(python3 get_settings.py REPORTS_PATH) || error_handler "REPORTS:Error_while_getting_REPORTS_PATH"
+REPORTS_TARGET=$(python3 get_settings.py REPORTS_TARGET) || error_handler "REPORTS:Error_while_getting_REPORTS_TARGET"
 
 echo "`date "+[%F %T]"` Start ${0}"
 
@@ -31,7 +32,7 @@ echo "`date "+[%F %T]"` ... Done."
 
 echo "`date "+[%F %T]"` Publish reports ..."
 cd ./reports_module
-/usr/bin/rsync -qtzr --include='*.pdf' --include='*/' --exclude='*' ${REPORTS_PATH} reports@web2a.vm.kit:/srv/www/www.ria.ee/x-tee/reports/${INSTANCE}/ || error_handler "Error_while_publishing_reports"
+/usr/bin/rsync -qtzr --include='*.pdf' --include='*/' --exclude='*' ${REPORTS_PATH} ${REPORTS_TARGET} || error_handler "Error_while_publishing_reports"
 echo "`date "+[%F %T]"` ... Done."
 
 #
