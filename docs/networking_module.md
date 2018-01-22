@@ -6,7 +6,7 @@
 
 ## About
 
-The Networking module is part of [X-Road v6 monitor project](../README.md), which includes modules of [Database module](database_module.md), [Collector module](collector_module.md), [Corrector module (this document)](corrector_module.md), [Analysis module](analysis_module.md), [Reports module](reports_module.md), [Opendata module](opendata_module.md) and Networking/Visualizer module (this document).
+The Networking module is part of [X-Road v6 monitor project](../README.md), which includes modules of [Database module](database_module.md), [Collector module](collector_module.md), [Corrector module](corrector_module.md), [Analysis module](analysis_module.md), [Reports module](reports_module.md), [Opendata module](opendata_module.md) and Networking/Visualizer module (this document).
 
 The purpose of the **Networking module** is to visualize the networking activity between the X-Road members. It consists of:
  
