@@ -39,6 +39,7 @@ This document describes the installation steps for Ubuntu 16.04. For other Linux
 Add the MongoDB repository key and location:
 
 ```bash
+# Key 4096R/A15703C6 2016-01-11 [expires: 2020-01-05]
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
 echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" \
     | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
@@ -463,6 +464,9 @@ db.server_list.createIndex({ 'timestamp': -1})
 
 use reports_state_sample
 db.notification_queue.createIndex({'status': 1, 'user_id': 1})
+
+use analyzer_database_sample
+db.incident.createIndex({'incident_status': 1, 'incident_creation_timestamp': 1})
 ```
 
 **Note 1**: Not all indexes are needed for system scripts. 
