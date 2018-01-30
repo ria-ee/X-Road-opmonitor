@@ -75,7 +75,7 @@ class IncidentDatabaseManager(object):
         filter_dict = {"incident_status": {"$in": incident_status}}
         if start_time is not None:
             filter_dict["incident_creation_timestamp"] = {"$gte": start_time}
-        return list(incident_collection.distinct(field, filter_dict))
+        return sorted(incident_collection.distinct(field, filter_dict))
     
     def update_incidents(self, ids, field, value):
 

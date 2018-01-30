@@ -1,6 +1,9 @@
-service_call_fields = ["clientMemberClass", "clientMemberCode", "clientXRoadInstance", "clientSubsystemCode", "serviceCode",
-                       "serviceVersion", "serviceMemberClass", "serviceMemberCode", "serviceXRoadInstance",
-                       "serviceSubsystemCode"]
+# service_call_fields = ["clientMemberClass", "clientMemberCode", "clientXRoadInstance", "clientSubsystemCode", "serviceCode",
+#                        "serviceVersion", "serviceMemberClass", "serviceMemberCode", "serviceXRoadInstance",
+#                       "serviceSubsystemCode"]
+service_call_fields = ["clientXRoadInstance", "clientMemberClass", "clientMemberCode", "clientSubsystemCode", 
+                       "serviceXRoadInstance", "serviceMemberClass", "serviceMemberCode", "serviceSubsystemCode", 
+                       "serviceCode", "serviceVersion"]
 
 historic_averages_anomaly_types = ["request_count", "mean_request_size", "mean_response_size", "mean_client_duration",
                                    "mean_producer_duration"]
@@ -18,7 +21,8 @@ new_incident_columns += [("anomalous metric", "anomalous_metric", "categorical",
                          ("description", "description", "text", None, None),
                          ("comments", "comments", "text", None, None)]
 
-new_incident_order = [["request_count", "desc"]]
+# new_incident_order = [["request_count", "desc"]]
+new_incident_order = [["anomaly confidence", "desc"], ["request_count", "desc"], ["period start time", "desc"]]
 
 # HISTORICAL INCIDENTS TABLE #
 
@@ -39,6 +43,6 @@ example_request_limit = 10  # 0 means no limit
 
 # FILTERING
 
-accepted_date_formats = ["%a, %Y-%m-%d %H:%M", "%Y-%m-%d %H:%M", "%Y-%m-%d", "%d/%m/%Y %H:%M", "%d/%m/%Y"]
+accepted_date_formats = ["%a %Y-%m-%d %H:%M", "%Y-%m-%d %H:%M", "%Y-%m-%d", "%d/%m/%Y %H:%M", "%d/%m/%Y"]
 
 incident_expiration_time = 14400  # minutes
