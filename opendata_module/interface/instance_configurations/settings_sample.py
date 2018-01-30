@@ -34,7 +34,7 @@ SECRET_KEY = ''
 DEBUG = True
 
 # Sample: ALLOWED_HOSTS = ['opmon-opendata', 'localhost', '127.0.0.1']
-ALLOWED_HOSTS = ['opmon-opendata', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # Application definition
 
@@ -206,7 +206,7 @@ FOOTER = """<hr />
 PREVIEW_LIMIT = 100
 
 POSTGRES_CONFIG = {
-    'host_address': '127.0.0.1',
+    'host_address': '',
     'port': 5432,
     'database_name': 'opendata_{0}'.format(X_ROAD_INSTANCE.lower().replace('-', '_')),
     'table_name': 'logs',

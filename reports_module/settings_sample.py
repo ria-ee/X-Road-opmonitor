@@ -14,7 +14,7 @@ INSTANCE = "sample"
 # --------------------------------------------------------
 MONGODB_USER = "reports_{0}".format(INSTANCE)
 MONGODB_PWD = ""
-MONGODB_SERVER = "opmon"
+MONGODB_SERVER = ""
 MONGODB_SUFFIX = "{0}".format(INSTANCE)
 # For pointer
 REPORT_USERNAME = "reports_{0}".format(INSTANCE)
@@ -96,15 +96,15 @@ logger.addHandler(rotate_handler)
 # --------------------------------------------------------
 # Configure heartbeats
 # --------------------------------------------------------
-HEARTBEAT_LOGGER_PATH = "" # NA in sample
+HEARTBEAT_LOGGER_PATH = "" # NA for public, in sample
 REPORT_HEARTBEAT_NAME = 'heartbeat_report_{0}.json'.format(INSTANCE)
-FACTSHEET_HEARTBEAT_NAME = "" # NA in sample
-INTERANNUAL_HEARTBEAT_NAME = "" # NA in sample
+FACTSHEET_HEARTBEAT_NAME = "" # NA for public, in sample
+INTERANNUAL_HEARTBEAT_NAME = "" # NA for public, in sample
 
 # --------------------------------------------------------
 # Configure FactSheet
 # --------------------------------------------------------
-# NA in sample
+# # NA for public, in sample
 
 # --------------------------------------------------------
 # Configure notifications
@@ -132,4 +132,4 @@ Riigi Infosüsteemi Amet
 # --------------------------------------------------------
 # Configure inter-annual statistics
 # --------------------------------------------------------
-# NA in sample
+# # NA for public, in sample

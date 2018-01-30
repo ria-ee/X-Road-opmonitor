@@ -15,7 +15,7 @@ anonymizer['threads'] = 1
 # MongoDB (anonymizer input) connection parameters
 mongo_db = {}
 
-mongo_db['host_address'] = 'opmon'
+mongo_db['host_address'] = ''
 mongo_db['port'] = 27017
 mongo_db['auth_db'] = 'auth_db'
 mongo_db['user'] = 'anonymizer_' + x_road_instance
@@ -32,7 +32,7 @@ mongo_db['state'] = {
 postgres = {}
 
 postgres['buffer_size'] = 10000
-postgres['host_address'] = 'opmon-opendata'
+postgres['host_address'] = ''
 postgres['port'] = 5432
 postgres['database_name'] = 'opendata_' + x_road_instance.lower().replace('-', '_')
 postgres['table_name'] = 'logs'

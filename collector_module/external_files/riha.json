@@ -1,12 +1,17 @@
 [
   {
-    "x_road_instance": "CI-REPORTS",
+    "x_road_instance": "sample",
     "subsystem_name": {
       "et": "Subsystem Name ET",
       "en": "Subsystem Name EN"
     },
     "member_class": "MemberClassA",
-    "email": [],
+    "email": [
+      {
+        "name": "Firstname Lastname",
+        "email": "yourname@yourdomain"
+      }
+    ],
     "subsystem_code": "SubsystemCodeA",
     "member_code": "MemberCodeA",
     "member_name": "Member Name"

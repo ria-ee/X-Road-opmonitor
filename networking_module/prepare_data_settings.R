@@ -14,7 +14,7 @@ buffer=10
 metaservices<-c("getWsdl", "listMethods", "allowedMethods", "getSecurityServerMetrics", "getSecurityServerOperationalData", "getSecurityServerHealthData")
 
 # Open data PostgreSQL database credentials. 
-host="opmon-opendata"
+host=""
 dbname="opendata_sample"
 user="networking_sample"
 port=5432

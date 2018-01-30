@@ -15,7 +15,7 @@ INSTANCE = "sample"
 # --------------------------------------------------------
 MDB_USER = '{0}_{1}'.format(MODULE, INSTANCE)
 MDB_PWD = ""
-MDB_SERVER = "opmon"
+MDB_SERVER = ""
 MONGODB_SUFFIX = '{0}'.format(INSTANCE)
 
 MONGODB_URI = "mongodb://{0}:{1}@{2}/auth_db".format(MDB_USER, MDB_PWD, MDB_SERVER)

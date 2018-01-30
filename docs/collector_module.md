@@ -79,31 +79,6 @@ sudo groupadd --force opmon
 sudo usermod --append --groups opmon collector
 ```
 
-Additionally, key-based, password-less accesses betwenn modules are needed:
-
-```bash
-#
-# Generate keys
-#
-sudo --user collector ssh-keygen -t rsa
-#
-# Set reports user and reports server values, also home directory in reports server before usage
-# Alternatively, administrative user might be used for that
-# Appending public key to a remote file via SSH
-#
-# export reports_user="reports"; export reports_server="opmon-reports"
-sudo --user collector cat /opt/collector/.ssh/id_rsa.pub | \
-    ssh ${reports_user}@${reports_server} "cat >> ~reports/.ssh/authorized_keys"
-#
-# Set networking user and networking server values, also home directory in networking server before usage
-# Alternatively, administrative user might be used for that
-# Appending public key to a remote file via SSH
-#
-# export networking_user="networking"; export networking_server="opmon-networking"
-sudo --user collector cat /opt/collector/.ssh/id_rsa.pub | \
-    ssh ${networking_user}@${networking_server} "cat >> ~networking/.ssh/authorized_keys"
-```
-
 The module files should be installed in the APPDIR directory, within a sub-folder named after the desired X-Road instance. 
 In this manual, `/srv/app` is used as APPDIR and the `sample` is used as INSTANCE (please change `sample` to map your desired instance).
 
@@ -274,74 +249,30 @@ The heartbeat file consists last message of log file and status
 
 External file in subdirectory `${APPDIR}/${INSTANCE}/collector_module/external_files/riha.json` is required for reports generation in [Reports module](reports_module.md) and networking generation on [Networking module](networking_module.md).
 
-Generation of `riha.json` requires additional background file `riha_systems.json`.
-RIA system management personell is asked periodically (monthly) to re-generate and update mentioned file in the system according to `https://www.riha.ee/api/v1/systems` as the contact data is not available for anonymous usage but requires authentication. 
-
-Sample queries: 
-
-- Retrieve all systems in RIHA - `https://www.riha.ee/api/v1/systems?topics=%22X-tee%20alams%C3%BCsteem%22&fields=owner,short_name,name,contacts&size=10000`
-- Retrieve only X-Road subsystems ('X-tee alamsüsteem') from RIHA - `https://www.riha.ee/api/v1/systems?filter=topics,jilike,%25X-tee%20alams%C3%BCsteem%25&fields=owner,short_name,name,contacts,topics&size=10000`
-- Retrieve only X-Road subsystems in use from RIHA -  `https://www.riha.ee/api/v1/systems?filter=topics,jilike,%25X-tee%20alams%C3%BCsteem%25,meta.system_status.status,jilike,%25IN_USE%25&fields=owner,short_name,name,contacts,topics&size=10000`
-
-NB! Parameter `size` in query must exceed value of `totalElements` in response to ensure all data is retrieved from RIHA.
-
-The format of query and response are described in RIHA API Help `https://abi.riha.ee/APIabi` (in Estonian).
-
-### make_riha.sh
-
-Bash script to retrieve subSystem list from X-Road Central Server and complement it with memberName, subsystemName and notification contacts (`subsystems_json_riha.py` and `xrdinfo.py`).
-
-Script requires X-Road Central Server IP / Name as first parameter and must be configured during installation procedure, variable `CENTRAL_SERVER`.
-
-```bash
-# export APPDIR="/srv/app"; export INSTANCE="sample"
-sudo vi ${APPDIR}/${INSTANCE}/collector_module/settings.py
-```
-
-Script result is saved into file with hardcoded name `riha.json`.
+Generation of `riha.json` and its availability for other modules is Estonia / RIA / RIHA -specific and is not available in public.
 
 Sample of `${APPDIR}/${INSTANCE}/collector_module/external_files/riha.json`
 
 ```json
 [
   {
-    "subsystem_code": "10000000-name",
-    "x_road_instance": "XTEE-CI-XM",
-    "member_class": "GOV",
+    "x_road_instance": "sample",
     "subsystem_name": {
-      "en": "Company Test X-Road v6 subsystem",
-      "et": "Ettevõtte Test X-tee v6 alamsüsteem"
+      "et": "Subsystem Name ET",
+      "en": "Subsystem Name EN"
     },
-    "member_code": "10000000",
+    "member_class": "MemberClassA",
     "email": [
       {
         "name": "Firstname Lastname",
-        "email": "firstname.lastname@domain.com"
+        "email": "yourname@yourdomain"
       }
     ],
-    "member_name": "Company Test AS"
+    "subsystem_code": "SubsystemCodeA",
+    "member_code": "MemberCodeA",
+    "member_name": "Member Name"
   }
 ]
-```
-
-## Generation of riha_$instance.json files and copied into the reports module
-
-The files are currently being generated and copied into the reports module via cron job using SCP.
-
-**Note:** Although the content of `riha.json` is identical for reports and networking module, the generation time in crontab entry must differ to avoid collisions.
-
-```
-0 3 * * * export APPDIR="/srv/app"; export INSTANCE="sample"; export reports_user="reports"; export reports_server="opmon-reports"; cd ${APPDIR}/${INSTANCE}/collector_module/external_files && ./make_riha.sh && scp riha.json  ${reports_user}@${reports_server}:${APPDIR}/${INSTANCE}/reports_module/external_files/riha.json
-```
-
-## Generation of riha_$instance.json files and copied into the networking module
-
-The files are currently being generated and copied into the networking module via cron job using SCP.
-
-**Note:** Although the content of `riha.json` is identical for reports and networking module, the generation time in crontab entry must differ to avoid collisions.
-
-```
-30 3 * * * export APPDIR="/srv/app"; export INSTANCE="sample"; export networking_user="networking"; export networking_server="opmon-networking"; cd ${APPDIR}/${INSTANCE}/collector_module/external_files && ./make_riha.sh && scp riha.json ${networking_user}@${networking_server}:${APPDIR}/${INSTANCE}/networking_module/riha_${INSTANCE}.json
 ```
 
 ## Appendix

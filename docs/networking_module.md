@@ -301,11 +301,11 @@ pwd=""
 
 ##### riha.json for member code - member name relations
 
-The data preparation scripts need a file `riha_${INSTANCE}.json` (`riha_sample.json` in this example) that holds the member registry codes and member names. The file is produced in the Reports module and needs to be in place (rsynced to) `${APPDIR}/${INSTANCE} (`/srv/app/sample` in this example)`. See [Reports module](reports_module.md) section *The external files and additional scripts required for reports module* for more information about the `riha.json`.
+The data preparation scripts need a file `riha_${INSTANCE}.json` (`riha_sample.json` in this example) that holds the member registry codes and member names. The file is produced within the [Collector module](collector_module.md) and needs to be in place (rsynced to) `${APPDIR}/${INSTANCE}` (`/srv/app/sample` in this example). See [Collector module](collector_module.md) section *The external files and additional scripts required for reports and networking modules* for more information about the `riha.json`.
 
 #### Copy the **visualization web application R script**
 
-The default location of the Shiny Server web application scripts is `/srv/shiny-server`. Each subfolder to this location can serve as a different web application given that the subfolder contains a proper application script named `app.R`. A path `/srv/shiny-server/${INSTANCE}/app.R` is automatically deployed to a web application that can be accessed at `http://opmon-networking:3838/${INSTANCE}/`, e.g. a path `/srv/shiny-server/sample/app.R` translates to an application running at `http://opmon-networking:3838/sample/` in the case of the current environment and `sample` X-Road instance. To host another X-Road instance web application, another subfolder must be created with the desired instance name and the `app.R` must be copied to that subfolder. There is no need to change the application script `app.R` because the structure and functioning remains the same for all instances. The application script `app.R` always reads data from the same folder where it resides. The instance-specific data preparation scripts `prepare_data.R` write the instance-specific data directly to the relevant `/srv/shiny-server/${INSTANCE}` folder.
+The default location of the Shiny Server web application scripts is `/srv/shiny-server`. Each subfolder to this location can serve as a different web application given that the subfolder contains a proper application script named `app.R`. A path `/srv/shiny-server/${INSTANCE}/app.R` is automatically deployed to a web application that can be accessed at `http://localhost:3838/${INSTANCE}/`, e.g. a path `/srv/shiny-server/sample/app.R` translates to an application running at `http://localhost:3838/sample/` in the case of the current environment and `sample` X-Road instance. To host another X-Road instance web application, another subfolder must be created with the desired instance name and the `app.R` must be copied to that subfolder. There is no need to change the application script `app.R` because the structure and functioning remains the same for all instances. The application script `app.R` always reads data from the same folder where it resides. The instance-specific data preparation scripts `prepare_data.R` write the instance-specific data directly to the relevant `/srv/shiny-server/${INSTANCE}` folder.
 
 The static files, e.g. logos in the heading of the web application, are kept in `/srv/shiny-server/${INSTANCE}/www` folder and this folder has to be copied as well.
 
@@ -338,7 +338,7 @@ For manual execution of data preparation script `prepare_data.R`, run
 Rscript ${APPDIR}/${INSTANCE}/networking_module/prepare_data.R
 ```
 
-The data preparation script `prepare_data.R` writes a data file `dat.rds` into the Shiny Server web application folder `/srv/shiny-server/${INSTANCE}`. Given that the Shiny Server web application is running and all the previous steps have been successfully accomplished, the web application is now up and running at `http://opmon-networking:3838/${INSTANCE}/`
+The data preparation script `prepare_data.R` writes a data file `dat.rds` into the Shiny Server web application folder `/srv/shiny-server/${INSTANCE}`. Given that the Shiny Server web application is running and all the previous steps have been successfully accomplished, the web application is now up and running at `http://localhost:3838/${INSTANCE}/`
 
 ## Logging 
 

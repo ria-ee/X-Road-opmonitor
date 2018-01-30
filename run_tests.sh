@@ -10,7 +10,7 @@ set -e
 # Run Pep8 Tests
 python3 -m pytest --pep8 -m pep8 collector_module --ignore=collector_module/external_files
 python3 -m pytest --pep8 -m pep8 corrector_module
-python3 -m pytest --pep8 -m pep8 reports_module --ignore=reports_module/tests/test_interannual.py
+python3 -m pytest --pep8 -m pep8 reports_module
 # python3 -m pytest --pep8 -m pep8 analysis_module/analyzer_ui
 # python3 -m pytest --pep8 -m pep8 analysis_module/analyzer
 python3 -m pytest --pep8 -m pep8 opendata_module/anonymizer
@@ -19,7 +19,7 @@ python3 -m pytest --pep8 -m pep8 opendata_module/anonymizer
 # python3 -m pytest corrector_module
 
 echo "Test Reports"
-python3 -m pytest reports_module --ignore=reports_module/tests/test_interannual.py
+python3 -m pytest reports_module
 # python3 -m pytest analysis_module/analyzer_ui
 # python3 -m pytest analysis_module/analyzer
 python3 -m pytest opendata_module/anonymizer

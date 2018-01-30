@@ -79,7 +79,7 @@ class TestAnonymizationProcess(unittest.TestCase):
         writer = MockWriter()
 
         config = AnonymizerConfig(os.path.join(TEST_DIR, 'anonymizer_settings.py'))
-        config.hiding_rules = [[{'feature': 'clientSubsystemCode', 'regex': '^.*-dev-app-kalkulaator$'}]]
+        config.hiding_rules = [[{'feature': 'clientSubsystemCode', 'regex': '^.*-subsystem-code-2$'}]]
 
         anonymizer = Anonymizer(reader, writer, config)
 

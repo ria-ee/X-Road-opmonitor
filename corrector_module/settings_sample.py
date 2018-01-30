@@ -20,7 +20,7 @@ class Settings:
     # --------------------------------------------------------
     MONGODB_USER = '{0}_{1}'.format(MODULE, INSTANCE)
     MONGODB_PWD = ""
-    MONGODB_SERVER = "opmon"
+    MONGODB_SERVER = ""
     MONGODB_SUFFIX = '{0}'.format(INSTANCE)
     MONGODB_DATABASE = 'query_db_{0}'.format(INSTANCE)
 
