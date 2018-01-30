@@ -126,14 +126,6 @@ sudo mkdir --parents ${APPDIR}/${INSTANCE}/logs
 sudo mkdir --parents ${APPDIR}/${INSTANCE}/heartbeat
 sudo chown root:opmon ${APPDIR}/${INSTANCE} ${APPDIR}/${INSTANCE}/logs ${APPDIR}/${INSTANCE}/heartbeat
 sudo chmod g+w ${APPDIR}/${INSTANCE} ${APPDIR}/${INSTANCE}/logs ${APPDIR}/${INSTANCE}/heartbeat
-# Create directories for reports, factsheets and interannual factsheets
-sudo mkdir --parents ${APPDIR}/${INSTANCE}/reports
-sudo mkdir --parents ${APPDIR}/${INSTANCE}/factsheets
-sudo mkdir --parents ${APPDIR}/${INSTANCE}/interannual_factsheet
-# Directories reports/ and factsheets/ and interannual_factsheet are only for user reports
-sudo chown reports:reports ${APPDIR}/${INSTANCE}/reports
-sudo chown reports:reports ${APPDIR}/${INSTANCE}/factsheets
-sudo chown reports:reports ${APPDIR}/${INSTANCE}/interannual_factsheet
 ```
 
 Copy the **reports module** code to the install folder and fix the file permissions:
@@ -236,21 +228,21 @@ Sample of `${APPDIR}/${INSTANCE}/reports_module/external_files/riha.json`
 ```json
 [
   {
-    "subsystem_code": "10000000-name",
-    "x_road_instance": "XTEE-CI-XM",
-    "member_class": "GOV",
+    "x_road_instance": "sample",
     "subsystem_name": {
-      "en": "Company Test X-Road v6 subsystem",
-      "et": "Ettevõtte Test X-tee v6 alamsüsteem"
+      "et": "Subsystem Name ET",
+      "en": "Subsystem Name EN"
     },
-    "member_code": "10000000",
+    "member_class": "MemberClassA",
     "email": [
       {
         "name": "Firstname Lastname",
-        "email": "firstname.lastname@domain.com"
+        "email": "yourname@yourdomain"
       }
     ],
-    "member_name": "Company Test AS"
+    "subsystem_code": "SubsystemCodeA",
+    "member_code": "MemberCodeA",
+    "member_name": "Member Name"
   }
 ]
 ```
@@ -270,10 +262,6 @@ LAST_MONTH_END=$(date -d "$LAST_MONTH_START +1 month -1 day" '+%F')
 echo $LAST_MONTH_START $LAST_MONTH_END
 ```
 
-**NB!** There are two copies of this file available, one for reports module `REPORT_DATES_PATH = "reports_module/external_files/get_dates_reports.sh"` 
-and another for the Factsheet `FACTSHEET_DATES_PATH = "reports_module/external_files/get_dates_factsheet.sh"`. 
-Two copies are kept to allow modifying reports/factsheet generating timetable without disturbing another. 
-
 ## Correct necessary permissions
 
 ```bash
@@ -292,13 +280,13 @@ Here's an example of the script call WITH the subsystem_code:
 # export APPDIR="/srv/app"; export INSTANCE="sample"
 cd ${APPDIR}/${INSTANCE}
 sudo --user reports /usr/bin/python3 -m reports_module.report_worker \
-    --member_code 70006317 \
-	--subsystem_code monitoring \
-	--member_class GOV \
+    --member_code MemberCodeA \
+	--subsystem_code SubsystemCodeA \
+	--member_class MemberClassA \
 	--x_road_instance sample \
 	--start_date 2017-5-1 \
 	--end_date 2017-5-31 \
-	--language et
+	--language en
 ```
 
 Here's an example of the script call WITHOUT the `subystem_code` (generates report about when query logs did NOT include subsystem_code):
@@ -307,12 +295,12 @@ Here's an example of the script call WITHOUT the `subystem_code` (generates repo
 # export APPDIR="/srv/app"; export INSTANCE="sample"
 cd ${APPDIR}/${INSTANCE}
 sudo --user reports /usr/bin/python3 -m reports_module.report_worker \
-    --member_code 70006317 \
-	--member_class GOV \
+    --member_code MemberCodeA \
+	--member_class MemberClassA \
 	--x_road_instance sample \
 	--start_date 2017-5-1 \
 	--end_date 2017-5-31 \
-	--language et
+	--language en
 ```
 
 ### CRON usage
@@ -365,86 +353,6 @@ For example: 2017-05-31
 The creationTime has the hour-minute-second-millisecond format: HH-mm-ss-MMMSSS.
 For example: 12-34-56-123456
 
-## Open reports / Factsheet
-
-* Factsheet is generated based on the previous calendar month's usage statistics. The Factsheet is generated and extraced into a text file, which is in a JSON format.
-* The Factsheet uses some of the reports module's logic/functionality (code), then it it is located inside the reports module folder as well. 
-* The Factsheet shares Logger with memberCode / subSystemCode monthly reports, ie. the logging is done into the same file as for the reports (reports_module.settings -> LOGGER_PATH).
-* The Factsheet naming convention is the following: `start_date_end_date_creation_time.txt` (Ex: `2017-5-1_2017-5-31_2017-6-10_12-34-56-123456.txt`)
-
-### Diagram
-
-![factsheet diagram](img/FactSheet_diagram_v1.png "FactSheet diagram")
-
-### Configuration
-
-```bash
-# export APPDIR="/srv/app"; export INSTANCE="sample"
-sudo vi ${APPDIR}/${INSTANCE}/reports_module/settings.py
-```
-
-The following settings are relevant for Factsheet generation:
-
-```python
-factsheet_username = "factsheet_{0}".format(INSTANCE)
-# The number of top producers to have in the output file.
-number_of_top_producers = 5
-# The number of top consumers to have in the output file.
-number_of_top_consumers = 5
-# These member_code's will be excluded from the top_producers and top_consumers.
-excluded_client_member_code = ["code_1", "code_2"]
-# The path where the FactSheets will be generated.
-FACTSHEET_PATH = "{0}/{1}/factsheets/".format(APPDIR, INSTANCE)
-# The path where the dates will be taken for the FactSheet.
-FACTSHEET_DATES_PATH = "reports_module/external_files/get_dates_factsheet.sh"
-# Set publishing user and publishing server values, also home directory in publishing server before usage
-factsheet_publishing_user = ""
-factsheet_publishing_server = ""
-factsheet_publishing_directory = ""
-FACTSHEET_TARGET = "{0}@{1}:{2}/{3}/".format(factsheet_publishing_user, 
-                                             factsheet_publishing_server, 
-                                             factsheet_publishing_directory, 
-                                             INSTANCE)
-```
-
-### Manual usage
-
-Run the factsheet_worker.py with start_date(`YYYY-MM-DD`) and end_date(`YYYY-MM-DD`) parameters:
-
-```bash
-# export APPDIR="/srv/app"; export INSTANCE="sample"
-cd ${APPDIR}/${INSTANCE}
-sudo --user reports /usr/bin/python3 -m reports_module.factsheet_worker "2017-05-01" "2017-05-31"
-```
-
-Check the Factsheet at the factsheets folder:
-
-```bash
-# export APPDIR="/srv/app"; export INSTANCE="sample"
-ls -l --all --recursive ${APPDIR}/${INSTANCE}/factsheets
-```
-
-### CRON usage
-
-Set cron to run Factsheet every 10th day of month at 11 am:
-
-```bash
-sudo crontab -u reports -e
-```
-
-```
-34 12 10 * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/reports_module; ./cron_factsheet.sh
-```
-
-The FactSheet naming convention is the following: "startDate_endDate_creationDate_creationTime.txt".
-For example: 2017-05-01_2017-05-31_2017-6-10_12-34-56-123456.txt
-
-The "startDate", "endDate" & the "creationDate" have the following format: YYYY-MM-DD.
-For example: 2017-05-01
-
-The creationTime has the hour-minute-second-millisecond format: HH-mm-ss-MMMSSS.
-For example: 12-34-56-123456
-
 ### Monitoring and Status
 
 #### Logging 
@@ -467,116 +375,14 @@ For example:
 "Finished process. Processing time: 00:00:56"
 ```
 
-## Interannual factsheet
-
-* The purpose of the interannual factsheet is to combine the regular monthly factsheets into an interannual factsheet.
-The interannual factsheet uses some of the reports module's logic/functionality (code), therefore it is located inside the reports module folder as well. 
-* The interannual factsheet shares Logger with reports & Factsheets, ie. the logging is done into the same file as for the reports (reports_module.settings -> LOGGER_PATH).
-* The interannual factsheet has the following name: 
-```"data_v6.json"```
-* The interannual factsheet is located in the following folder:
-```${APPDIR}/${INSTANCE}/interannual_statistics/```
-* Before each interannual factsheet generation a backup is generated within the same folder with the following naming:
-```"data_v6.json.BAK"```
-
-
-### Diagram
-![interannual factsheet module diagram](img/interannual_factsheet_v1.svg "Interannual factsheet module diagram")
-
-### Configuration
-
-The `calc.js` file is used for displaying and calculating the data for the `https://www.ria.ee/x-tee/fact/` site.
-The file has been configured in a way that it adds the query_counts from x-road v5 and x-road v6 together.
-The data for v6 is generated by the interannual factsheet.
-The data for v5 is maintained by the client. NB: The v5 file should be placed into the `settings.BASE_FILE_LOCATION` as well for syncing.
-The file `calc.js` can be found at `reports_module/external_files/calc.js`.
-
-```bash
-# export APPDIR="/srv/app"; export INSTANCE="sample"
-sudo vi ${APPDIR}/${INSTANCE}/reports_module/settings.py
-```
-
-The following settings are relevant for interannual factsheet generation:
-
-```python
-# "last_incident"
-LAST_INCIDENT = "2001-12-17T18:25:43.511Z"
-# "affected_parties"
-AFFECTED_PARTIES = 52000
-# "effective_query_proportion"
-EFFECTIVE_QUERY_PROPORTION = 0.05
-# "effective_query_minutes"
-EFFECTIVE_QUERY_MINUTES = 15
-# "protocol_changes"
-PROTOCOL_CHANGES = 4
-# Base file location
-BASE_FILE_LOCATION = "{0}/{1}/interannual_factsheet/".format(APPDIR, INSTANCE)
-# Base file name
-BASE_FILE_NAME = "data_v6.json"
-# Set publishing user and publishing server values, also home directory in publishing server before usage
-interannual_factsheet_publishing_user = ""
-interannual_factsheet_publishing_server = ""
-interannual_factsheet_publishing_directory = ""
-INTERANNUAL_FACTSHEET_TARGET = "{0}@{1}:{2}/{3}/js/".format(interannual_factsheet_publishing_user, 
-                                                            interannual_factsheet_publishing_server, 
-                                                            interannual_factsheet_publishing_directory, 
-                                                            INSTANCE)
-```
-
-It is very important that the **base_file** is added into the BASE_FILE_LOCATION before running the interannual factsheet.
-The **example** base file is located in the reports_module/external_files/data_v6.json.
-
-### CRON usage
-
-**Note:** this is suggested to run interannual factsheet right after monthly factsheet. 
-In this case, one can use it in a way (run every 11th day of month at 12:34):
-
-```bash
-sudo crontab -u reports -e
-```
-
-```
-34 12 11 * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/reports_module; ./cron_interannual.sh
-```
-
-Or include them into the same cron job sequently (run every 10th day of month at 12:34):
-
-```
-34 12 10 * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/reports_module; ./cron_factsheet.sh; ./cron_interannual.sh; 
-```
-
-### Monitoring and Status
-
-#### Logging 
-
-The **reports module** produces log files that, by default, are stored at `${APPDIR}/${INSTANCE}/logs`
-
-To change the logging level, it is necessary to change the logger.setLevel parameter in the settings file:
-
-```python
-# INFO - logs INFO & WARNING & ERROR
-# WARNING - logs WARNING & ERROR
-# ERROR - logs ERROR
-logger.setLevel(logging.INFO)
-```
-
-The time format for durations in the log files is the following: "HH:MM:SS".
-For example:
-
-```
-"Finished process. Processing time: 00:01:23"
-```
-
 ### Heartbeat
 
-The Factsheet & Reports & Interannual factsheet all have a heartbeat.json file.
+The Reports module has a heartbeat.json file.
 The settings (in the settings file) for the heartbeat files are the following:
 
 ```python
 HEARTBEAT_LOGGER_PATH = '{0}/{1}/heartbeat/'.format(APPDIR, INSTANCE)
-FACTSHEET_HEARTBEAT_NAME = "heartbeat_factsheet.json"
 REPORT_HEARTBEAT_NAME = "heartbeat_report.json"
-INTERANNUAL_HEARTBEAT_NAME = "heartbeat_interannual_factsheet.json"
 ```
 So, for each MONGODB_SUFFIX (X-Road instance) a separate heartbeat will be generated.
 

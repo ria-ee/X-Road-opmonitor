@@ -96,33 +96,15 @@ logger.addHandler(rotate_handler)
 # --------------------------------------------------------
 # Configure heartbeats
 # --------------------------------------------------------
-HEARTBEAT_LOGGER_PATH = '{0}/{1}/heartbeat/'.format(APPDIR, INSTANCE)
+HEARTBEAT_LOGGER_PATH = "" # NA in sample
 REPORT_HEARTBEAT_NAME = 'heartbeat_report_{0}.json'.format(INSTANCE)
-FACTSHEET_HEARTBEAT_NAME = 'heartbeat_factsheet_{0}.json'.format(INSTANCE)
-INTERANNUAL_HEARTBEAT_NAME = 'heartbeat_interannual_factsheet_{0}.json'.format(INSTANCE)
+FACTSHEET_HEARTBEAT_NAME = "" # NA in sample
+INTERANNUAL_HEARTBEAT_NAME = "" # NA in sample
 
 # --------------------------------------------------------
 # Configure FactSheet
 # --------------------------------------------------------
-factsheet_username = "factsheet_{0}".format(INSTANCE)
-# The number of top producers to have in the output file.
-number_of_top_producers = 5
-# The number of top consumers to have in the output file.
-number_of_top_consumers = 5
-# These member_code's will be excluded from the top_producers and top_consumers.
-excluded_client_member_code = ["code_1", "code_2"]
-# The path where the FactSheets will be generated.
-FACTSHEET_PATH = "{0}/{1}/factsheets/".format(APPDIR, INSTANCE)
-# The path where the dates will be taken for the FactSheet.
-FACTSHEET_DATES_PATH = "reports_module/external_files/get_dates_factsheet.sh"
-# Set publishing user and publishing server values, also home directory in publishing server before usage
-factsheet_publishing_user = ""
-factsheet_publishing_server = ""
-factsheet_publishing_directory = ""
-FACTSHEET_TARGET = "{0}@{1}:{2}/{3}/".format(factsheet_publishing_user, 
-                                             factsheet_publishing_server, 
-                                             factsheet_publishing_directory, 
-                                             INSTANCE)
+# NA in sample
 
 # --------------------------------------------------------
 # Configure notifications
@@ -150,25 +132,4 @@ Riigi Infosüsteemi Amet
 # --------------------------------------------------------
 # Configure inter-annual statistics
 # --------------------------------------------------------
-# "last_incident"
-LAST_INCIDENT = "2001-12-17T18:25:43.511Z"
-# "affected_parties"
-AFFECTED_PARTIES = 52000
-# "effective_query_proportion"
-EFFECTIVE_QUERY_PROPORTION = 0.05
-# "effective_query_minutes"
-EFFECTIVE_QUERY_MINUTES = 15
-# "protocol_changes"
-PROTOCOL_CHANGES = 4
-# Base file location
-BASE_FILE_LOCATION = "{0}/{1}/interannual_factsheet/".format(APPDIR, INSTANCE)
-# Base file name
-BASE_FILE_NAME = "data_v6.json"
-# Set publishing user and publishing server values, also home directory in publishing server before usage
-interannual_factsheet_publishing_user = ""
-interannual_factsheet_publishing_server = ""
-interannual_factsheet_publishing_directory = ""
-INTERANNUAL_FACTSHEET_TARGET = "{0}@{1}:{2}/{3}/js/".format(interannual_factsheet_publishing_user,
-                                                            interannual_factsheet_publishing_server, 
-                                                            interannual_factsheet_publishing_directory, 
-                                                            INSTANCE)
+# NA in sample

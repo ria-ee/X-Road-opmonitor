@@ -65,4 +65,6 @@ Developed by: [STACC (Software Technology and Applications Competence Center)](h
 
 Released by [Riigi Infosüsteemi Amet, Data Exchange Layer X-Road](https://www.ria.ee/en/x-road.html), under the [MIT License](http://www.opensource.org/licenses/MIT).
 
-Product owner: Toomas Mölder, toomas.molder@ria.ee; (desk) +372 666 8822 / (mobile) +372 55 22000; skype: toomas.molder@ria
+## Contact
+
+Product owner: Toomas Mölder, toomas.molder@ria.ee; (desk) +372 666 8822 / (mobile) +372 55 22000; skype: toomas.molder
