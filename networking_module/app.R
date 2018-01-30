@@ -1,5 +1,6 @@
 library(shiny)
 library(dplyr)
+library(shinycssloaders)
 library(qgraph)
 library(ggplot2)
 
@@ -25,7 +26,7 @@ ui <- fluidPage(title=paste0("X-road members networking visualization, instance 
     )
   ),
 
-  wellPanel(htmlOutput('text1'), style = "padding: 5px;"),
+  wellPanel(htmlOutput('text1') %>% withSpinner(color='#663cdc'), style = "padding: 5px;"),
   
   inputPanel(
   
@@ -41,11 +42,11 @@ ui <- fluidPage(title=paste0("X-road members networking visualization, instance 
   
   ),
 
-  plotOutput('net1', height = "800px"),
+  plotOutput('net1', height = "800px") %>% withSpinner(color='#663cdc'),
   
   br(),
   
-  plotOutput('ggplot1', height = "800px"),
+  plotOutput('ggplot1', height = "800px") %>% withSpinner(color='#663cdc'),
   
   wellPanel("The visualization application was developed by ", tags$a(href = "https://www.stacc.ee", "Tarkvara Tehnoloogia Arenduskeskus OÜ (STACC)", target="_blank"), style = "padding: 5px;")
   

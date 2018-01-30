@@ -198,6 +198,8 @@ sudo apt-get install libxml2 libxml2-dev
 sudo su - \
     -c "R -e \"install.packages('dplyr', repos='https://cran.rstudio.com/')\""
 sudo su - \
+    -c "R -e \"install.packages('shinycssloaders', repos='https://cran.rstudio.com/')\""
+sudo su - \
     -c "R -e \"install.packages('ggplot2', repos='https://cran.rstudio.com/')\""
 sudo su - \
     -c "R -e \"install.packages('igraph', repos='https://cran.rstudio.com/')\""
