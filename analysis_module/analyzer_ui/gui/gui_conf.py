@@ -22,7 +22,7 @@ new_incident_columns += [("anomalous metric", "anomalous_metric", "categorical",
                          ("comments", "comments", "text", None, None)]
 
 # new_incident_order = [["request_count", "desc"]]
-new_incident_order = [["anomaly confidence", "desc"], ["request_count", "desc"], ["period start time", "desc"]]
+new_incident_order = [["anomaly_confidence", "desc"], ["request_count", "desc"], ["period_start_time", "desc"]]
 
 # HISTORICAL INCIDENTS TABLE #
 
