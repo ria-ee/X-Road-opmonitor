@@ -118,6 +118,9 @@ class PostgreSQL_Manager(object):
             return ', '.join('{0}.{1}'.format(subquery_name, column.lower()) for column in columns)
 
     def _get_order_by_string(self, order_by, subquery_name):
+        if not order_by:
+            return ''
+
         return 'ORDER BY ' + ', '.join('{subquery_name}.{column} {order}'.format(**{
             'subquery_name': subquery_name,
             'column': clause['column'],
