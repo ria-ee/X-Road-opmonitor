@@ -24,7 +24,7 @@ Avaldamiskeskkonnas on kaustapuude kaudu kõigi seal asuvate raportite vaatamine
 -	asutuse uus kontaktisik ei näe vanu raporteid ilma, et kas eelmine (või olemasolev) kontakt talle neid viiteid jagaks;
 -	asutusest lahkunud kontaktisik ei saa enam teavitust uute koostatud raportite kohta.
 
-Raportid koostatakse nii arendus- (ee-dev), test- (ee-test) kui toodangukeskkonna (EE) kohta iga kalendrikuu 7-10. kuupäeval.
+Raportid koostatakse nii arendus- (ee-dev), test- (ee-test) kui toodangukeskkonna (EE) kohta iga kalendrikuu 8-10. kuupäeval.
 
 Juhul kui on soovitusi raporti sisu, vormi jms osas, palun lahkesti teada anda, püüame RIA poolt kaasa aidata parema selguse ja läbipaistvuse loomisele selles, mis X-tee peal tegelikult toimub. Palun andke märku aadressil help@ria.ee kõikides seotud küsimustes.
 
@@ -122,7 +122,7 @@ Läbi RIA keskserveri ei käi mitte mingit X-tee tegelikku liiklust, ei ole kuna
 
 ### Mis monitooringu vahendiga üldse tegu on?
 
-Pikem ja põhjalikum kirjeldus koos paigaldusjuhendite ja lähtekoodiga avaldatakse peatselt (2017.a. lõpus) Githubi repositooriumis https://github.com/ria-ee/X-Road-opmonitor
+Pikem ja põhjalikum kirjeldus koos paigaldusjuhendite ja lähtekoodiga on avaldatud Githubi repositooriumis https://github.com/ria-ee/X-Road-opmonitor
 
 Tööd telliti riigihanke RHR 183990 alusel, teostaja [Tarkvara Tehnoloogia Arenduskeskus OÜ (STACC)](https://www.stacc.ee/). 
 Tõenäoliselt saab ka nendelt abi juhul kui otsustate teha just Teile sobiva süsteemi.
@@ -141,4 +141,6 @@ apt-get dist-upgrade
 ```
 
 Pärast uuendust veenduge, et teenuste monitooringu pakid on paigaldatud.
+
+X-tee turvaserverite administraatorite korduma kippuvad küsimused (KKK) ja vastused neile - https://moodle.ria.ee/mod/page/view.php?id=419
 
