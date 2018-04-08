@@ -84,9 +84,9 @@ class DatabaseManager:
             self.logger_m.log_error('DatabaseManager.get_raw_documents', '{0}'.format(repr(e)))
             raise e
 
-    def get_timeout_documents(self, timeout_days, limit=1000):
+    def get_timeout_documents_client(self, timeout_days, limit=1000):
         """
-        Gets the documents that have been processing more than timeout_days.
+        Gets the documents from Client that have been processing more than timeout_days.
         :param timeout_days: The timeout days.
         :param limit: Number of documents to return.
         :return: Returns the documents that have been processing more than timeout_days.
@@ -99,7 +99,25 @@ class DatabaseManager:
             cursor = clean_data.find(q).limit(limit)
             return list(cursor)
         except Exception as e:
-            self.logger_m.log_error('DatabaseManager.get_timeout_documents', '{0}'.format(repr(e)))
+            self.logger_m.log_error('DatabaseManager.get_timeout_documents_client', '{0}'.format(repr(e)))
+            raise e
+
+    def get_timeout_documents_producer(self, timeout_days, limit=1000):
+        """
+        Gets the documents from Producer that have been processing more than timeout_days.
+        :param timeout_days: The timeout days.
+        :param limit: Number of documents to return.
+        :return: Returns the documents that have been processing more than timeout_days.
+        """
+        try:
+            db = self.get_query_db()
+            clean_data = db[CLEAN_DATA_COLLECTION]
+            ref_time = 1000 * (get_timestamp() - (timeout_days * 24 * 60 * 60))
+            q = {"correctorStatus": "processing", "client.requestInTs": {"$exists": False}, "producer.requestInTs": {"$lt": ref_time}}
+            cursor = clean_data.find(q).limit(limit)
+            return list(cursor)
+        except Exception as e:
+            self.logger_m.log_error('DatabaseManager.get_timeout_documents_producer', '{0}'.format(repr(e)))
             raise e
 
     @staticmethod
