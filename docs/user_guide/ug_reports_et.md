@@ -45,6 +45,17 @@ Visualiseeritud pilt X-tee v6 toimuva kohta on:
 Sest just Teie olete selle X-tee alamsüsteemi kontakt [RIHA](https://www.riha.ee/) andmetel. 
 Palun veenduge RIHA andmete ajakohasuses (vajalik eelnev autentimine).
 
+### Kas raportite saamise võib ka "maha võtta"? Kuidas?
+
+Hetkel meil raportite väljasaatmise süsteemile nn "opt-out" nimekirja pole. Raportid saadetakse kõigile selle X-tee alamsüsteemi RIHAs märgitud kontaktisikutele.
+
+Palun selgitust, miks soovite teavitustest loobuda?
+
+- Kui Te ei ole nimetatud alamsüsteemiga enam seotud, siis lihtsaim lahendus on enda kontakti eemaldamine RIHAst.
+- Kui te olete küll seotud kuid ei soovi neid kirju, siis üks võimalus on ka oma e-kirjade postkastis vastav suunav filter moodustada.
+- Kui te olete seotud aga tahaksite näha ülevaateid mingil teisel kujul, siis ootame tagasidet, milline see parem ja sobivam vorm võiks olla.
+- Kui te lihtsalt ei vaja niisugust lisainfot raportite näol, siis püüame juurutada ka "opt-out" nimekirja võimaluse.
+
 ### Miks just TEMA selle raporti sai?
 
 Sest just tema on selle X-tee alamsüsteemi kontakt [RIHA](https://www.riha.ee/) andmetel. 
@@ -100,6 +111,14 @@ X-tee päringu kestus teenusepakkuja turvaserveri vaates arvutatakse X-tee teenu
 producerDurationProducerView = Producer responseOutTs (6) - Producer requestInTs (3)
 ```
 
+### Meie raport ei näita päringute kestusi! Miks?
+
+Raportite koostamise aluseks on X-tee keskusele (RIA) kättesaadavad andmed liikmete X-tee turvaserveritest. Juhul kui ühel või teisel põhjusel ei ole Teie turvaserver kättesaadav, siis koostatakse Teie raporti andmed Teie andmevahetuspartnerite X-tee turvaserveritest pärineva põhjal.
+
+Kui andmeid Teie turvaserveris pole / ei saa, siis ei saa me kestusi ka raportis kajastada (on kajastatud kui None).
+
+Võimalikud põhjused, miks X-tee keskus ei saa andmed mõne X-tee liikme turvaserveri(te)st on toodud osas [Tehnilist](#tehnilist).
+
 ### Kas saab paremat raportit?
 
 **Küsimus: Saadud raport top 5 teenuse kohta jääb mõne süsteemi osas ikka tiba väheseks, pigem võiks terviklik statistikaraport olla. Kas ja kust ja millal saab?**
@@ -139,7 +158,7 @@ Tõenäoliselt saab ka nendelt abi juhul kui otsustate teha just Teile sobiva s�
 ## Tehnilist
 
 Monitooringuandmete saamiseks Teie X-tee v6 turvaserverist palun veenduge, et:
-- kasutusel on uusim versioon (versioon **6.16**, https://x-road.eu/packages/, arendus- ja testkeskkond https://x-road.eu/.test/packages/)
+- kasutusel on uusim versioon (**6.16**.0-0.20171128173309git05cf71f, https://x-road.eu/packages/, arendus- ja testkeskkond https://x-road.eu/.test/packages/)
 - Teie asutuse tulemüür lubab X-tee päringuid RIA monitooringusüsteemist EE IP 195.80.123.159 (ee-dev IP 195.80.123.169, ee-test IP 195.80.123.164), pordid 5500 ja 5577.
     - [Issue 196](https://github.com/vrk-kpa/xroad-joint-development/issues/196) parandus  [X-Road Operations Monitoring Daemon: Use local SWA-Ref schema (swaref.xsd)](https://github.com/ria-ee/X-Road/pull/70): lubada väljuv liiklus ws-i.org:80
 
@@ -156,7 +175,8 @@ Pärast uuendust veenduge, et teenuste monitooringu pakid on paigaldatud.
 sudo dpkg -l | egrep "xroad|xtee" | sort
 ```
 
-Kui tarkvara pakk on korralikult paigaldatud, siis on mooduli nimetuse ees `ii`, kui on vigaselt, siis kas `iU` või `iF` vms.
+Kui tarkvara pakk on korralikult paigaldatud, siis on mooduli nimetuse ees `ii`, kui on vigaselt, siis kas `iU` või `iF` vms (vaata ka https://askubuntu.com/questions/18804/what-do-the-various-dpkg-flags-like-ii-rc-mean).
+Vastuses peavad sisalduma vaid märksõna `xroad` sisaldavad pakid. Vastuses ei tohi sisalduda märksõna `xtee` sisaldavaid pakke.
 
 ```
 ii xroad-addon-hwtokens <versioon> all X-Road AddOn: hwtokens
@@ -171,7 +191,6 @@ ii xroad-monitor <versioon> all X-Road monitoring service
 ii xroad-opmonitor <versioon> all X-Road operations monitoring daemon
 ii xroad-proxy <versioon> all X-Road security server
 ii xroad-securityserver <versioon> all X-Road security server
-ii xtee-keyring 1 all GnuPG keys of X-tee repository
 ```
 
 X-tee turvaserverite administraatorite korduma kippuvad küsimused (KKK) ja vastused neile - https://moodle.ria.ee/mod/page/view.php?id=419
