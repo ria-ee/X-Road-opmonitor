@@ -17,6 +17,11 @@ Mõlemad neist osadest on veel omakorda jagatud kaheks, eraldi nn „päris-teen
 Usume, et raportitest on kasu ka oma klientidest või andmevahetuspartneritest parema ülevaate saamisel.
 Raportid võiksid oma andmetes anda ülevaate enim kasutatud, kõige vigasemate, kõige kauem kestvate või kõige kiiremate, samuti kõige mahukamate päringute kohta ning olla abiks teenuste paremal disainimisel ning kasutamisel, mahuhinnangutes.
 
+Alltoodud näidisraporti puhul näiteks on võimalik näha, et ühtede süsteemidega andmevahetus toimib (Õnnestunud päringud: 687), teistega mitte (Ebaõnnestunud päringud: 984, kestused ja suurused `None`).
+Samuti, et sama päringu (getSecurityServerOperationalData) puhul ühelt süsteemilt saabuvad andmed keskmiselt 0,292 sekundiga, teiselt aga keskmiselt 2,039 sekundiga, st ligikaudu 7 korda aeglasemalt.
+
+![Näidisraport](1_report_sample.png "Näidisraport")
+
 Igal raportil on unikaalne nimeosa (koostamise hetk tuhandiksekundi täpsusega) ja avaldamiskeskkonnas olevate raporti kohta saadetakse e-postiga vaid viide.
 Avaldamiskeskkonnas on kaustapuude kaudu kõigi seal asuvate raportite vaatamine piiratud. Kokkuvõttes võiksid need enam-vähem tagada, et: 
 -	iga kontaktisik näeb just talle saadetud raportit;
@@ -38,12 +43,12 @@ Visualiseeritud pilt X-tee v6 toimuva kohta on:
 ### Miks just MINA selle raporti sain?
 
 Sest just Teie olete selle X-tee alamsüsteemi kontakt [RIHA](https://www.riha.ee/) andmetel. 
-Palun veenduge RIHA andmete ajakohasuses (vajalik autentimine).
+Palun veenduge RIHA andmete ajakohasuses (vajalik eelnev autentimine).
 
 ### Miks just TEMA selle raporti sai?
 
 Sest just tema on selle X-tee alamsüsteemi kontakt [RIHA](https://www.riha.ee/) andmetel. 
-Palun veenduge RIHA andmete ajakohasuses (vajalik autentimine).
+Palun veenduge RIHA andmete ajakohasuses (vajalik eelnev autentimine).
 
 ### Kas ma võin mulle saadetud raporti edasi saata?
 
@@ -65,9 +70,13 @@ Soovitame üle vaadata RIHAs iga alamsüsteemi kontaktisikud ning otsustada, kas
 
 Raportite koostamise aluseks on X-tee keskusele (RIA) kättesaadavad andmed liikmete X-tee turvaserveritest. Juhul kui ühel või teisel põhjusel ei ole Teie turvaserver kättesaadav, siis koostatakse Teie raporti andmed Teie andmevahetuspartnerite X-tee turvaserveritest pärineva põhjal. On võimalik, et ka osa nendest ei ole olnud kättesaadavad.
 
-### Misasi on, kuidas on arvutatud kestus?
+Võimalikud põhjused, miks X-tee keskus ei saa andmed mõne X-tee liikme turvaserveri(te)st on toodud osas [Tehnilist](#tehnilist).
 
-Päringute kestused fikseeritakse ja kajastatakse raportis kliendipoolelt vaadatuna, st leitakse aeg Teie turvaserveri poolt infosüsteemile / lõppkasutajale tagastatud vastuse hetke ning Teie infosüsteemi / lõppkasutaja poolt tehtud päringu hetk vahena (Client ResponseOutTs - Client RequestInTs).
+### Mis on kestus, kuidas seda arvutatakse?
+
+Kestus [\[EKSS\] "Eesti keele seletav sõnaraamat" põhjal](http://www.eki.ee/dict/ekss/index.cgi?Q=kestus): "millegi ajaline kestmine; selle ajaline pikkus, vältus".
+
+Päringute kestused fikseeritakse ja kajastatakse raportis kliendi poolelt vaadatuna, st leitakse aeg turvaserveri poolt infosüsteemile / lõppkasutajale tagastatud vastuse hetke ning infosüsteemi / lõppkasutaja poolt tehtud päringu hetke vahena (Client ResponseOutTs - Client RequestInTs).
 Kestus on esitatud millisekundites.
 Juhul kui andmeid Teie turvaserveris pole / ei saa, siis ei saa me neid ka raportis kajastada (on kajastatud kui `None`)
 
@@ -130,10 +139,11 @@ Tõenäoliselt saab ka nendelt abi juhul kui otsustate teha just Teile sobiva s�
 ## Tehnilist
 
 Monitooringuandmete saamiseks Teie X-tee v6 turvaserverist palun veenduge, et:
-- kasutusel on uusim versioon (ver 6.16, https://x-road.eu/packages/ , arendus- ja testkeskkond https://x-road.eu/.test/packages/)
-- tulemüür lubab X-tee päringuid RIA monitooringusüsteemist EE IP 195.80.123.159 (ee-dev IP 195.80.123.169, ee-test IP 195.80.123.164)
+- kasutusel on uusim versioon (versioon **6.16**, https://x-road.eu/packages/, arendus- ja testkeskkond https://x-road.eu/.test/packages/)
+- Teie asutuse tulemüür lubab X-tee päringuid RIA monitooringusüsteemist EE IP 195.80.123.159 (ee-dev IP 195.80.123.169, ee-test IP 195.80.123.164), pordid 5500 ja 5577.
+    - [Issue 196](https://github.com/vrk-kpa/xroad-joint-development/issues/196) parandus  [X-Road Operations Monitoring Daemon: Use local SWA-Ref schema (swaref.xsd)](https://github.com/ria-ee/X-Road/pull/70): lubada väljuv liiklus ws-i.org:80
 
-Tagamaks turvaserveri tarkvara pakettide korrektset paigaldumist, palume v6 turvaserveri uuendusi paigaldada alati käsuga (vaata ka https://github.com/ria-ee/X-Road/blob/develop/doc/Manuals/ig-ss_x-road_v6_security_server_installation_guide.md#45-different-versions-of-xroad--packages-after-successful-upgrade )
+Tagamaks turvaserveri tarkvara pakettide korrektset paigaldumist, palume v6 turvaserveri uuendusi paigaldada alati käsuga (vaata ka https://github.com/ria-ee/X-Road/blob/develop/doc/Manuals/ig-ss_x-road_v6_security_server_installation_guide.md#45-different-versions-of-xroad--packages-after-successful-upgrade)
 
 ```
 apt-get update
@@ -141,6 +151,28 @@ apt-get dist-upgrade
 ```
 
 Pärast uuendust veenduge, et teenuste monitooringu pakid on paigaldatud.
+
+```
+sudo dpkg -l | egrep "xroad|xtee" | sort
+```
+
+Kui tarkvara pakk on korralikult paigaldatud, siis on mooduli nimetuse ees `ii`, kui on vigaselt, siis kas `iU` või `iF` vms.
+
+```
+ii xroad-addon-hwtokens <versioon> all X-Road AddOn: hwtokens
+ii xroad-addon-messagelog <versioon> all X-Road AddOn: messagelog
+ii xroad-addon-metaservices <versioon> all X-Road AddOn: metaservices
+ii xroad-addon-opmonitoring <versioon> all X-Road AddOn: operations monitoring service
+ii xroad-addon-proxymonitor <versioon> all X-Road AddOn: proxy monitoring metaservice
+ii xroad-addon-wsdlvalidator <versioon> all X-Road AddOn: wsdlvalidator
+ii xroad-common <versioon> amd64 X-Road shared components
+ii xroad-jetty9 <versioon> all Jetty9 for X-Road purposes
+ii xroad-monitor <versioon> all X-Road monitoring service
+ii xroad-opmonitor <versioon> all X-Road operations monitoring daemon
+ii xroad-proxy <versioon> all X-Road security server
+ii xroad-securityserver <versioon> all X-Road security server
+ii xtee-keyring 1 all GnuPG keys of X-tee repository
+```
 
 X-tee turvaserverite administraatorite korduma kippuvad küsimused (KKK) ja vastused neile - https://moodle.ria.ee/mod/page/view.php?id=419
 
