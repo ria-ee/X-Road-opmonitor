@@ -9,15 +9,16 @@
 Raportid on mõeldud eelkõige isikutele, kes on märgitud [RIHAs](https://www.riha.ee/) vastava alamsüsteemi kontaktisikuteks (infosüsteemi ülematele).
 
 Raportid võiksid anda neile ülevaate, mis üldse toimub X-teel Teie vastavas alamsüsteemis: 
-- kes ja kui palju seda kasutab (Osutatud teenused) ning 
-- kas ja kui palju Teie alamsüsteemist päringuid teistesse alamsüsteemidesse välja läheb (Kasutatud teenused). 
+- kes ja kui palju seda kasutab (**Osutatud teenused**) ning 
+- kas ja kui palju Teie alamsüsteemist päringuid teistesse alamsüsteemidesse välja läheb (**Kasutatud teenused**). 
 
-Mõlemad neist osadest on veel omakorda jagatud kaheks, eraldi nn „päris-teenused“ (äriteenused) ja X-tee metateenused. Kõigis neljas tabelis on toodud päringute kaupa (Teenus) nende kasutajad (Klient/Osutaja), õnnestunud ja ebaõnnestunud päringute arvud, samuti õnnestunud päringute kestused (millisekundites) ning päringute ja vastuste suurused (baitides).
+Mõlemad neist osadest on veel omakorda jagatud kaheks, eraldi nn „päris-teenused“ (**äriteenused**) ja X-tee **metateenused**. 
+Kõigis neljas tabelis on toodud päringute kaupa (Teenus) nende kasutajad (Klient/Osutaja), õnnestunud ja ebaõnnestunud päringute arvud, samuti õnnestunud päringute kestused (millisekundites) ning päringute ja vastuste suurused (baitides).
 
 Usume, et raportitest on kasu ka oma klientidest või andmevahetuspartneritest parema ülevaate saamisel.
 Raportid võiksid oma andmetes anda ülevaate enim kasutatud, kõige vigasemate, kõige kauem kestvate või kõige kiiremate, samuti kõige mahukamate päringute kohta ning olla abiks teenuste paremal disainimisel ning kasutamisel, mahuhinnangutes.
 
-Alltoodud näidisraporti puhul näiteks on võimalik näha, et ühtede süsteemidega andmevahetus toimib (Õnnestunud päringud: 687), teistega mitte (Ebaõnnestunud päringud: 984, kestused ja suurused `None`).
+Alltoodud näidisraporti puhul näiteks on võimalik näha, et ühtede süsteemidega andmevahetus toimib (õnnestunud päringud: 687), teistega mitte (ebaõnnestunud päringud: 984, kestused ja suurused `None`).
 Samuti, et sama päringu (getSecurityServerOperationalData) puhul ühelt süsteemilt saabuvad andmed keskmiselt 0,292 sekundiga, teiselt aga keskmiselt 2,039 sekundiga, st ligikaudu 7 korda aeglasemalt.
 
 ![Näidisraport](1_report_sample.png "Näidisraport")
@@ -85,7 +86,7 @@ Võimalikud põhjused, miks X-tee keskus ei saa andmed mõne X-tee liikme turvas
 
 ### Mis on kestus, kuidas seda arvutatakse?
 
-Kestus [\[EKSS\] "Eesti keele seletav sõnaraamat" põhjal](http://www.eki.ee/dict/ekss/index.cgi?Q=kestus): "millegi ajaline kestmine; selle ajaline pikkus, vältus".
+Kestus [\[EKSS\] "Eesti keele seletav sõnaraamat"](http://www.eki.ee/dict/ekss/index.cgi?Q=kestus) põhjal: "millegi ajaline kestmine; selle ajaline pikkus, vältus".
 
 Päringute kestused fikseeritakse ja kajastatakse raportis kliendi poolelt vaadatuna, st leitakse aeg turvaserveri poolt infosüsteemile / lõppkasutajale tagastatud vastuse hetke ning infosüsteemi / lõppkasutaja poolt tehtud päringu hetke vahena (Client ResponseOutTs - Client RequestInTs).
 Kestus on esitatud millisekundites.
@@ -115,7 +116,7 @@ producerDurationProducerView = Producer responseOutTs (6) - Producer requestInTs
 
 Raportite koostamise aluseks on X-tee keskusele (RIA) kättesaadavad andmed liikmete X-tee turvaserveritest. Juhul kui ühel või teisel põhjusel ei ole Teie turvaserver kättesaadav, siis koostatakse Teie raporti andmed Teie andmevahetuspartnerite X-tee turvaserveritest pärineva põhjal.
 
-Kui andmeid Teie turvaserveris pole / ei saa, siis ei saa me kestusi ka raportis kajastada (on kajastatud kui None).
+Kui andmeid Teie turvaserveris pole / ei saa, siis ei saa me kestusi ka raportis kajastada (on kajastatud kui `None`).
 
 Võimalikud põhjused, miks X-tee keskus ei saa andmed mõne X-tee liikme turvaserveri(te)st on toodud osas [Tehnilist](#tehnilist).
 
@@ -175,8 +176,13 @@ Pärast uuendust veenduge, et teenuste monitooringu pakid on paigaldatud.
 sudo dpkg -l | egrep "xroad|xtee" | sort
 ```
 
-Kui tarkvara pakk on korralikult paigaldatud, siis on mooduli nimetuse ees `ii`, kui on vigaselt, siis kas `iU` või `iF` vms (vaata ka https://askubuntu.com/questions/18804/what-do-the-various-dpkg-flags-like-ii-rc-mean).
-Vastuses peavad sisalduma vaid märksõna `xroad` sisaldavad pakid. Vastuses ei tohi sisalduda märksõna `xtee` sisaldavaid pakke.
+Kui tarkvara pakk on korralikult paigaldatud, siis on mooduli nimetuse ees `ii`.
+
+Kui on vigaselt, siis kas `iU` või `iF` vms (vaata ka https://askubuntu.com/questions/18804/what-do-the-various-dpkg-flags-like-ii-rc-mean).
+
+Vastuses **peavad** sisalduma vaid märksõna `xroad` sisaldavad pakid. 
+
+Vastuses **ei tohi** sisalduda märksõna `xtee` sisaldavaid pakke.
 
 ```
 ii xroad-addon-hwtokens <versioon> all X-Road AddOn: hwtokens
