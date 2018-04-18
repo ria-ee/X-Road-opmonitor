@@ -23,7 +23,7 @@ Samuti, et sama päringu (getSecurityServerOperationalData) puhul ühelt süstee
 
 ![Näidisraport](1_report_sample.png "Näidisraport")
 
-Igal raportil on unikaalne nimeosa (koostamise hetk tuhandiksekundi täpsusega) ja avaldamiskeskkonnas olevate raporti kohta saadetakse e-postiga vaid viide.
+Igal raportil on unikaalne nimeosa (koostamise hetk mikrosekundi, st miljondiku täpsusega) ja avaldamiskeskkonnas olevate raporti kohta saadetakse e-postiga vaid viide.
 Avaldamiskeskkonnas on kaustapuude kaudu kõigi seal asuvate raportite vaatamine piiratud. Kokkuvõttes võiksid need enam-vähem tagada, et: 
 -	iga kontaktisik näeb just talle saadetud raportit;
 -	mitte keegi ei näe teistele isikutele saadetud raporteid (ühe alamsüsteemi raport selle alamsüsteemi kontaktidele on muidugi seesama);
