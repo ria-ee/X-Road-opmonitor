@@ -55,11 +55,11 @@ def collector_worker(data):
                                 response.content, re.DOTALL)
         if resp_search is None:
             # No attachment present
-			msg = "[{0}] No attachment present for: {1}\n".format(worker_name, server)
-			logger_m.log_warning('collector_worker', msg)
+            msg = "[{0}] No attachment present for: {1}\n".format(worker_name, server)
+            logger_m.log_warning('collector_worker', msg)
             return -1
 
-		data_json = json.loads(zlib.decompress(resp_search.group(1), zlib.MAX_WBITS | 16).decode('utf-8'))
+        data_json = json.loads(zlib.decompress(resp_search.group(1), zlib.MAX_WBITS | 16).decode('utf-8'))
         records = data_json["records"]
     except Exception as e:
         msg = "[{0}] Cannot parse response attachment of: {1} Cause: {2} \n".format(worker_name, server, repr(e))
