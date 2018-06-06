@@ -1,7 +1,6 @@
 from pymongo import MongoClient
 import pymongo
 import datetime
-import sqlite3 as sql
 import os
 import signal
 from signal import SIGABRT, SIGILL, SIGINT, SIGSEGV, SIGTERM, SIGHUP
@@ -63,8 +62,8 @@ class MongoDB_Manager(object):
                 batch_idx = 0
 
             self.last_processed_timestamp = document['correctorTime']
-            del document['_id']
             del document['correctorTime']
+            document['_id'] = str(document['_id'])
             yield self._add_missing_fields(document, allowed_fields)
             batch_idx += 1
 
@@ -115,6 +114,22 @@ class MongoDB_Manager(object):
         if max_timestamp:
             self._previous_run_manager.set_previous_run(max_timestamp)
 
+    def acquire_lock(self):
+        is_lock_available = self._previous_run_manager.is_lock_available()
+
+        if is_lock_available:
+            self._previous_run_manager.acquire_lock()
+        else:
+            raise Exception('Unable to acquire lock for Opendata database.')
+
+    def release_lock(self):
+        is_possessing_lock = self._previous_run_manager.is_possessing_lock()
+
+        if is_possessing_lock:
+            self._previous_run_manager.release_lock()
+        else:
+            raise Exception('Unable to release the lock on Opendata database - not possessing the lock.')
+
     def __del__(self):
         self.update_last_processed_timestamp(max_timestamp=self.last_processed_timestamp)
 
@@ -135,6 +150,8 @@ class PreviousRunManager(object):
 
         self._mongo_client = MongoClient(self.mongo_connection_string)
 
+        self._instace_hash = hash(datetime.datetime.now())
+
     def get_previous_run(self):
         collection = self._mongo_client[self._config.mongo_db['state']['database_name']][
             self._config.mongo_db['state']['table_name']]
@@ -152,3 +169,37 @@ class PreviousRunManager(object):
             {'key': 'last_mongodb_timestamp', 'value': str(max_timestamp)},
             upsert=True
         )
+
+    def acquire_lock(self):
+        collection = self._mongo_client[self._config.mongo_db['state']['database_name']][
+            self._config.mongo_db['state']['table_name']]
+        collection.update(
+            {'key': 'opendata_lock'},
+            {'key': 'opendata_lock', 'value': {'acquired_since': datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S:%f'),
+                                               'acquired_instance_hash': self._instace_hash}},
+            upsert=True
+        )
+
+    def release_lock(self):
+        collection = self._mongo_client[self._config.mongo_db['state']['database_name']][
+            self._config.mongo_db['state']['table_name']]
+        collection.update(
+            {'key': 'opendata_lock', 'value.acquired_instance_hash': self._instace_hash},
+            {'key': 'opendata_lock',
+             'value': {'acquired_since': None, 'acquired_instance_hash': None}},
+            upsert=True
+        )
+
+    def is_lock_available(self):
+        collection = self._mongo_client[self._config.mongo_db['state']['database_name']][
+            self._config.mongo_db['state']['table_name']]
+        entry = collection.find_one({'key': 'opendata_lock', 'value.acquired_instance_hash': None})
+
+        return False if entry else True
+
+    def is_possessing_lock(self):
+        collection = self._mongo_client[self._config.mongo_db['state']['database_name']][
+            self._config.mongo_db['state']['table_name']]
+        entry = collection.find_one({'key': 'opendata_lock', 'value.acquired_instance_hash': self._instace_hash})
+
+        return True if entry else False
