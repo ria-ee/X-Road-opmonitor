@@ -38,7 +38,8 @@ class Settings:
     WAIT_FROM_DONE = 300
     # If number of processed docs is smaller than CORRECTOR_DOCUMENTS_MIN,
     # waits WAIT_FROM_DONE to restart batch
-    CORRECTOR_DOCUMENTS_MIN = 1
+    # CORRECTOR_DOCUMENTS_MIN = 1
+    CORRECTOR_DOCUMENTS_MIN = CORRECTOR_DOCUMENTS_LIMIT
     # Match THREAD_COUNT with number of cores * CPUs available to ensure best performance
     THREAD_COUNT = 4
 

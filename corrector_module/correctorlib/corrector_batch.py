@@ -102,18 +102,35 @@ class CorrectorBatch:
         logger_m.log_info('corrector_batch_update_timeout',
                           "Updating timed out [{0} days] orphans to done.".format(self.settings.CORRECTOR_TIMEOUT_DAYS))
 
-        # Update Status of older documents
-        cursor = db_m.get_timeout_documents(self.settings.CORRECTOR_TIMEOUT_DAYS,
+        # Update Status of older documents according to client.requestInTs
+        cursor = db_m.get_timeout_documents_client(self.settings.CORRECTOR_TIMEOUT_DAYS,
                                             limit=self.settings.CORRECTOR_DOCUMENTS_LIMIT)
         list_of_docs = list(cursor)
         number_of_updated_docs = db_m.update_old_to_done(list_of_docs)
 
         if number_of_updated_docs > 0:
-            logger_m.log_info('corrector_batch_update_old_to_done',
-                              "Total of {0} orphans updated to status 'done'.".format(number_of_updated_docs))
+            logger_m.log_info('corrector_batch_update_client_old_to_done',
+                              "Total of {0} orphans from Client updated to status 'done'.".format(number_of_updated_docs))
         else:
-            logger_m.log_info('corrector_batch_update_old_to_done',
+            logger_m.log_info('corrector_batch_update_client_old_to_done',
                               "No orphans updated to done.")
+
+        doc_len += number_of_updated_docs
+
+        # Update Status of older documents according to producer.requestInTs
+        cursor = db_m.get_timeout_documents_producer(self.settings.CORRECTOR_TIMEOUT_DAYS,
+                                            limit=self.settings.CORRECTOR_DOCUMENTS_LIMIT)
+        list_of_docs = list(cursor)
+        number_of_updated_docs = db_m.update_old_to_done(list_of_docs)
+
+        if number_of_updated_docs > 0:
+            logger_m.log_info('corrector_batch_update_producer_old_to_done',
+                              "Total of {0} orphans from Producer updated to status 'done'.".format(number_of_updated_docs))
+        else:
+            logger_m.log_info('corrector_batch_update_producer_old_to_done',
+                              "No orphans updated to done.")
+
+        doc_len += number_of_updated_docs
 
         # Go through the to_remove list and remove the duplicates
         element_in_queue = True
@@ -132,6 +149,8 @@ class CorrectorBatch:
         else:
             logger_m.log_info('corrector_batch_remove_duplicates_from_raw',
                               "No raw documents marked to removal.")
+
+        doc_len += total_raw_removed
 
         end_processing_time = time.time()
         total_time = time.strftime("%H:%M:%S", time.gmtime(end_processing_time - start_processing_time))

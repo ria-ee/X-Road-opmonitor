@@ -27,7 +27,7 @@ CENTRAL_SERVER_TIMEOUT = 10
 # IP or URL of Instance Security Server
 SECURITY_SERVER_URL = ""
 # Timeout for SERVER_URL http requests.
-SECURITY_SERVER_TIMEOUT = 10.0
+SECURITY_SERVER_TIMEOUT = 60.0
 
 # Message header of Instance Monitoring Client
 # MEMBERCLASS is in {GOV, COM, NGO, NEE}

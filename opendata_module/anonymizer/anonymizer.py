@@ -40,6 +40,12 @@ class Anonymizer(object):
         )
 
     def anonymize(self):
+        try:
+            self._reader.acquire_lock()
+        except Exception as exception:
+            self._logger.log_error('failed_acquiring_lock_for_opendata',
+                                   str(exception))
+
         writer_buffer_size = int(self._config.postgres['buffer_size'])
         record_buffer = []
 
@@ -65,12 +71,21 @@ class Anonymizer(object):
                                                batch_end_mongodb_timestamp,
                                                last_successful_batch_timestamp))
                     self._reader.update_last_processed_timestamp(last_successful_batch_timestamp)
+
+                    try:
+                        self._reader.release_lock()
+                    except Exception as exception:
+                        self._logger.log_error('failed_releasing_lock_for_opendata',
+                                               str(exception))
+
                     return record_idx + 1
 
                 record_buffer = []
                 self._logger.log_info('record_batch_anonymized',
                                       "{0} records anonymized. correctorTime within range [{1}, {2}]".format(
                                           record_idx + 1, batch_start_mongodb_timestamp, batch_end_mongodb_timestamp))
+
+                self._reader.update_last_processed_timestamp(last_successful_batch_timestamp)
 
                 batch_start_mongodb_timestamp = None
                 last_successful_batch_timestamp = batch_end_mongodb_timestamp
@@ -79,11 +94,23 @@ class Anonymizer(object):
             self._anonymization_job.run(record_buffer)
 
         try:
+            self._reader.release_lock()
+        except Exception as exception:
+            self._logger.log_error('failed_releasing_lock_for_opendata',
+                                   str(exception))
+
+        try:
             return record_idx + 1
         except:
             return 0    # Got no records from MongoDB
 
     def anonymize_with_limit(self, log_limit):
+        try:
+            self._reader.acquire_lock()
+        except Exception as exception:
+            self._logger.log_error('failed_acquiring_lock_for_opendata',
+                                   str(exception))
+
         writer_buffer_size = int(self._config.postgres['buffer_size'])
         record_buffer = []
 
@@ -112,6 +139,13 @@ class Anonymizer(object):
                                                batch_end_mongodb_timestamp,
                                                last_successful_batch_timestamp))
                     self._reader.update_last_processed_timestamp(last_successful_batch_timestamp)
+
+                    try:
+                        self._reader.release_lock()
+                    except Exception as exception:
+                        self._logger.log_error('failed_releasing_lock_for_opendata',
+                                               str(exception))
+
                     return record_idx + 1
 
                 record_buffer = []
@@ -119,11 +153,19 @@ class Anonymizer(object):
                                       "{0} records anonymized. correctorTime within range [{1}, {2}]".format(
                                           record_idx + 1, batch_start_mongodb_timestamp, batch_end_mongodb_timestamp))
 
+                self._reader.update_last_processed_timestamp(last_successful_batch_timestamp)
+
                 batch_start_mongodb_timestamp = None
                 last_successful_batch_timestamp = batch_end_mongodb_timestamp
 
         if record_buffer:
             self._anonymization_job.run(record_buffer)
+
+        try:
+            self._reader.release_lock()
+        except Exception as exception:
+            self._logger.log_error('failed_releasing_lock_for_opendata',
+                                   str(exception))
 
         try:
             return record_idx
