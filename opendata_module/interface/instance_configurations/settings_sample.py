@@ -21,6 +21,10 @@ from dateutil import relativedelta
 X_ROAD_INSTANCE = 'sample'
 APPLICATION_DIR = '/srv/app'
 
+# Time buffer before allowing users to browse logs
+DAYS = 10
+LOGS_TIME_BUFFER = relativedelta.relativedelta(days=DAYS)
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -155,9 +159,9 @@ setup_logger(logger_name='opendata-interface', log_level=LOG['level'],
 
 DISCLAIMER = """<p>X-Road monitoring data is collected from Estonian X-Road members security servers available
 by X-Road Center (Republic of Estonia Information System Authority, Riigi Infosüsteemi Amet, RIA)
-and published as opendata with a delay of 10 days from actual transaction execution time.</p>
+and published as opendata with a delay of {0} days from actual transaction execution time.</p>
 <p>Data is renewed nightly, between 0:00-6:00 (EET UTC+2h / EEST UTC+3h).</p>
-<p>Timestamps (specifically <em>requestInTs</em>) are rounded to hour precision and presented in form of Unix timstamp (epoch time).</p>
+<p>Timestamps (specifically <em>requestInTs</em>) are rounded to hour precision and presented in form of Unix timestamp (epoch time).</p>
 <p>According to Security Authorities Act [1] §5 the security authorities are the
 Estonian Internal Security Service and the Estonian Foreign Intelligence Service. Their authorizations are described in
 chapter 4 (§21 - 35) of the above mentioned act. Based on aspects stated in the State Secrets and
