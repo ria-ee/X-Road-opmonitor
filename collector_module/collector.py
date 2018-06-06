@@ -55,7 +55,10 @@ def collector_worker(data):
                                 response.content, re.DOTALL)
         if resp_search is None:
             # No attachment present
+            msg = "[{0}] No attachment present for: {1}\n".format(worker_name, server)
+            logger_m.log_warning('collector_worker', msg)
             return -1
+
         data_json = json.loads(zlib.decompress(resp_search.group(1), zlib.MAX_WBITS | 16).decode('utf-8'))
         records = data_json["records"]
     except Exception as e:
@@ -68,6 +71,9 @@ def collector_worker(data):
         msg = "[{0}] Adding {1} documents for server: {2}".format(worker_name, len(records), server)
         logger_m.log_info('collector_worker', msg)
         server_m.insert_data_to_raw_messages(records)
+    else:
+        msg = "[{0}] No documents for server: {1}".format(worker_name, server)
+        logger_m.log_warning('collector_worker', msg)
 
     return_value = 0
     next_records_from = records_to
