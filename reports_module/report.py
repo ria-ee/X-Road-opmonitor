@@ -77,12 +77,14 @@ def report_main(log_m):
     translator = Translator(language_template)
 
     # Log starting
-    log_m.log_heartbeat("start", settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME, "SUCCEEDED")
+    # No need to heartbeat here, it might confuse application monitoring
+    # log_m.log_heartbeat("start", settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME, "SUCCEEDED")
     log_m.log_info('reports_start', 'Starting report.py for reports generation')
 
     # Gathering subsystems from riha.json
     log_m.log_info('reports_subsystems_start', 'Starting to gather subsystems from riha.json')
-    log_m.log_heartbeat("in_progress", settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME, "SUCCEEDED")
+    # No need to heartbeat here, it might confuse application monitoring
+    # log_m.log_heartbeat("in_progress", settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME, "SUCCEEDED")
     member_subsystem_data = read_in_json(settings.SUBSYSTEM_INFO_PATH, log_m)
     log_m.log_info('reports_subsystems_start', 'Gathered subsystems from riha.json')
     number_of_reports = len(member_subsystem_data)
@@ -109,16 +111,16 @@ def report_main(log_m):
 
         # Initialize variables
         current_report += 1
+        x_road_instance = str(subsystem['x_road_instance'])
+        member_class = str(subsystem['member_class'])
         member_code = str(subsystem['member_code'])
         subsystem_code = str(subsystem['subsystem_code'])
-        member_class = str(subsystem['member_class'])
-        x_road_instance = str(subsystem['x_road_instance'])
         e_mail_info = subsystem['email']
 
         log_m.log_info(
             'reports_generation_in_progress',
-            "Generating report " + str(current_report) + "/" + str(number_of_reports) + " [" + member_code + " / " +
-            subsystem_code + " / " + member_class + " / " + x_road_instance + " / " + start_date + " - " +
+            "Generating report " + str(current_report) + "/" + str(number_of_reports) + " [" + x_road_instance + " / " +
+            member_class + " / " + member_code + " / " + subsystem_code + " / " + start_date + " - " +
             end_date + "]")
 
         try:
@@ -134,10 +136,11 @@ def report_main(log_m):
             notification_manager.add_item_to_queue(member_code, subsystem_code, member_class, x_road_instance,
                                                    start_date, end_date, language, report_name, e_mail_info)
 
-            log_m.log_heartbeat(
-                "Generated report " + str(current_report) + "/" + str(number_of_reports) + "[" + member_code + " / " +
-                subsystem_code + " / " + member_class + " / " + x_road_instance + " / " + start_date + " - " +
-                end_date + "]", settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME, "SUCCEEDED")
+            # No need to heartbeat here, it might confuse application monitoring
+            # log_m.log_heartbeat(
+            #     "Generated report " + str(current_report) + "/" + str(number_of_reports) + "[" + x_road_instance + " / " +
+            #     member_class + " / " + member_code + " / " + subsystem_code + " / " + start_date + " - " +
+            #     end_date + "]", settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME, "SUCCEEDED")
 
         except Exception as ex:
             failed_report += 1
@@ -145,12 +148,13 @@ def report_main(log_m):
                             "Exception: {0} {1}".format(repr(ex), traceback.format_exc()).replace("\n", ""))
             log_m.log_error(
                 'failed_report_generation',
-                "Failed generating report: " + str(current_report) + "/" + str(number_of_reports) + "[" + member_code +
-                " / " + subsystem_code + " / " + member_class + " / " + x_road_instance + " / " + start_date + " - " +
+                "Failed generating report: " + str(current_report) + "/" + str(number_of_reports) + "[" + x_road_instance +
+                " / " + member_class + " / " + member_code + " / " + subsystem_code + " / " + start_date + " - " +
                 end_date + "]")
+            # Keep heartbeat here to understand failure of report generation in application monitoring
             log_m.log_heartbeat(
-                "Failed generating report " + str(current_report) + "/" + str(number_of_reports) + "[" + member_code +
-                " / " + subsystem_code + " / " + member_class + " / " + x_road_instance + " / " + start_date + " - " +
+                "Failed generating report " + str(current_report) + "/" + str(number_of_reports) + "[" + x_road_instance +
+                " / " + member_class + " / " + member_code + " / " + subsystem_code + " / " + start_date + " - " +
                 end_date + "] Error: {0}".format(ex), settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME,
                 "FAILED")
 
@@ -164,7 +168,7 @@ def report_main(log_m):
     log_m.log_info('reports_generation_done', 'Finished reports generation')
     log_m.log_heartbeat(
         "Generated {0} reports, failed {1} reports".format(str(current_report), failed_report),
-        settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME, "SUCCEEDED")
+        settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME, "SUCCEEDED" if failed_report == 0 else "FAILED")
 
 
 if __name__ == '__main__':

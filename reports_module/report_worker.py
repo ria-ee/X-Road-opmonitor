@@ -86,8 +86,9 @@ def main(logger_manager):
                                    report_path, css_files, ria_image_1, ria_image_2, ria_image_3)
 
     # Log starting
-    logger_manager.log_heartbeat("report_worker start", settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME, "SUCCEEDED")
     logger_manager.log_info('report_worker', 'report_worker_start')
+    # No need to heartbeat here, it might confuse application monitoring
+    # logger_manager.log_heartbeat("report_worker start", settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME, "SUCCEEDED")
 
     # Generate report
     report_manager.generate_report()
@@ -98,7 +99,8 @@ def main(logger_manager):
     logger_manager.log_info('report_worker', 'report_worker_end')
     logger_manager.log_info('report_worker', 'Total generation time: {0}'.format(total_time))
 
-    logger_manager.log_heartbeat("report_worker end", settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME, "SUCCEEDED")
+    # No need to heartbeat here, it might confuse application monitoring
+    # logger_manager.log_heartbeat("report_worker end", settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME, "SUCCEEDED")
 
 
 if __name__ == '__main__':

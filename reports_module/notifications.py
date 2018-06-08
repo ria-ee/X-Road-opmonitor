@@ -18,8 +18,9 @@ def send_notifications(notification_manager, logger_manager):
     # Start e-mail sending
     start_processing_time = time.time()
     logger_manager.log_info('sending_notifications', 'Sending notifications')
-    logger_m.log_heartbeat("Sending notifications", settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME,
-                           "SUCCEEDED")
+    # No need to heartbeat here, it might confuse application monitoring
+    # logger_m.log_heartbeat("Sending notifications", settings.HEARTBEAT_LOGGER_PATH, settings.REPORT_HEARTBEAT_NAME,
+    #                        "SUCCEEDED")
 
     # Get the list of emails to be sent
     notifications_list = notification_manager.get_items_from_queue()
@@ -76,7 +77,7 @@ def send_notifications(notification_manager, logger_manager):
     logger_m.log_info('notification_sending_time', 'Total sending time: {0}'.format(total_time))
     logger_manager.log_info('finish_sending_notifications', 'Finished sending notifications')
     logger_m.log_heartbeat("Finished sending notifications", settings.HEARTBEAT_LOGGER_PATH,
-                           settings.REPORT_HEARTBEAT_NAME, "SUCCEEDED")
+                           settings.REPORT_HEARTBEAT_NAME, "SUCCEEDED" if emails_not_sent == 0 else "FAILED")
 
 
 def main(logger_manager):

@@ -626,40 +626,40 @@ class ReportManager:
     def generate_report(self):
         start_generate_report = time.time()
 
-        start_processing_time = time.time()
+        # start_processing_time = time.time()
         report_map = self.get_documents()
-        end_processing_time = time.time()
-        total_time = time.strftime("%H:%M:%S", time.gmtime(end_processing_time - start_processing_time))
-        self.logger_manager.log_info("reports_info", "get_documents took: {0}".format(total_time))
+        # end_processing_time = time.time()
+        # total_time = time.strftime("%H:%M:%S", time.gmtime(end_processing_time - start_processing_time))
+        # self.logger_manager.log_info("reports_info", "get_documents took: {0}".format(total_time))
         
-        start_processing_time = time.time()
+        # start_processing_time = time.time()
         df1, df2, df3, df4 = self.create_data_frames(report_map)
-        end_processing_time = time.time()
-        total_time = time.strftime("%H:%M:%S", time.gmtime(end_processing_time - start_processing_time))
-        self.logger_manager.log_info("reports_info", "create_data_frames took: {0}".format(total_time))
+        # end_processing_time = time.time()
+        # total_time = time.strftime("%H:%M:%S", time.gmtime(end_processing_time - start_processing_time))
+        # self.logger_manager.log_info("reports_info", "create_data_frames took: {0}".format(total_time))
 
-        start_processing_time = time.time()
+        # start_processing_time = time.time()
         plot1, plot2, plot3, plot4 = self.create_plots(
             report_map, "reports_module/produced_succeeded_plot.png", "reports_module/consumed_succeeded_plot.png",
             "reports_module/produced_mean_plot.png", "reports_module/consumed_mean_plot.png")
-        end_processing_time = time.time()
-        total_time = time.strftime("%H:%M:%S", time.gmtime(end_processing_time - start_processing_time))
-        self.logger_manager.log_info("reports_info", "create_plots took: {0}".format(total_time))
+        # end_processing_time = time.time()
+        # total_time = time.strftime("%H:%M:%S", time.gmtime(end_processing_time - start_processing_time))
+        # self.logger_manager.log_info("reports_info", "create_plots took: {0}".format(total_time))
         
-        start_processing_time = time.time()
+        # start_processing_time = time.time()
         creation_time = time_date_tools.datetime_to_modified_string(datetime.now())
         template = self.prepare_template(
             self.html_template, self.riha_json, plot1, plot2, plot3, plot4, df1, df2, df3, df4, self.ria_file_1,
             self.ria_file_2, self.ria_file_3, creation_time)
-        end_processing_time = time.time()
-        total_time = time.strftime("%H:%M:%S", time.gmtime(end_processing_time - start_processing_time))
-        self.logger_manager.log_info("reports_info", "prepare_template took: {0}".format(total_time))
+        # end_processing_time = time.time()
+        # total_time = time.strftime("%H:%M:%S", time.gmtime(end_processing_time - start_processing_time))
+        # self.logger_manager.log_info("reports_info", "prepare_template took: {0}".format(total_time))
 
-        start_processing_time = time.time()
+        # start_processing_time = time.time()
         report_name = self.save_pdf_to_file(template, self.report_path, self.css_files, creation_time)
-        end_processing_time = time.time()
-        total_time = time.strftime("%H:%M:%S", time.gmtime(end_processing_time - start_processing_time))
-        self.logger_manager.log_info("reports_info", "save_pdf_to_file took: {0}".format(total_time))
+        # end_processing_time = time.time()
+        # total_time = time.strftime("%H:%M:%S", time.gmtime(end_processing_time - start_processing_time))
+        # self.logger_manager.log_info("reports_info", "save_pdf_to_file took: {0}".format(total_time))
 
         self.clean_up_temp_images(plot1, plot2, plot3, plot4)
 

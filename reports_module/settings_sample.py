@@ -96,7 +96,7 @@ logger.addHandler(rotate_handler)
 # --------------------------------------------------------
 # Configure heartbeats
 # --------------------------------------------------------
-HEARTBEAT_LOGGER_PATH = "" # NA for public, in sample
+HEARTBEAT_LOGGER_PATH = '{0}/{1}/heartbeat/'.format(APPDIR, INSTANCE)
 REPORT_HEARTBEAT_NAME = 'heartbeat_report_{0}.json'.format(INSTANCE)
 FACTSHEET_HEARTBEAT_NAME = "" # NA for public, in sample
 INTERANNUAL_HEARTBEAT_NAME = "" # NA for public, in sample
