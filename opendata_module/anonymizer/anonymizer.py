@@ -65,7 +65,7 @@ class Anonymizer(object):
                     self._anonymization_job.run(record_buffer)
                 except:
                     self._logger.log_error('failed_anonymizing_record_batch',
-                                           "Record batch with correctorTime within range [{0}, {1}] failed. " +
+                                           "Record batch with correctorTime within range ({0}, {1}] failed. " +
                                            "Last successful correctorTime was {2}".format(
                                                batch_start_mongodb_timestamp,
                                                batch_end_mongodb_timestamp,
@@ -82,7 +82,7 @@ class Anonymizer(object):
 
                 record_buffer = []
                 self._logger.log_info('record_batch_anonymized',
-                                      "{0} records anonymized. correctorTime within range [{1}, {2}]".format(
+                                      "{0} records anonymized. correctorTime within range ({1}, {2}]".format(
                                           record_idx + 1, batch_start_mongodb_timestamp, batch_end_mongodb_timestamp))
 
                 self._reader.update_last_processed_timestamp(last_successful_batch_timestamp)

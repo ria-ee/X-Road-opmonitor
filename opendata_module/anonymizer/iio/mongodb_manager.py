@@ -62,7 +62,6 @@ class MongoDB_Manager(object):
                 batch_idx = 0
 
             self.last_processed_timestamp = document['correctorTime']
-            del document['correctorTime']
             document['_id'] = str(document['_id'])
             yield self._add_missing_fields(document, allowed_fields)
             batch_idx += 1

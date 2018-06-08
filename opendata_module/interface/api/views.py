@@ -181,7 +181,7 @@ def _get_content(date, columns, constraints, order_clauses, limit=None):
 
     column_names_and_types = PGM.get_column_names_and_types()
 
-    columns = [column for column in columns if column != 'mongoid']
+    columns = [column for column in columns if column not in {'mongoid', 'correctortime'}]
 
     if not columns:  # If no columns are specified, all must be returned
         columns = [column_name for column_name, _ in column_names_and_types]
