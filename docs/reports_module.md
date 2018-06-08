@@ -271,6 +271,8 @@ sudo chmod --recursive -x+X ${APPDIR}/${INSTANCE}/reports_module
 find  ${APPDIR}/${INSTANCE}/reports_module/ -name '*.sh' -type f | sudo xargs chmod u+x
 ```
 
+## Usage
+
 ### Manual usage
 
 Run the `report_worker.py` with `member_code`, `subsystem_code` (optional), `member_class`, `x_road_instance`, `start_date`, `end_date` and `language parameters`.
@@ -335,7 +337,7 @@ To check if the reports module is properly installed in the reports user, execut
 sudo crontab -u reports -l
 ```
 
-## Result
+### Result
 
 Check the availability of generated report(s) at the reports folder:
 
@@ -352,6 +354,11 @@ For example: 2017-05-31
 
 The creationTime has the hour-minute-second-millisecond format: HH-mm-ss-MMMSSS.
 For example: 12-34-56-123456
+
+### Note about Indexing
+
+Index build in background (see [Database module, Index Creation](database_module.md#index-creation) might affect availability of cursor for long-running queries.
+Please review the need of active [Collector module](collector_module.md) and specifically the need of active [Corrector module](corrector_module.md) while running Reports.
 
 ### Monitoring and Status
 

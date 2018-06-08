@@ -126,7 +126,8 @@ sudo chmod --recursive -x+X ${APPDIR}/${INSTANCE}/collector_module
 find  ${APPDIR}/${INSTANCE}/collector_module/ -name '*.sh' -type f | sudo xargs chmod u+x
 ```
 
-## Manual usage
+## Usage
+### Manual usage
 
 To check collector manually as collector user, execute:
 
@@ -136,7 +137,7 @@ cd ${APPDIR}/${INSTANCE}
 sudo --user collector ./collector_module/cron_collector.sh update
 ```
 
-## CRON usage
+### CRON usage
 
 Add **collector module** as a **cron job** to the **collector** user.
 
@@ -155,6 +156,11 @@ To check if the collector module is properly installed in the collector user, ex
 ```bash
 sudo crontab -l -u collector
 ```
+
+### Note about Indexing
+
+Index build (see [Database module, Index Creation](database_module.md#index-creation) might affect availability of cursor for long-running queries.
+Please review the need of active Collector module while running long-running queries in other modules.
 
 ## Monitoring and Status
 

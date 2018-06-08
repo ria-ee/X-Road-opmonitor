@@ -413,3 +413,13 @@ For more information on how to use Google Analytics, including the method of how
 ## Getting the riha_$instance.json files.
 
 The files `${APPDIR}/${INSTANCE}/riha_${INSTANCE}.json` are currently being prepared by and synced from the ==> [Collector module](collector_module.md) <== via cron job using SCP/RSYNC.
+
+## Possible optimization ideas
+
+At of the current implementation, `prepare_data.R` queries data from Opendata PostgreSQL database time interval in 30 days (configurable `interval=30` in `${APPDIR}/${INSTANCE}/networking_module/prepare_data_settings.R` and prepares everything based of that. 
+This might be memory-consuming. 
+Basically, there are next options to optimize usage of RAM:
+
+1. reduce interval
+2. implement logic to fetch data only in one day interval and append it into `/srv/shiny-server/${INSTANCE}/dat.rds`
+3. use R garbage collection utility gc() within `prepare_data.R` 

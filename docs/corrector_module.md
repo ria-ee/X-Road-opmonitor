@@ -269,7 +269,9 @@ or with:
 sudo service corrector_${INSTANCE} restart
 ```
 
-## Manual usage
+## Usage
+
+### Manual usage
 
 Make sure the corrector is not running as a service with:
 
@@ -286,7 +288,12 @@ To check commands manually as corrector user, execute:
 cd ${APPDIR}/${INSTANCE}/corrector_module; sudo --user corrector ./service_corrector.sh
 ```
 
-Note: Corrector module has current limit of documents controlled by **CORRECTOR_DOCUMENTS_LIMIT** (by default set to CORRECTOR_DOCUMENTS_LIMIT = 20000) to ensure RAM and CPU is not overloaded during calculations. The CORRECTOR_DOCUMENTS_LIMIT defines the processing batch size, and is executed continuously until the total of documents left is smaller than **CORRECTOR_DOCUMENTS_MIN** documents (default set to CORRECTOR_DOCUMENTS_MIN = 1). The estimated amount of memory per processing batch is indicated at [System Architecture](system_architecture.md) documentation.
+**Note**: Corrector module has current limit of documents controlled by **CORRECTOR_DOCUMENTS_LIMIT** (by default set to CORRECTOR_DOCUMENTS_LIMIT = 20000) to ensure RAM and CPU is not overloaded during calculations. The CORRECTOR_DOCUMENTS_LIMIT defines the processing batch size, and is executed continuously until the total of documents left is smaller than **CORRECTOR_DOCUMENTS_MIN** documents (default set to CORRECTOR_DOCUMENTS_MIN = 1). The estimated amount of memory per processing batch is indicated at [System Architecture](system_architecture.md) documentation.
+
+### Note about Indexing
+
+Index build (see [Database module, Index Creation](database_module.md#index-creation) might affect availability of cursor for long-running queries.
+Please review the need of active Corrector module while running long-running queries in other modules.
 
 ## Monitoring and Status
 

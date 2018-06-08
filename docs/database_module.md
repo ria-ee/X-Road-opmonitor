@@ -398,6 +398,10 @@ Log files:
 
 #### Index Creation
 
+Although indexes can improve query performances, indexes also present some operational considerations. See [MongoDB Operational Considerations for Indexes](https://docs.mongodb.com/manual/core/data-model-operations/#data-model-indexes) for more information.
+
+Our collection holds a large amount of data, and our applications need to be able to access the data while building the index, therefor we consider building the index in the background, as described in [Background Construction](https://docs.mongodb.com/manual/core/index-creation/#index-creation-background).
+
 The example here uses the INSTANCE-specific database `query_db_sample`, and the same procedure should be used to other / additional instances. 
 
 Enter MongoDB client as root:
@@ -410,50 +414,17 @@ Inside MongoDB client shell, execute the following commands:
 
 ```
 use query_db_sample
-db.raw_messages.createIndex({'messageId': 1})
-db.raw_messages.createIndex({'insertTime': 1})
-db.raw_messages.createIndex({'requestInTs': 1})
-db.raw_messages.createIndex({'corrected': 1})
 db.raw_messages.createIndex({'corrected': 1, 'requestInTs': 1})
-db.clean_data.createIndex({'messageId': 1})
 db.clean_data.createIndex({'clientHash': 1})
 db.clean_data.createIndex({'producerHash': 1})
 db.clean_data.createIndex({'correctorTime': 1})
-db.clean_data.createIndex({'correctorStatus': 1})
-db.clean_data.createIndex({'matchingType': 1})
 db.clean_data.createIndex({'correctorStatus': 1, 'client.requestInTs': 1 })
 db.clean_data.createIndex({'messageId': 1, 'client.requestInTs': 1})
 db.clean_data.createIndex({'messageId': 1, 'producer.requestInTs': 1})
-db.clean_data.createIndex({'client.monitoringDataTs': 1})
-db.clean_data.createIndex({'client.clientXRoadInstance': 1})
-db.clean_data.createIndex({'client.clientMemberClass': 1})
-db.clean_data.createIndex({'client.clientMemberCode': 1})
-db.clean_data.createIndex({'client.clientSubsystemCode': 1})
-db.clean_data.createIndex({'client.clientSecurityServerAddress': 1})
 db.clean_data.createIndex({'client.requestInTs': 1})
-db.clean_data.createIndex({'client.serviceXRoadInstance': 1})
-db.clean_data.createIndex({'client.serviceMemberClass': 1})
-db.clean_data.createIndex({'client.serviceMemberCode': 1})
-db.clean_data.createIndex({'client.serviceSubsystemCode': 1})
-db.clean_data.createIndex({'client.serviceSecurityServerAddress': 1})
 db.clean_data.createIndex({'client.serviceCode': 1})
-db.clean_data.createIndex({'client.serviceVersion': 1})
-db.clean_data.createIndex({'client.succeeded': 1})
-db.clean_data.createIndex({'producer.monitoringDataTs': 1})
-db.clean_data.createIndex({'producer.clientXRoadInstance': 1})
-db.clean_data.createIndex({'producer.clientMemberClass': 1})
-db.clean_data.createIndex({'producer.clientMemberCode': 1})
-db.clean_data.createIndex({'producer.clientSubsystemCode': 1})
-db.clean_data.createIndex({'producer.clientSecurityServerAddress': 1})
 db.clean_data.createIndex({'producer.requestInTs': 1})
-db.clean_data.createIndex({'producer.serviceXRoadInstance': 1})
-db.clean_data.createIndex({'producer.serviceMemberClass': 1})
-db.clean_data.createIndex({'producer.serviceMemberCode': 1})
-db.clean_data.createIndex({'producer.serviceSubsystemCode': 1})
-db.clean_data.createIndex({'producer.serviceSecurityServerAddress': 1})
 db.clean_data.createIndex({'producer.serviceCode': 1})
-db.clean_data.createIndex({'producer.serviceVersion': 1})
-db.clean_data.createIndex({'producer.succeeded': 1})
 db.clean_data.createIndex({'client.clientMemberCode': 1, 'client.clientSubsystemCode': 1, 'client.requestInTs': 1})
 db.clean_data.createIndex({'client.serviceMemberCode': 1, 'client.serviceSubsystemCode': 1, 'client.requestInTs': 1})
 db.clean_data.createIndex({'producer.clientMemberCode': 1, 'producer.clientSubsystemCode': 1, 'producer.requestInTs': 1})
@@ -469,12 +440,14 @@ use analyzer_database_sample
 db.incident.createIndex({'incident_status': 1, 'incident_creation_timestamp': 1})
 ```
 
-**Note 1**: Not all indexes are needed for system scripts. 
-We create index for every field to allow better results when selecting / filtering records manually. 
+**Note 1**: If planning to select / filter records manually according to different fields, then please consider to create index for every field to allow better results.
 From other side, if these are not needed, please consider to drop them as the existence reduces overall speed of [Corrector module](corrector_module.md).
 
 **Note 2**: Additional indexes might required for system scripts in case of functionality changes (eg different reports). 
 Please consider to create them as they speed up significantly the speed of [Reports module](reports_module.md).
+
+**Note 3**: Index build might affect availability of cursor for long-running queries.
+Please review the need of active [Collector module](collector_module.md) and specifically the need of active [Corrector module](corrector_module.md) while running long-running queries, specifically [Reports module](reports_module.md#usage).
 
 ## Additional Tools
 
@@ -533,10 +506,13 @@ mongo admin --username root --password
 
 > use reports_state_sample
 > db.notification_queue.reIndex()
+
+> use analyzer_database_sample
+> db.incident.reIndex()
 exit
 ```
 
-Additional tools `create_indexes_query.py`, `create_indexes_reports.py` and `create_indexes_collector.py` are available.
+Additional tools `create_indexes_query.py`, `create_indexes_reports.py`, `create_indexes_collector.py` and `create_indexes_analyzer.py` are available.
 
 Commands:
 
@@ -546,6 +522,7 @@ cd ${SOURCE}/mongodb_scripts/
 python3 create_indexes_query.py query_db_${INSTANCE} root --auth admin --host 127.0.0.1:27017
 python3 create_indexes_collector.py collector_state_${INSTANCE} root --auth admin --host 127.0.0.1:27017
 python3 create_indexes_reports.py reports_state_${INSTANCE} root --auth admin --host 127.0.0.1:27017
+python3 create_indexes_analyzer.py analyzer_database_${INSTANCE} root --auth admin --host 127.0.0.1:27017
 ```
 
 ### Purge records from MongoDB raw data collection after available in clean_data
@@ -663,8 +640,8 @@ To make mongod instance as master, the following commands are needed in mongod s
 }
 ```
 
-For additional details and recommendations about MongoDB replication set, please check:
+To build or rebuild indexes for a replica set, see [Build Indexes on Replica Sets](https://docs.mongodb.com/manual/tutorial/build-indexes-on-replica-sets/#index-building-replica-sets).
 
-```
-https://docs.mongodb.com/manual/replication/
-```
+For additional details and recommendations about MongoDB replication set, please check 
+[MongoDB Manual Replication](https://docs.mongodb.com/manual/replication/)
+
