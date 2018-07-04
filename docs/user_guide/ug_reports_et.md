@@ -34,10 +34,13 @@ Raportid koostatakse nii arendus- (ee-dev), test- (ee-test) kui toodangukeskkonn
 
 Juhul kui on soovitusi raporti sisu, vormi jms osas, palun lahkesti teada anda, püüame RIA poolt kaasa aidata parema selguse ja läbipaistvuse loomisele selles, mis X-tee peal tegelikult toimub. Palun andke märku aadressil help@ria.ee kõikides seotud küsimustes.
 
-Visualiseeritud pilt X-tee v6 toimuva kohta on:
-- toodangukeskkonna (EE) kohta aadressil https://logs.x-road.ee/visualizer/EE
-- testkeskkonna (ee-test) kohta aadressil https://logs.x-road.ee/visualizer/ee-test ja 
-- arenduskeskkonna (ee-dev) kohta aadressil https://logs.x-road.ee/visualizer/ee-dev
+Riigi Infosüsteemi Amet avaldab üldistatud kujul X-tee kasutusstatistikat ka avaandmetena ja visualiseeritud kujul:
+- toodangukeskkonna (EE) kohta aadressitel https://logs.x-road.ee/EE/gui ja https://logs.x-road.ee/visualizer/EE
+- testkeskkonna (ee-test) kohta aadressitel https://logs.x-road.ee/ee-dev/gui ja https://logs.x-road.ee/visualizer/ee-test ning
+- arenduskeskkonna (ee-dev) kohta aadressitel https://logs.x-road.ee/ee-dev/gui ja https://logs.x-road.ee/visualizer/ee-dev
+
+Üldistatud kujud ei sisalda X-tee päringutega seotud juurdepääsupiiranguga teavet. 
+Juhul, kui Teie hinnangul esineb mõnede statistiliste andmete osas asutusesiseseks kasutamiseks tunnistatud teabe avalikustamise oht, palume sellest koheselt Riigi Infosüsteemi Ametit informeerida viidates seaduses sätestatud juurdepääsupiirangu alusele.
 
 ## Korduma Kippuvad Küsimused
 
@@ -52,10 +55,10 @@ Hetkel meil raportite väljasaatmise süsteemile nn "opt-out" nimekirja pole. Ra
 
 Palun selgitust, miks soovite teavitustest loobuda?
 
-- Kui Te ei ole nimetatud alamsüsteemiga enam seotud, siis lihtsaim lahendus on enda kontakti eemaldamine RIHAst.
-- Kui te olete küll seotud kuid ei soovi neid kirju, siis üks võimalus on ka oma e-kirjade postkastis vastav suunav filter moodustada.
-- Kui te olete seotud aga tahaksite näha ülevaateid mingil teisel kujul, siis ootame tagasidet, milline see parem ja sobivam vorm võiks olla.
-- Kui te lihtsalt ei vaja niisugust lisainfot raportite näol, siis püüame juurutada ka "opt-out" nimekirja võimaluse.
+- Kui Te ei ole nimetatud alamsüsteemiga enam seotud, siis lihtsaim lahendus on enda kontakti eemaldamine RIHAst;
+- kui te olete küll seotud kuid ei soovi neid kirju, siis üks võimalus on ka oma e-kirjade postkastis vastav suunav filter moodustada;
+- kui te olete seotud aga tahaksite näha ülevaateid mingil teisel kujul, siis ootame tagasidet, milline see parem ja sobivam vorm võiks olla;
+- kui te lihtsalt ei vaja niisugust lisainfot raportite näol, siis püüame juurutada ka "opt-out" nimekirja võimaluse.
 
 ### Miks just TEMA selle raporti sai?
 
@@ -139,9 +142,9 @@ Raporti koostamise aluseks olev andmestik on üldjoontes kättesaadav ka avaandm
 
 ### Kuidas Te seda infot kogute? 
 
-Andmete saamiseks turvaserveritest kasutame X-tee teenuste monitooringut, selle dokumentatsioon on leitav Githubist, https://github.com/ria-ee/X-Road/tree/develop/doc/OperationalMonitoring.
+Andmete saamiseks turvaserveritest kasutame X-tee teenuste monitooringut, selle dokumentatsioon on leitav Githubist, https://github.com/nordic-institute/X-Road/tree/develop/doc/OperationalMonitoring.
 Spetsiifilisemalt kasutame selleks kasutusstatistika andmed turvaserverist, päring `getSecurityServerOperationalData`. 
-Päringu näidiseid ja valik võimalikke skripte on toodud ka Githubi süsteemitestide kaustas https://github.com/ria-ee/X-Road/tree/develop/src/systemtest/op-monitoring
+Päringu näidiseid ja valik võimalikke skripte on toodud ka Githubi süsteemitestide kaustas https://github.com/nordic-institute/X-Road/tree/develop/src/systemtest/op-monitoring
 
 Kogu andmestik on kogutud ilma päringute sisu privaatsust puudutamata.
 
@@ -159,11 +162,10 @@ Tõenäoliselt saab ka nendelt abi juhul kui otsustate teha just Teile sobiva s�
 ## Tehnilist
 
 Monitooringuandmete saamiseks Teie X-tee v6 turvaserverist palun veenduge, et:
-- kasutusel on uusim versioon (**6.16**.0-0.20171128173309git05cf71f, https://x-road.eu/packages/, arendus- ja testkeskkond https://x-road.eu/.test/packages/)
+- kasutusel on uusim versioon https://x-tee.ee/packages/, arendus- ja testkeskkond https://x-tee.ee/packages/test/
 - Teie asutuse tulemüür lubab X-tee päringuid RIA monitooringusüsteemist EE IP 195.80.123.159 (ee-dev IP 195.80.123.169, ee-test IP 195.80.123.164), pordid 5500 ja 5577.
-    - [Issue 196](https://github.com/vrk-kpa/xroad-joint-development/issues/196) parandus  [X-Road Operations Monitoring Daemon: Use local SWA-Ref schema (swaref.xsd)](https://github.com/ria-ee/X-Road/pull/70): lubada väljuv liiklus ws-i.org:80
 
-Tagamaks turvaserveri tarkvara pakettide korrektset paigaldumist, palume v6 turvaserveri uuendusi paigaldada alati käsuga (vaata ka https://github.com/ria-ee/X-Road/blob/develop/doc/Manuals/ig-ss_x-road_v6_security_server_installation_guide.md#45-different-versions-of-xroad--packages-after-successful-upgrade)
+Tagamaks turvaserveri tarkvara pakettide korrektset paigaldumist, palume v6 turvaserveri uuendusi paigaldada alati käsuga (vaata ka https://github.com/nordic-institute/X-Road/blob/develop/doc/Manuals/ig-ss_x-road_v6_security_server_installation_guide.md#45-different-versions-of-xroad--packages-after-successful-upgrade)
 
 ```
 apt-get update
