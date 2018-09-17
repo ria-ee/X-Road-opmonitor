@@ -213,8 +213,15 @@ sudo crontab -e -u anonymizer
 Add a cron job for relevant X-Road instance.
 
 ```
-0 0 * * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/opendata_module; /usr/bin/python3 -m anonymizer.anonymize
+0 */2 * * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/opendata_module; /usr/bin/python3 -m anonymizer.anonymize
 ```
+
+or as an alternative, all stuff within one bash script (please edit variable INSTANCE in this script, also ensure it is executable `chmod +x /srv/app/sample/opendata_module/anonymizer/cron_anonymizer_sample.sh`
+
+```
+0 */2 * * * /srv/app/sample/opendata_module/anonymizer/cron_anonymizer_sample.sh
+```
+
 
 ## Scaling
 
