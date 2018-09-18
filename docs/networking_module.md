@@ -248,7 +248,8 @@ The data preparation script `prepare_data.R` and its settings file `prepare_data
 ```bash
 # export APPDIR="/srv/app"; export INSTANCE="sample"
 sudo cp --preserve ${SOURCE}/networking_module/prepare_data.R ${APPDIR}/${INSTANCE}/networking_module
-sudo cp --preserve ${SOURCE}/networking_module/prepare_data_settings.R ${APPDIR}/${INSTANCE}/networking_module
+sudo cp --preserve ${SOURCE}/networking_module/prepare_data_settings_sample.R ${APPDIR}/${INSTANCE}/networking_module
+sudo ln -s ${APPDIR}/${INSTANCE}/networking_module/prepare_data_settings_sample.R ${APPDIR}/${INSTANCE}/networking_module/prepare_data_settings.R
 sudo chown --recursive networking:networking ${APPDIR}/${INSTANCE}/networking_module
 ```
 
@@ -329,6 +330,12 @@ It is advised to set up a daily crontab job to execute the data preparation scri
 sudo crontab -e -u networking
 # crontab entry, execution time at 04:00
 0 4 * * * export APPDIR="/srv/app"; export INSTANCE="sample"; Rscript ${APPDIR}/${INSTANCE}/networking_module/prepare_data.R
+```
+
+or as an alternative, all stuff within one bash script (please edit variable INSTANCE in this script, also ensure it is executable `chmod +x /srv/app/sample/networking_module/cron_prepare_data_sample.sh`
+
+```
+0 4 * * * /srv/app/sample/networking_module/cron_prepare_data_sample.sh
 ```
 
 ##### Manual
