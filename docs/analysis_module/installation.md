@@ -148,19 +148,19 @@ export WEBDIR="/var/www"
 export INSTANCE="sample"
 ```
 
-Set up codebase for the instance's web application:
+Logs and heartbeats for Analyzer and Interface share common directories in `${APPDIR}/${INSTANCE}`, therefor we set them as owned by `root:opmon` and writable for group `opmon`.
 
 ```bash
-# export WEBDIR="/var/www"; export INSTANCE="sample"
-sudo mkdir --parents ${WEBDIR}/${INSTANCE}/analysis_module
-
-# Copy the UI code from repository to the default Apache directory ($WEBDIR)
-sudo cp --recursive --preserve \
-    ${SOURCE}/analysis_module/analyzer_ui \
-    ${WEBDIR}/${INSTANCE}/analysis_module
+# Create log and heartbeat directories with group 'opmon' write permission
+# export APPDIR="/srv/app"; export INSTANCE="sample"
+sudo mkdir --parents ${APPDIR}/${INSTANCE}
+sudo mkdir --parents ${APPDIR}/${INSTANCE}/logs
+sudo mkdir --parents ${APPDIR}/${INSTANCE}/heartbeat
+sudo chown root:opmon ${APPDIR}/${INSTANCE} ${APPDIR}/${INSTANCE}/logs ${APPDIR}/${INSTANCE}/heartbeat
+sudo chmod g+w ${APPDIR}/${INSTANCE} ${APPDIR}/${INSTANCE}/logs ${APPDIR}/${INSTANCE}/heartbeat
 ```
 
-Set up codebase for the instance's scheduled computations:
+Set up Analyzer computations codebase for the instance's scheduled computations:
 
 ```bash
 # export APPDIR="/srv/app"; export INSTANCE="sample"
@@ -172,16 +172,34 @@ sudo cp --recursive --preserve \
     ${APPDIR}/${INSTANCE}/analysis_module
 ```
 
-Logs and heartbeats for Analyzer and Interface share common directories in `${APPDIR}/${INSTANCE}`, therefor we set them as owned by `root:opmon` and writable for group `opmon`.
+Settings for Analyzer computations of different X-Road instances have been prepared and can be used:
 
 ```bash
-# Create log and heartbeat directories with group 'opmon' write permission
 # export APPDIR="/srv/app"; export INSTANCE="sample"
-sudo mkdir --parents ${APPDIR}/${INSTANCE}
-sudo mkdir --parents ${APPDIR}/${INSTANCE}/logs
-sudo mkdir --parents ${APPDIR}/${INSTANCE}/heartbeat
-sudo chown root:opmon ${APPDIR}/${INSTANCE} ${APPDIR}/${INSTANCE}/logs ${APPDIR}/${INSTANCE}/heartbeat
-sudo chmod g+w ${APPDIR}/${INSTANCE} ${APPDIR}/${INSTANCE}/logs ${APPDIR}/${INSTANCE}/heartbeat
+sudo rm --force ${APPDIR}/${INSTANCE}/analysis_module/analyzer/settings.py
+sudo ln --symbolic \
+    ${APPDIR}/${INSTANCE}/analysis_module/analyzer/instance_configurations/settings_${INSTANCE}.py \
+    ${APPDIR}/${INSTANCE}/analysis_module/analyzer/settings.py
+```
+
+Correct necessary permissions for Analyzer computations:
+
+```bash
+# export APPDIR="/srv/app"; export INSTANCE="sample"
+sudo chown --recursive analyzer:analyzer ${APPDIR}/${INSTANCE}/analysis_module
+sudo chmod --recursive -x+X ${APPDIR}/${INSTANCE}/analysis_module
+```
+
+Set up Analyzer codebase for the instance's user interface (UI), web application:
+
+```bash
+# export WEBDIR="/var/www"; export INSTANCE="sample"
+sudo mkdir --parents ${WEBDIR}/${INSTANCE}/analysis_module
+
+# Copy the UI code from repository to the default Apache directory ($WEBDIR)
+sudo cp --recursive --preserve \
+    ${SOURCE}/analysis_module/analyzer_ui \
+    ${WEBDIR}/${INSTANCE}/analysis_module
 ```
 
 Set up database directory to store Django's internal SQLite database for UI.
@@ -196,7 +214,7 @@ sudo mkdir --parents ${WEBDIR}/${INSTANCE}/analysis_module/analyzer_ui/database
 sudo chown www-data:www-data ${WEBDIR}/${INSTANCE}/analysis_module/analyzer_ui/database
 ```
 
-Settings for Interface (Analyzer UI) of different X-Road instances have been prepared and can be used:
+Settings for Analyzer Interface (Analyzer UI) of different X-Road instances have been prepared and can be used:
 
 ```bash
 # export WEBDIR="/var/www"; export INSTANCE="sample"
@@ -206,30 +224,12 @@ sudo ln --symbolic \
     ${WEBDIR}/${INSTANCE}/analysis_module/analyzer_ui/analyzer_ui/settings.py
 ```
 
-Settings for Analyzer computations of different X-Road instances have been prepared and can be used:
-
-```bash
-# export APPDIR="/srv/app"; export INSTANCE="sample"
-sudo rm --force ${APPDIR}/${INSTANCE}/analysis_module/analyzer/settings.py
-sudo ln --symbolic \
-    ${APPDIR}/${INSTANCE}/analysis_module/analyzer/instance_configurations/settings_${INSTANCE}.py \
-    ${APPDIR}/${INSTANCE}/analysis_module/analyzer/settings.py
-```
-
-Correct necessary permissions for Interface (Analyzer UI)
+Correct necessary permissions for Analyzer Interface:
 
 ```bash
 # export WEBDIR="/var/www"; export INSTANCE="sample"
 sudo chown --recursive www-data:www-data ${WEBDIR}/${INSTANCE}/analysis_module
 sudo chmod --recursive -x+X ${WEBDIR}/${INSTANCE}/analysis_module
-```
-
-Correct necessary permissions for Analyzer
-
-```bash
-# export APPDIR="/srv/app"; export INSTANCE="sample"
-sudo chown --recursive analyzer:analyzer ${APPDIR}/${INSTANCE}/analysis_module
-sudo chmod --recursive -x+X ${APPDIR}/${INSTANCE}/analysis_module
 ```
 
 ## 5. Setting up Django SQLite databases for Interface
@@ -394,7 +394,8 @@ Navigate to http://opmon-analyzer/${INSTANCE}/
 
 ## 11. CRON usage
 
-It is suggested to run these two scripts automatically using CRON. For example, to run both scripts once every day (at 12:00 and 06:00, respectively), do the following steps.
+It is suggested to run these two scripts automatically using CRON. 
+For example, to run both scripts once every day at 06:00AM, do the following steps.
 
 1) Open the CRON tab under the analyzer user:
 
@@ -402,12 +403,20 @@ It is suggested to run these two scripts automatically using CRON. For example, 
 sudo crontab -e -u analyzer
 ```
 
-2) Add the two lines:
+2) Add line:
 
 ```bash
-0 12 * * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/analysis_module/analyzer; python3 train_or_update_historic_averages_models.py
-0 6 * * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/analysis_module/analyzer; python3 find_anomalies.py
+0 6 * * * export APPDIR="/srv/app"; export INSTANCE="sample"; cd ${APPDIR}/${INSTANCE}/analysis_module/analyzer; python3 train_or_update_historic_averages_models.py; python3 find_anomalies.py
 ```
+
+or as an alternative, all stuff within one bash script (please edit variable INSTANCE in this script, also ensure it is executable `chmod +x /srv/app/sample/analysis_module/analyzer/cron_analyzer.sh`
+
+```
+0 6 * * * export APPDIR="/srv/app"; export INSTANCE="sample"; ${APPDIR}/${INSTANCE}/analysis_module/analyzer/cron_analyzer_${INSTANCE}.sh
+```
+
+NB! The scripts to run might take long time, depending from dataset available (period to analyze, number of uniq query pairs within period). 
+It is suggested to add some additional locking mechanism there to avoid simultaneous run.
 
 ## 12. Description and usage of Analyzer (the back-end)
 
