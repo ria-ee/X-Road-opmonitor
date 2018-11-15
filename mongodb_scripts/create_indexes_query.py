@@ -66,8 +66,9 @@ def main():
     # mdb_indexes.append(('clean_data', [('correctorStatus', 1)]))
     # mdb_indexes.append(('clean_data', [('matchingType', 1)]))
     # Needed for anonymizer? Probably not! It is enough to have just / only correctorTime
-    # mdb_indexes.append(('clean_data', [('correctorStatus', 1), ('client.requestInTs', 1)]))
-    mdb_indexes.append(('clean_data', [('correctorStatus', 1), ('correctorTime', 1)]))
+    # mdb_indexes.append(('clean_data', [('correctorStatus', 1), ('correctorTime', 1)]))
+    mdb_indexes.append(('clean_data', [('correctorStatus', 1), ('client.requestInTs', 1)]))
+    mdb_indexes.append(('clean_data', [('correctorStatus', 1), ('producer.requestInTs', 1)]))
     mdb_indexes.append(('clean_data', [('messageId', 1), ('client.requestInTs', 1)]))
     mdb_indexes.append(('clean_data', [('messageId', 1), ('producer.requestInTs', 1)]))
     #
