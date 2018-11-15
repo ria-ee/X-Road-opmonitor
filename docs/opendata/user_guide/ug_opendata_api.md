@@ -56,14 +56,14 @@ Logs can only be downloaded on a daily basis. The handler provides a date range,
 
 ```bash
 # export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
-curl -GET ${URL}/api/date_range
+curl --get --url "${URL}/api/date_range"
 ```
 
 There's also a POST version:
 
 ```bash
 # export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
-curl -X POST ${URL}/api/date_range
+curl --request --url "${URL}/api/date_range"
 ```
 
 #### Parameters
@@ -72,7 +72,7 @@ None
 
 #### Returns
 
-Minimum and maximum date of the logs in the database, sample.
+Minimum and maximum date of the logs in the database, sample:
 
 ```json
 {"date": {"min": "2017-09-19", "max": "2017-09-25"}}
@@ -84,14 +84,14 @@ It is possible to provide several data column specific parameters when querying 
 
 ```bash
 # export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
-curl -GET ${URL}/api/column_data
+curl --get --url "${URL}/api/column_data"
 ```
 
 There's also a POST version:
 
 ```bash
 # export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
-curl -X POST ${URL}/api/column_data
+curl --request --url "${URL}/api/column_data"
 ```
 
 #### Parameters
@@ -123,14 +123,14 @@ Retrieve first PREVIEW_LIMIT = 100 logs, which have matched the query, in JSON f
 
 ```bash
 # export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
-curl -GET ${URL}/api/logs_sample
+curl --get --url "${URL}/api/logs_sample"
 ```
 
 There's also a POST version:
 
 ```bash
 # export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
-curl -X POST ${URL}/api/logs_sample
+curl --request --url "${URL}/api/logs_sample"
 ```
 
 #### Parameters
@@ -194,7 +194,7 @@ If columns were not provide, the order is identical to the column order from [co
 ```bash
 # export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
 # export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
-curl -GET ${URL}/api/logs_sample \
+curl --get --url "${URL}/api/logs_sample" \
     --data-urlencode "date=${DATE}" \
     --data-urlencode "columns=[\"id\",\"messageId\",\"requestInDate\",\"responseAttachmentCount\",\"succeeded\",\"totalDuration\"]" \
     --data-urlencode "constraints=[{\"column\":\"totalDuration\",\"operator\":\"<=\",\"value\":\"150\"}]" \
@@ -206,7 +206,7 @@ The same in POST version:
 ```bash
 # export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
 # export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
-curl -X POST ${URL}/api/logs_sample \
+curl --request --url "${URL}/api/logs_sample" \
     --header "Content-Type:application/json" \
     --data "{\"date\": \"${DATE}\", \
            \"columns\": [\"id\", \"messageId\", \"requestInDate\", \"responseAttachmentCount\", \"succeeded\", \"totalDuration\"], \
@@ -238,7 +238,7 @@ GET version:
 # export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
 
 TEMPFILE=$(tempfile)
-curl -GET ${URL}/api/daily_logs \
+curl --get --url "${URL}/api/daily_logs" \
     --data-urlencode "date=${DATE}" \
     --data-urlencode "columns=[\"id\",\"messageId\",\"requestInDate\",\"responseAttachmentCount\",\"succeeded\",\"totalDuration\"]" \
     --data-urlencode "constraints=[{\"column\":\"totalDuration\",\"operator\":\"<=\",\"value\":\"150\"}]" \
@@ -257,7 +257,7 @@ There's also a POST version:
 # export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
 
 TEMPFILE=$(tempfile)
-curl -X POST ${URL}/api/daily_logs \
+curl --request --url "${URL}/api/daily_logs" \
     --header "Content-Type:application/json" \
     --data "{\"date\": \"${DATE}\", \
            \"columns\": [\"id\", \"messageId\", \"requestInDate\", \"responseAttachmentCount\", \"succeeded\", \"totalDuration\"], \
