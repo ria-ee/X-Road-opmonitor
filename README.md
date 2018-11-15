@@ -53,7 +53,7 @@ Please report any bugs and feature requests on the Github issue tracker.
 We will **read** all reports!
 
 We also accept pull requests from forks. 
-If possible please follow guidelines https://github.com/vrk-kpa/xroad-joint-development/blob/master/WORKFLOW.md
+If possible please follow guidelines https://github.com/nordic-institute/X-Road-development/blob/master/WORKFLOW.md
 Very grateful to accept contributions from folks.
 
 ## Stay Safe
