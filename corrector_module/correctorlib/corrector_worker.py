@@ -52,9 +52,11 @@ class CorrectorWorker:
                 to_remove_queue.put(current_document['_id'])
                 duplicates += 1
                 self.db_m.mark_as_corrected(current_document)
-                logger_manager.log_warning('batch_duplicated',
-                '_id : ObjectId(\'' + str(current_document['_id']) + '\'),
-                messageId : ' + str(current_document['messageId']))
+                """
+                :logger_manager.log_warning('batch_duplicated',
+                :'_id : ObjectId(\'' + str(current_document['_id']) + '\'),
+                :messageId : ' + str(current_document['messageId']))
+                """
                 continue
 
             # Check if is database duplicated
@@ -63,9 +65,11 @@ class CorrectorWorker:
                 hash_set.add(current_document_hash)
                 duplicates += 1
                 self.db_m.mark_as_corrected(current_document)
-                logger_manager.log_warning('database_duplicated',
-                '_id : ObjectId(\'' + str(current_document['_id']) + '\'),
-                messageId : ' + str(current_document['messageId']))
+                """
+                :logger_manager.log_warning('database_duplicated',
+                :'_id : ObjectId(\'' + str(current_document['_id']) + '\'),
+                :messageId : ' + str(current_document['messageId']))
+                """
                 continue
 
             # Mark hash as seen
