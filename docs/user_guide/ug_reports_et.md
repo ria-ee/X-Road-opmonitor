@@ -12,7 +12,7 @@ Raportid võiksid anda neile ülevaate, mis üldse toimub X-teel Teie vastavas a
 - kes ja kui palju seda kasutab (**Osutatud teenused**) ning 
 - kas ja kui palju Teie alamsüsteemist päringuid teistesse alamsüsteemidesse välja läheb (**Kasutatud teenused**). 
 
-Mõlemad neist osadest on veel omakorda jagatud kaheks, eraldi nn „päris-teenused“ (**äriteenused**) ja X-tee **metateenused**. 
+Mõlemad neist osadest on veel omakorda jagatud kaheks, eraldi nn „päris-teenused“ (**äriteenused**) ja X-tee **[metateenused](#mis-on-metateenused)**. 
 Kõigis neljas tabelis on toodud päringute kaupa (Teenus) nende kasutajad (Klient/Osutaja), õnnestunud ja ebaõnnestunud päringute arvud, samuti õnnestunud päringute kestused (millisekundites) ning päringute ja vastuste suurused (baitides).
 
 Usume, et raportitest on kasu ka oma klientidest või andmevahetuspartneritest parema ülevaate saamisel.
@@ -139,6 +139,14 @@ Raporti koostamise aluseks olev andmestik on üldjoontes kättesaadav ka avaandm
 - Toodangukeskkonna `EE` avaandmed on avaldatud aadressil https://logs.x-road.ee/EE/gui/, 
 - testkeskkonna `ee-test`omad aadressil https://logs.x-road.ee/ee-test/gui/ ja 
 - arenduskeskkonna `ee-dev` omad aadressil https://logs.x-road.ee/ee-dev/gui/. 
+
+### Mis on metateenused?
+
+Metateenusteks nimetame teenuseid (äri)teenuste kohta. Need on abiteenused, mille abil on võimalik pärida infot andmeteenuste sooritamiseks. 
+Ka X-tee raportite alusandmete, samuti erinevate nimekirjade, kataloogide, statistika ja ülevaadete jaoks kasutatakse metateenuseid, 
+peamiselt päringud `listMethods`, `getWsdl`, `getSecurityServerMetrics`, `getSecurityServerOperationalData`, `getSecurityServerHealthData`.
+
+Täpsemalt on metateenuseid kirjeldatud X-tee andmeteenuste arendajate koolitusmaterjalides, ptk [Teenused](https://moodle.ria.ee/mod/page/view.php?id=467). 
 
 ### Kuidas Te seda infot kogute? 
 
