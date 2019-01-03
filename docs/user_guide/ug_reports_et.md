@@ -65,6 +65,14 @@ Palun selgitust, miks soovite teavitustest loobuda?
 Sest just tema on selle X-tee alamsüsteemi kontakt [RIHA](https://www.riha.ee/) andmetel. 
 Palun veenduge RIHA andmete ajakohasuses (vajalik eelnev autentimine).
 
+### Miks ei ole raportit sellel viitel?
+
+** Küsimus: Sain (eelmise kontaktisiku käest) viite raportile aga seal ei ole seda enam! Kuhu kadus?**
+
+Kustutame süsteemist vanemad raportid kui aasta. Soovitame säilitada varem saadetud raportid Teie dokumendisüsteemis.
+Juhul kui siiski on vaja raportit uuesti, siis palun pöörduge sellekohase palvega help@ria.ee.
+Kindlasti atab kaasa ka see kui viitate, millisest raportist täpsemalt huvitatud olete.
+
 ### Kas ma võin mulle saadetud raporti edasi saata?
 
 Jah, loomulikult! 
