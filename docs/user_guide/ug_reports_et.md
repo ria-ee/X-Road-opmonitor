@@ -1,5 +1,5 @@
 
-| [![Riigi Infosüsteemi Amet](../img/ria_100_et.png)](https://www.ria.ee/et/) [![X-TEE](../img/xroad_100_et.png)](https://www.ria.ee/et/x-road.html) | ![European Union / European Regional Development Fund / Investing in your future](../img/eu_rdf_100_et.png "Documents that are tagged with EU/SF logos must keep the logos until 1.11.2022. If it has not stated otherwise in the documentation. If new documentation is created  using EU/SF resources the logos must be tagged appropriately so that the deadline for logos could be found.") |
+| [![Riigi Infosüsteemi Amet](../img/ria_100_et.png)](https://www.ria.ee/et.html) [![X-TEE](../img/xroad_100_et.png)](https://www.ria.ee/et/riigi-infosusteem/andmevahetuskiht-x-tee.html) | ![European Union / European Regional Development Fund / Investing in your future](../img/eu_rdf_100_et.png "Documents that are tagged with EU/SF logos must keep the logos until 1.11.2022. If it has not stated otherwise in the documentation. If new documentation is created  using EU/SF resources the logos must be tagged appropriately so that the deadline for logos could be found.") |
 | :-------------------------------------------------- | -------------------------: |
 
 # X-tee v6 monitooring - raportite lugemisjuhend
@@ -35,9 +35,9 @@ Raportid koostatakse nii arendus- (ee-dev), test- (ee-test) kui toodangukeskkonn
 Juhul kui on soovitusi raporti sisu, vormi jms osas, palun lahkesti teada anda, püüame RIA poolt kaasa aidata parema selguse ja läbipaistvuse loomisele selles, mis X-tee peal tegelikult toimub. Palun andke märku aadressil help@ria.ee kõikides seotud küsimustes.
 
 Riigi Infosüsteemi Amet avaldab üldistatud kujul X-tee kasutusstatistikat ka avaandmetena ja visualiseeritud kujul:
-- toodangukeskkonna (EE) kohta aadressitel https://logs.x-road.ee/EE/gui ja https://logs.x-road.ee/visualizer/EE
-- testkeskkonna (ee-test) kohta aadressitel https://logs.x-road.ee/ee-dev/gui ja https://logs.x-road.ee/visualizer/ee-test ning
-- arenduskeskkonna (ee-dev) kohta aadressitel https://logs.x-road.ee/ee-dev/gui ja https://logs.x-road.ee/visualizer/ee-dev
+- toodangukeskkonna (EE) kohta aadressitel https://logs.x-tee.ee/EE/gui ja https://logs.x-tee.ee/visualizer/EE
+- testkeskkonna (ee-test) kohta aadressitel https://logs.x-tee.ee/ee-dev/gui ja https://logs.x-tee.ee/visualizer/ee-test ning
+- arenduskeskkonna (ee-dev) kohta aadressitel https://logs.x-tee.ee/ee-dev/gui ja https://logs.x-tee.ee/visualizer/ee-dev
 
 Üldistatud kujud ei sisalda X-tee päringutega seotud juurdepääsupiiranguga teavet. 
 Juhul, kui Teie hinnangul esineb mõnede statistiliste andmete osas asutusesiseseks kasutamiseks tunnistatud teabe avalikustamise oht, palume sellest koheselt Riigi Infosüsteemi Ametit informeerida viidates seaduses sätestatud juurdepääsupiirangu alusele.
@@ -144,9 +144,9 @@ Eraldi liikmetele mõeldud ja kontohaldusega monitooringusüsteemi (*data wareho
 Raporti koostamise aluseks olev andmestik on kättesaadav ka Teie X-tee turvaserverist ning Teie andmevahetuspartneri turvaserveri(te)st. Heameelega nõustame, mil viisil saate seda ise koondada ning ise koostada endale vajalik raport.
 
 Raporti koostamise aluseks olev andmestik on üldjoontes kättesaadav ka avaandmetena:
-- Toodangukeskkonna `EE` avaandmed on avaldatud aadressil https://logs.x-road.ee/EE/gui/, 
-- testkeskkonna `ee-test`omad aadressil https://logs.x-road.ee/ee-test/gui/ ja 
-- arenduskeskkonna `ee-dev` omad aadressil https://logs.x-road.ee/ee-dev/gui/. 
+- Toodangukeskkonna `EE` avaandmed on avaldatud aadressil https://logs.x-tee.ee/EE/gui/, 
+- testkeskkonna `ee-test`omad aadressil https://logs.x-tee.ee/ee-test/gui/ ja 
+- arenduskeskkonna `ee-dev` omad aadressil https://logs.x-tee.ee/ee-dev/gui/. 
 
 ### Mis on metateenused?
 
@@ -181,7 +181,7 @@ Monitooringuandmete saamiseks Teie X-tee v6 turvaserverist palun veenduge, et:
 - kasutusel on uusim versioon https://x-tee.ee/packages/, arendus- ja testkeskkond https://x-tee.ee/packages/test/
 - Teie asutuse tulemüür lubab X-tee päringuid RIA monitooringusüsteemist EE IP 195.80.123.159 (ee-dev IP 195.80.123.169, ee-test IP 195.80.123.164), pordid 5500 ja 5577.
 
-Tagamaks turvaserveri tarkvara pakettide korrektset paigaldumist, palume v6 turvaserveri uuendusi paigaldada alati käsuga (vaata ka https://github.com/nordic-institute/X-Road/blob/develop/doc/Manuals/ig-ss_x-road_v6_security_server_installation_guide.md#45-different-versions-of-xroad--packages-after-successful-upgrade)
+Tagamaks turvaserveri tarkvara pakettide korrektset paigaldumist, palume v6 turvaserveri uuendusi paigaldada alati käsuga (vaata ka https://www.x-tee.ee/docs/live/xroad/ig-ss_x-road_v6_security_server_installation_guide.html#45-different-versions-of-xroad--packages-after-successful-upgrade)
 
 ```
 apt-get update

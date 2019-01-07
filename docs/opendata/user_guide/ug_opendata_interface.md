@@ -1,12 +1,12 @@
 
-| [![Republic of Estonia Information System Authority](../../img/ria_100_en.png)](https://www.ria.ee/en/) [![X-ROAD](../../img/xroad_100_en.png)](https://www.ria.ee/en/x-road.html) | ![European Union / European Regional Development Fund / Investing in your future](../../img/eu_rdf_100_en.png "Documents that are tagged with EU/SF logos must keep the logos until 1.11.2022. If it has not stated otherwise in the documentation. If new documentation is created  using EU/SF resources the logos must be tagged appropriately so that the deadline for logos could be found.") |
+| [![Republic of Estonia Information System Authority](../../img/ria_100_en.png)](https://www.ria.ee/en.html) [![X-ROAD](../../img/xroad_100_en.png)](https://www.ria.ee/en/state-information-system/x-tee.html) | ![European Union / European Regional Development Fund / Investing in your future](../../img/eu_rdf_100_en.png "Documents that are tagged with EU/SF logos must keep the logos until 1.11.2022. If it has not stated otherwise in the documentation. If new documentation is created  using EU/SF resources the logos must be tagged appropriately so that the deadline for logos could be found.") |
 | :-------------------------------------------------- | -------------------------: |
 
 # X-Road v6 monitor project - Open Data Interface User Guide
 
 The project maintains X-Road v6 log of service calls (queries), published as opendata.
 
-X-Road [monitoring data](https://github.com/ria-ee/X-Road/tree/develop/doc/OperationalMonitoring) is collected from Estonian X-Road members security servers available 
+X-Road [monitoring data](https://github.com/nordic-institute/X-Road/tree/develop/doc/OperationalMonitoring) is collected from Estonian X-Road members security servers available 
 by X-Road Center (Republic of Estonia Information System Authority, Riigi Infosüsteemi Amet, RIA) 
 and published as opendata with a delay of 10 days from actual transaction execution time.
 
@@ -33,7 +33,7 @@ Explanation of timestamps (1) - (8):
 
 ## Initial page
 
-After navigating to `https://logs.x-road.ee/EE/gui`, (or http:// when security certificate not in place yet) we should see the following page:
+After navigating to `https://logs.x-tee.ee/EE/gui`, (or http:// when security certificate not in place yet) we should see the following page:
 
 ![Initial Interface page](../../img/opendata/1_interface_initial_screen.png "Initial Interface page")
 
@@ -76,7 +76,7 @@ we should see:
 
 ## Downloading
 
-When clicking on "Download" instead of "Preview", the browser should initiate a "2017-09-20@download_timestamp.tar.gz" file download. The contents should look similar to
+When clicking on "Download" instead of "Preview", the browser should initiate a file download. The contents should look similar to
 
 ![Interface datetimepicker](../../img/opendata/6_interface_download_content.png
  "Interface datetimepicker")

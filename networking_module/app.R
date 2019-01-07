@@ -57,7 +57,7 @@ ui <- fluidPage(title=paste0("X-road members networking visualization, instance 
 server <- function(input, output, session){
   
   output$text1<-renderText({
-    paste0('The visualization is based on the X-road monitoring data, instance ', tags$a(href=paste0('https://logs.x-road.ee/', dates[3],'/gui/'), dates[3], target="_blank"),', from ', dates[1], ' to ', dates[2], '.')
+    paste0('The visualization is based on the X-road monitoring data, instance ', tags$a(href=paste0('https://logs.x-tee.ee/', dates[3],'/gui/'), dates[3], target="_blank"),', from ', dates[1], ' to ', dates[2], '.')
   })
   
   member<-reactive({

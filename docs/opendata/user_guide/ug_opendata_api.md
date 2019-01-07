@@ -1,5 +1,5 @@
 
-| [![Republic of Estonia Information System Authority](../../img/ria_100_en.png)](https://www.ria.ee/en/) [![X-ROAD](../../img/xroad_100_en.png)](https://www.ria.ee/en/x-road.html) | ![European Union / European Regional Development Fund / Investing in your future](../../img/eu_rdf_100_en.png "Documents that are tagged with EU/SF logos must keep the logos until 1.11.2022. If it has not stated otherwise in the documentation. If new documentation is created  using EU/SF resources the logos must be tagged appropriately so that the deadline for logos could be found.") |
+| [![Republic of Estonia Information System Authority](../../img/ria_100_en.png)](https://www.ria.ee/en.html) [![X-ROAD](../../img/xroad_100_en.png)](https://www.ria.ee/en/state-information-system/x-tee.html) | ![European Union / European Regional Development Fund / Investing in your future](../../img/eu_rdf_100_en.png "Documents that are tagged with EU/SF logos must keep the logos until 1.11.2022. If it has not stated otherwise in the documentation. If new documentation is created  using EU/SF resources the logos must be tagged appropriately so that the deadline for logos could be found.") |
 | :-------------------------------------------------- | -------------------------: |
 
 # X-Road v6 monitor project - Open Data Module, API documentation
@@ -19,7 +19,7 @@ URL below is used as
 
 ```bash
 export INSTANCE="sample"
-export URL="https://logs.x-road.ee/${INSTANCE}"
+export URL="https://logs.x-tee.ee/${INSTANCE}"
 # or http:// when security certificate not in place yet)
 ```
 
@@ -55,14 +55,14 @@ POST expects query to be in JSON format and be the whole request body.
 Logs can only be downloaded on a daily basis. The handler provides a date range, from which it is sensible to query.
 
 ```bash
-# export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="sample"; export URL="https://logs.x-tee.ee/${INSTANCE}"
 curl --get --url "${URL}/api/date_range"
 ```
 
 There's also a POST version:
 
 ```bash
-# export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="sample"; export URL="https://logs.x-tee.ee/${INSTANCE}"
 curl --request --url "${URL}/api/date_range"
 ```
 
@@ -83,14 +83,14 @@ Minimum and maximum date of the logs in the database, sample:
 It is possible to provide several data column specific parameters when querying daily logs. This handler gives an overview of the columns.
 
 ```bash
-# export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="sample"; export URL="https://logs.x-tee.ee/${INSTANCE}"
 curl --get --url "${URL}/api/column_data"
 ```
 
 There's also a POST version:
 
 ```bash
-# export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="sample"; export URL="https://logs.x-tee.ee/${INSTANCE}"
 curl --request --url "${URL}/api/column_data"
 ```
 
@@ -122,14 +122,14 @@ Metadata of the existing columns.
 Retrieve first PREVIEW_LIMIT = 100 logs, which have matched the query, in JSON format.
 
 ```bash
-# export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="sample"; export URL="https://logs.x-tee.ee/${INSTANCE}"
 curl --get --url "${URL}/api/logs_sample"
 ```
 
 There's also a POST version:
 
 ```bash
-# export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="sample"; export URL="https://logs.x-tee.ee/${INSTANCE}"
 curl --request --url "${URL}/api/logs_sample"
 ```
 
@@ -192,7 +192,7 @@ If columns were not provide, the order is identical to the column order from [co
 #### Example query
 
 ```bash
-# export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="sample"; export URL="https://logs.x-tee.ee/${INSTANCE}"
 # export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
 curl --get --url "${URL}/api/logs_sample" \
     --data-urlencode "date=${DATE}" \
@@ -204,7 +204,7 @@ curl --get --url "${URL}/api/logs_sample" \
 The same in POST version:
 
 ```bash
-# export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="sample"; export URL="https://logs.x-tee.ee/${INSTANCE}"
 # export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
 curl --request --url "${URL}/api/logs_sample" \
     --header "Content-Type:application/json" \
@@ -234,7 +234,7 @@ Binary file with MIME type "application/gzip".
 GET version:
 
 ```bash
-# export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="sample"; export URL="https://logs.x-tee.ee/${INSTANCE}"
 # export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
 
 TEMPFILE=$(tempfile)
@@ -253,7 +253,7 @@ tar tzvf ${TEMPFILE} # See download content
 There's also a POST version:
 
 ```bash
-# export INSTANCE="sample"; export URL="https://logs.x-road.ee/${INSTANCE}"
+# export INSTANCE="sample"; export URL="https://logs.x-tee.ee/${INSTANCE}"
 # export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
 
 TEMPFILE=$(tempfile)

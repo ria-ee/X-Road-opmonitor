@@ -1,5 +1,5 @@
 
-| [![Republic of Estonia Information System Authority](docs/img/ria_100_en.png)](https://www.ria.ee/en/) [![X-ROAD](docs/img/xroad_100_en.png)](https://www.ria.ee/en/x-road.html) | ![European Union / European Regional Development Fund / Investing in your future](docs/img/eu_rdf_100_en.png "Documents that are tagged with EU/SF logos must keep the logos until 1.11.2022. If it has not stated otherwise in the documentation. If new documentation is created  using EU/SF resources the logos must be tagged appropriately so that the deadline for logos could be found.") |
+| [![Republic of Estonia Information System Authority](docs/img/ria_100_en.png)](https://www.ria.ee/en.html) [![X-ROAD](docs/img/xroad_100_en.png)](https://www.ria.ee/en/state-information-system/x-tee.html) | ![European Union / European Regional Development Fund / Investing in your future](docs/img/eu_rdf_100_en.png "Documents that are tagged with EU/SF logos must keep the logos until 1.11.2022. If it has not stated otherwise in the documentation. If new documentation is created  using EU/SF resources the logos must be tagged appropriately so that the deadline for logos could be found.") |
 | :-------------------------------------------------- | -------------------------: |
 
 # X-Road v6 monitor project
@@ -63,7 +63,7 @@ But if we were you, we would suggest to test thoroughly before use it in a produ
 
 Developed by: [STACC (Software Technology and Applications Competence Center)](https://www.stacc.ee/en/) according to procurement [RHR 183990](https://riigihanked.riik.ee/register/hange/183990)
 
-Released by [Riigi Infosüsteemi Amet, Data Exchange Layer X-Road](https://www.ria.ee/en/x-road.html), under the [MIT License](http://www.opensource.org/licenses/MIT).
+Released by [Riigi Infosüsteemi Amet, Data Exchange Layer X-Road](https://www.ria.ee/en/state-information-system/x-tee.html), under the [MIT License](http://www.opensource.org/licenses/MIT).
 
 ## Contact
 
