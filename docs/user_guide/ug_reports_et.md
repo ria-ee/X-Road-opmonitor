@@ -67,7 +67,7 @@ Palun veenduge RIHA andmete ajakohasuses (vajalik eelnev autentimine).
 
 ### Miks ei ole raportit sellel viitel?
 
-** Küsimus: Sain (eelmise kontaktisiku käest) viite raportile aga seal ei ole seda enam! Kuhu kadus?**
+**Küsimus: Sain (eelmise kontaktisiku käest) viite raportile aga seal ei ole seda enam! Kuhu kadus?**
 
 Kustutame süsteemist vanemad raportid kui aasta. Soovitame säilitada varem saadetud raportid Teie dokumendisüsteemis.
 Juhul kui siiski on vaja raportit uuesti, siis palun pöörduge sellekohase palvega help@ria.ee.
@@ -77,6 +77,14 @@ Kindlasti atab kaasa ka see kui viitate, millisest raportist täpsemalt huvitatu
 
 Jah, loomulikult! 
 Need on andmed Teie X-tee alamsüsteemi kohta ja just Teie teate ise, kellele ja miks neid vaja võib olla.
+
+### Ma sain raporti X-tee arenduskeskkonna (ee-dev) / testkeskkonna (ee-test) kohta. Miks ma ei saanud raportit toodangukeskkonna (EE) kohta?
+
+Küll ta tuleb!
+
+X-tee keskkonnad on erineva mahuga, arendus- ja testkeskkonna raportid koostatakse üldjuhul iga kuu 8.kpv öösel / varahommikul.
+Toodangukeskkond on oluliselt mahukam päringute arvu poolest, raportite koostamine võtab kauem aega ja valmivad üldjuhul iga kuu 9.kpv öösel / varahommikul.
+Põhjust üleküsimiseks on alles siis kui kuu 10.kpv jooksul ei ole raportit Teieni jõudnud.
 
 ### Liiga palju raporteid!
 
