@@ -32,11 +32,18 @@ if __name__ == '__main__':
                                        settings.WAIT_FROM_ERROR))
                 logger_m.log_heartbeat("error", settings.HEARTBEAT_LOGGER_PATH, settings.HEARTBEAT_FILE, "FAILED")
                 # After process error, waits WAIT_FROM_ERROR to restart batch
+                # logger_m.log_info('corrector_main', 'After process error, waits {0} to restart batch'.format(settings.WAIT_FROM_ERROR))
                 time.sleep(settings.WAIT_FROM_ERROR)
             elif process_dict['doc_len'] < settings.CORRECTOR_DOCUMENTS_MIN:
                 # If number of processed docs is smaller than CORRECTOR_DOCUMENTS_MIN,
                 # waits WAIT_FROM_DONE to restart batch
+                logger_m.log_info('corrector_main', 'Number of processed docs {0} is smaller than {1}. Waits {2} to restart batch'.format(process_dict['doc_len'], settings.CORRECTOR_DOCUMENTS_MIN, settings.WAIT_FROM_DONE))
                 time.sleep(settings.WAIT_FROM_DONE)
+            else:
+                # Wait just 5 secs to allow process killed from outside ...
+                logger_m.log_info('corrector_main', 'Wait just 5 secs to allow process killed from outside ...')
+                time.sleep(5)
+                logger_m.log_info('corrector_main', 'Slept. Keep going ...')
         except Exception as e:
             logger_m.log_error('corrector_main', 'Internal error: {0}'.format(repr(e)))
             logger_m.log_heartbeat("error", settings.HEARTBEAT_LOGGER_PATH, settings.HEARTBEAT_FILE, "FAILED")
