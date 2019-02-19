@@ -56,7 +56,8 @@ class MongoDB_Manager(object):
 
         for document in collection.find({
             'correctorTime': {'$gt': min_timestamp, '$lte': current_timestamp},
-            'correctorStatus': 'done'
+            'correctorStatus': 'done',
+            'client.clientXRoadInstance': {'$ne': None}
         }, projection=projection, no_cursor_timeout=True).sort('correctorTime', pymongo.ASCENDING):
             if batch_idx == 1000:
                 self.update_last_processed_timestamp(max_timestamp=self.last_processed_timestamp)

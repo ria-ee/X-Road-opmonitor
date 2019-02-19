@@ -101,6 +101,13 @@ class CorrectorWorker:
                 new_document['correctorTime'] = database_manager.get_timestamp()
                 new_document['correctorStatus'] = 'processing'
                 new_document['matchingType'] = matching_type
+
+                # Mark non-xRoad queries as 'done' instantly. No reason to wait matching pair
+                if 'client' in new_document and new_document['client'] is not None and 'clientXRoadInstance' in new_document['client'] \
+                        and new_document['client']['clientXRoadInstance'] is None:
+                    new_document['correctorStatus'] = 'done'
+                    new_document['matchingType'] = 'orphan'
+
                 self.db_m.add_to_clean_data(new_document)
 
             else:

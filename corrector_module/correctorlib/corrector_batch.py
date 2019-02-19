@@ -82,7 +82,7 @@ class CorrectorBatch:
             doc_len += len(documents)
 
         # Sync
-        time.sleep(5)
+        # time.sleep(5)
 
         # Create pool of workers
         pool = []
