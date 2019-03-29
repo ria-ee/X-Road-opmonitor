@@ -20,8 +20,8 @@ class CorrectorWorker:
         self.db_m = database_manager.DatabaseManager(self.settings)
         try:
             # Process queue while is not empty
-            while not to_process.empty():
-                data = to_process.get(False)
+            while True:
+                data = to_process.get(True, 1)
                 duplicate_count = self.consume_data(data)
                 with duplicates.get_lock():
                     duplicates.value += duplicate_count
@@ -122,11 +122,11 @@ class CorrectorWorker:
                         merged_document['correctorStatus'] = 'done'
                         merged_document['matchingType'] = matching_type
                         self.db_m.update_document_clean_data(merged_document)
-
                     else:
                         # This should never-ever happen in >= v0.4.
                         msg = '[{0}] 2 matching clients for 1 producer: {1}'.format(self.worker_name, current_document)
                         logger_manager.log_warning('corrector_merging', msg)
+
                 else:
 
                     if merged_document['producer'] is None:
@@ -136,12 +136,12 @@ class CorrectorWorker:
                         merged_document['correctorTime'] = database_manager.get_timestamp()
                         merged_document['correctorStatus'] = 'done'
                         merged_document['matchingType'] = matching_type
-
                         self.db_m.update_document_clean_data(merged_document)
                     else:
                         # This should never-ever happen in >= v0.4.
                         msg = '[{0}] 2 matching producers for 1 client: {1}'.format(self.worker_name, current_document)
                         logger_manager.log_error('corrector_merging', msg)
+
             self.db_m.mark_as_corrected(current_document)
 
         return duplicates

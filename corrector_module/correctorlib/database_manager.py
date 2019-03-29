@@ -65,7 +65,7 @@ class DatabaseManager:
         doc_id = document['_id']
         db = self.get_query_db()
         raw_data = db[RAW_DATA_COLLECTION]
-        raw_data.update({"_id": doc_id}, {"$set": {"corrected": True}})
+        raw_data.update_one({"_id": doc_id}, {"$set": {"corrected": True}})
 
     def get_raw_documents(self, limit=1000):
         """
