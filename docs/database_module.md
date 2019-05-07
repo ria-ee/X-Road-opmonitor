@@ -646,3 +646,5 @@ To build or rebuild indexes for a replica set, see [Build Indexes on Replica Set
 For additional details and recommendations about MongoDB replication set, please check 
 [MongoDB Manual Replication](https://docs.mongodb.com/manual/replication/)
 
+To change the size of oplog, follow the steps
+provided in manual https://docs.mongodb.com/manual/tutorial/change-oplog-size/
