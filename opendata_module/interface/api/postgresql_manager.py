@@ -16,7 +16,7 @@ class PostgreSQL_Manager(object):
             cursor.execute("SELECT column_name,data_type FROM information_schema.columns WHERE table_name = %s;", (self._table_name, ))
             data = cursor.fetchall()
 
-        return [(self._field_name_map[name], type_) for name, type_ in data]
+        return [(self._field_name_map[name], type_) for name, type_ in data if name not in {'mongoid', 'correctortime', 'row_hash'}]
 
     def get_data(self, constraints=None, order_by=None, columns=None, limit=None):
         with pg.connect(self._connection_string) as connection:
