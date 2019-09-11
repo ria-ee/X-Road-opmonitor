@@ -1,7 +1,7 @@
 fields:
     id:
         description: Unique identifier of the record
-        type: integer
+        type: bigint
     clientSecurityServerAddress:
         description: External address of client's security server (IP or name) defined in global configuration
         type: varchar(255)

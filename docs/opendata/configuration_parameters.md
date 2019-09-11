@@ -160,13 +160,13 @@ Field data file, just like `opendata_config.py` is duplicated for both Anonymize
 field_data_file = 'cfg_lists/field_data.yaml'
 ```
 
-The following YAML file shows, how "id" and "totalDuration" fields are described. They are both stored as integers and in addition, "totalDuration" is only "available" for "client" logs. Producers also have the "totalDuration" field for data integrity, but their "totalDuration" value is always *null*.
+The following YAML file shows, how "id" and "totalDuration" fields are described. They are stored as bigint and integer and in addition, "totalDuration" is only "available" for "client" logs. Producers also have the "totalDuration" field for data integrity, but their "totalDuration" value is always *null*.
 
 ```yaml
 fields:
     id:
         description: Unique identifier of the record
-        type: integer
+        type: bigint
     totalDuration:
         description: Request duration from sending the request to getting a response from the client's perspective
         type: integer
@@ -175,4 +175,4 @@ fields:
 
 ## Interface
 
-All the interface-specific settings, such as hosts, static directories etc can be defined in the Django settings file [opendata_module/interface/interface/settings.py](../../opendata_module/interface/interface/settings.py).
+All the interface-specific settings, such as hosts, static directories etc can be defined in the Django settings file [opendata_module/interface/interface/settings.py](../../opendata_module/interface/instance_configurations/settings_sample.py).

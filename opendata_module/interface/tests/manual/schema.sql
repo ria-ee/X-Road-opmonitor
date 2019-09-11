@@ -1,5 +1,5 @@
 CREATE TABLE logs (
-    id integer PRIMARY KEY,
+    id bigint PRIMARY KEY,
     clientmemberclass character varying(255),
     clientmembercode character varying(255),
     clientsecurityserveraddress character varying(255),
