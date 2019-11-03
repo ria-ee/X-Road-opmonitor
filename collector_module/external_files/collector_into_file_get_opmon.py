@@ -23,6 +23,7 @@ import datetime
 import os
 import logging
 from logging.handlers import RotatingFileHandler
+import settings
 
 
 ###########################
@@ -30,49 +31,58 @@ from logging.handlers import RotatingFileHandler
 ###########################
 
 # X-Road instance (Sample: XTEE-CI-XM, ee-dev, ee-test, EE)
-INSTANCE = ""
+# INSTANCE = "ee-dev"
+INSTANCE = settings.INSTANCE
+
 
 # Security server IP or Name used by Central monitoring
-SECURITY_SERVER = ""
+# SECURITY_SERVER = "10.0.14.141"
+# SECURITY_SERVER = "195.80.123.169"
 
 # Method to access Security server
-SECURITY_SERVER_METHOD = "http"
+# SECURITY_SERVER_METHOD = "http"
 
-SECURITY_SERVER_URL = '{0}://{1}'.format(SECURITY_SERVER_METHOD, SECURITY_SERVER)
+# SECURITY_SERVER_URL = '{0}://{1}'.format(SECURITY_SERVER_METHOD, SECURITY_SERVER)
+SECURITY_SERVER_URL = settings.SECURITY_SERVER_URL
 
 # Central monitoring subsystem/member (as defined in global configuration)
 #
 # Message header of Instance Monitoring Client
 # MEMBERCLASS is in {GOV, COM, NGO, NEE}
 # Sample: MEMBERCLASS = "GOV"
-MEMBERCLASS = ""
+MEMBERCLASS = settings.MEMBERCLASS
 
 # MEMBERCODE is registry code of institution
-# Sample: MEMBERCODE = "70006317" # RIA, Riigi Infosüsteemi Amet, State Information Agency
-MEMBERCODE = ""
+# Sample: MEMBERCODE = "70006317" # RIA, Riigi Infosüsteemi Amet, Republic of Estonia, Information System Authority
+MEMBERCODE = settings.MEMBERCODE
 
 # SUBSYSTEMCODE is X-Road subsystem code, to be registered in RIHA, www.riha.ee
 # Sample: SUBSYSTEMCODE = "monitoring"
-SUBSYSTEMCODE = ""
+SUBSYSTEMCODE = settings.SUBSYSTEMCODE
 
 # Monitoring client header, must match with X-Road header protocol and SECURITY_SERVER_URL configuration
-MONITORING_CLIENT = """        <xrd:client id:objectType="SUBSYSTEM">
-            <id:xRoadInstance>{0}</id:xRoadInstance>
-            <id:memberClass>{1}</id:memberClass>
-            <id:memberCode>{2}</id:memberCode>
-            <id:subsystemCode>{3}</id:subsystemCode>
-        </xrd:client>
-""".format(INSTANCE, MEMBERCLASS, MEMBERCODE, SUBSYSTEMCODE)
+# MONITORING_CLIENT = """        <xrd:client id:objectType="SUBSYSTEM">
+#             <id:xRoadInstance>{0}</id:xRoadInstance>
+#             <id:memberClass>{1}</id:memberClass>
+#             <id:memberCode>{2}</id:memberCode>
+#             <id:subsystemCode>{3}</id:subsystemCode>
+#         </xrd:client>
+# """.format(INSTANCE, MEMBERCLASS, MEMBERCODE, SUBSYSTEMCODE)
+MONITORING_CLIENT = settings.MONITORING_CLIENT
+
 
 # Debug levels: 0 = Errors only; 1 = Simple debug; 2 = Detailed debug
 # Used only for internal logging. Does not match with logger.setLevel(logging.${LEVEL})
+# DEBUG=settings.LOGGER_LEVEL
 DEBUG=1
 
 # Timeout for http requests
-SECURITY_SERVER_TIMEOUT=10.0
+# SECURITY_SERVER_TIMEOUT=60.0
+SECURITY_SERVER_TIMEOUT = settings.SECURITY_SERVER_TIMEOUT
 
 # How many threads to use for data quering
-THREAD_COUNT=4
+# THREAD_COUNT=10
+THREAD_COUNT = settings.THREAD_COUNT
 
 # File for saving nextRecordsFrom values
 NEXT_RECORDS_FILE="nextRecordsFrom.json"
@@ -88,21 +98,26 @@ NEXT_RECORDS_FILE="nextRecordsFrom.json"
 # 1 month = 30 days = 18144000 seconds
 # RECORDS_FROM_OFFSET=18144000
 # 1 month = 31 days = 18748800 seconds
-RECORDS_FROM_OFFSET=18748800
+# RECORDS_FROM_OFFSET=18748800
+# 1 year = 365 days = 31536000 seconds
+RECORDS_FROM_OFFSET = settings.RECORDS_FROM_OFFSET
 
 # Offset for the records_to parameter (gets records only up to "current time" - RECORDS_TO_OFFSET)
 # Set this value to higher than default records-available-timestamp-offset-seconds=60
 # Must be smaller than RECORDS_FROM_OFFSET
-RECORDS_TO_OFFSET=100
+# RECORDS_TO_OFFSET=100
+RECORDS_TO_OFFSET = settings.RECORDS_TO_OFFSET
 
 # Repeat query to fetch additional data only if server has returned at least as much records
 # By default servers should return 10000 records, so this value should be smaller
-REPEAT_MIN_RECORDS=50
+# REPEAT_MIN_RECORDS=50
+REPEAT_MIN_RECORDS = settings.REPEAT_MIN_RECORDS
 
 # How many times to repeat query if server has more records ("nextRecordsFrom" is returned by previous query)
 # Set to 0 to disable query repeating.
 # If this value is too low and script is executed rarely then some data may be lost
-REPEAT_LIMIT=100
+# REPEAT_LIMIT=500
+REPEAT_LIMIT = settings.REPEAT_LIMIT
 
 # Path to the logs. Leave empty for current directory or add path with "/" at the end
 LOG_PATH = "./"
