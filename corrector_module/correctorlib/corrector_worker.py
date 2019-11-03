@@ -40,13 +40,25 @@ class CorrectorWorker:
         message_id = data['message_id']
         documents = data['documents']
         to_remove_queue = data['to_remove_queue']
-        duplicates = 0
+        duplicates = no_requestInTs = 0
         hash_set = set()
 
         for current_document in documents:
 
-            current_document_hash = doc_m.calculate_hash(current_document)
+            # Mark to removal documents without requestInTs immediately (as of bug in xRoad software ver 6.22.0)
+            if current_document['requestInTs'] is None and current_document['securityServerType'] is None:
+                to_remove_queue.put(current_document['_id'])
+                no_requestInTs += 1
+                self.db_m.mark_as_corrected(current_document)
+                """
+                :logger_manager.log_warning('no_requestInTs',
+                :'_id : ObjectId(\'' + str(current_document['_id']) + '\'),
+                :messageId : ' + str(current_document['messageId']))
+                """
+                continue
+
             # Check if is batch duplicated
+            current_document_hash = doc_m.calculate_hash(current_document)
             if current_document_hash in hash_set:
                 # If yes, mark to removal
                 to_remove_queue.put(current_document['_id'])
@@ -143,5 +155,9 @@ class CorrectorWorker:
                         logger_manager.log_error('corrector_merging', msg)
 
             self.db_m.mark_as_corrected(current_document)
+
+        if no_requestInTs:
+            msg = '[{0}] {1} document(s) without requestInTs present'.format(self.worker_name, no_requestInTs)
+            logger_manager.log_warning('corrector_no_requestInTs', msg)
 
         return duplicates
