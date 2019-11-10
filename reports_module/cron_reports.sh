@@ -43,7 +43,7 @@ cd ./reports_module
 
 # Use settings
 # REPORTS_TARGET="${publishing_user}@${publishing_server}:${reports_publishing_directory}/${INSTANCE}/"
-/usr/bin/rsync -qtzr --include='*.pdf' --include='*/' --exclude='*' ${REPORTS_PATH} ${REPORTS_TARGET} || error_handler "${0}: Error while publishing into ${REPORTS_TARGET}"
+/usr/bin/rsync --quiet --times --compress --recursive --prune-empty-dirs --include='*.pdf' --include='*/' --exclude='*' ${REPORTS_PATH} ${REPORTS_TARGET} || error_handler "${0}: Error while publishing into ${REPORTS_TARGET}"
 
 #
 # Run notification manager
