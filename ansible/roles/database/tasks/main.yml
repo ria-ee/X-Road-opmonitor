@@ -1,0 +1,130 @@
+---
+- import_tasks: ubuntu.yml
+  when: ansible_os_family == "Debian"
+
+- name: Ensure the service is started
+  systemd:
+    state: started
+    name: mongod
+
+- name: Check if this node is already part of a replica set
+  stat:
+    path: /etc/replica_set_initialized
+  register: is_replication_initialized
+
+- name: Check if replica set configuration is needed
+  set_fact:
+    use_replication: "{{ groups['database'] | length > 1 }}"
+    is_primary: "{{ groups['database'] | length > 1 and inventory_hostname == groups['database'][0] }}"
+    replication_initialized: "{{ is_replication_initialized.stat.exists }}"
+
+- name: Check for the keyfile
+  local_action: "stat path={{ local_keyfile_path }}"
+  become: false
+  register: local_keyfile
+  when: use_replication
+
+- fail:
+    msg: "Can't find the keyfile on the local host. Please run 'openssl rand -base64 756 > {{ local_keyfile_path }}' to generate it"
+  when: use_replication and not local_keyfile.stat.exists
+
+- name: Share the keyfile with the nodes
+  copy:
+    src: "{{ local_keyfile_path }}"
+    dest: "{{ mongodb_keyfile }}"
+    owner: "mongodb"
+    group: "mongodb"
+    mode: "0600"
+
+- name: Allow access from other nodes
+  lineinfile:
+    path: /etc/mongod.conf
+    regex: "\\s+bindIp:"
+    line: "  bindIp: 0.0.0.0"
+
+- name: Enable replica set
+  blockinfile:
+    marker: "#{mark} AUTO GENERATED REPLICATION BLOCK"
+    path: /etc/mongod.conf
+    insertafter: "#replication:"
+    block: |
+      replication:
+          replSetName: {{ mongodb_replicaset_id }}
+          oplogSizeMB: 100
+  when: use_replication
+
+- name: Enable MongoDB keyfile authentication
+  blockinfile:
+    marker: "#{mark} AUTO GENERATED SECURITY BLOCK"
+    path: /etc/mongod.conf
+    insertafter: "#security:"
+    block: |
+      security:
+          keyFile: {{ mongodb_keyfile }}
+
+- name: Create the temporary scripts directory
+  file:
+    path: "{{ scripts_dir }}"
+    state: directory
+
+- name: Copy the templates to the script folder
+  template:
+    src: "roles/database/templates/{{ item }}.j2"
+    dest: "{{ scripts_dir }}/{{ item }}.js"
+  with_items:
+    - initiate_replica_set
+    - setup_database_module
+    - enforce_primary
+
+- block:
+    - name: Enforce the first node to be primary WITH authentication
+      command: "mongo admin --username root --password {{ root_pwd }} {{ scripts_dir }}/enforce_primary.js"
+  rescue:
+    - name: Enforce the first node to be primary WITHOUT authentication
+      command: "mongo admin {{ scripts_dir }}/enforce_primary.js"
+  when: replication_initialized and not is_primary
+
+- block:
+    - name: Create the database module users WITH authentication
+
+      command: "mongo --username root --password {{ root_pwd }} {{ scripts_dir }}/setup_database_module.js"
+  rescue:
+    - name: Create the database module users WITHOUT authentication
+      command: "mongo {{ scripts_dir }}/setup_database_module.js"
+  when: not use_replication or is_primary
+
+- name: Restart the service to apply configuration changes
+  systemd:
+    state: restarted
+    name: mongod
+  when: use_replication
+
+- block:
+    - name: Initiate the master replica set node with authentication
+      command: "mongo admin --username root --password {{ root_pwd }} {{ scripts_dir }}/initiate_replica_set.js"
+  rescue:
+    - name: Initiate the master replica set node without authentication
+      command: "mongo {{ scripts_dir }}/initiate_replica_set.js"
+  when: is_primary
+
+- name: Add logrotate file to ensure dayly logs
+  copy:
+    src: roles/database/files/mongodb
+    dest: /etc/logrotate.d/mongodb
+
+- name: Restart the service
+  systemd:
+    state: restarted
+    name: mongod
+
+- name: Mark this server as part of replica set
+  file:
+    path: /etc/replica_set_initialized
+    state: touch
+    mode: u=rw,g=r,o=r
+  when: use_replication
+
+- name: Remove the scripts directory
+  file:
+    path: "{{ scripts_dir }}"
+    state: absent

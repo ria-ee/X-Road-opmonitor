@@ -1,0 +1,13 @@
+---
+mongodb_ubuntu_18_apt_keyserver:  "hkp://keyserver.ubuntu.com:80"
+mongodb_ubuntu_18_apt_id: "4B7C549A058F8B6B"
+mongodb_ubuntu_18_apt_repo: "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse"
+
+mongodb_replicaset_id: "rs0"
+mongodb_port: 27017
+
+mongodb_dbpath: /tmp/mongo
+mongodb_keyfile: /etc/ssl/keyfile
+
+scripts_dir: /tmp/scripts
+local_keyfile_path: /tmp/keyfile

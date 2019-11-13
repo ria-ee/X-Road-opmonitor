@@ -1,0 +1,19 @@
+{% if replication_initialized | bool %}
+    // Try to reconfigure the replica set if it is already initialized
+     cfg = rs.conf();
+     cfg.members = [];
+     {% for host in groups['database'] %}
+         cfg.members.push({ _id: {{loop.index - 1}}, host: "{{host}}:{{mongodb_port}}" })
+     {% endfor %}
+     rs.reconfig(cfg);
+{% else %}
+    // Try to initialize the replica set
+    rs.initiate( {
+        _id : "{{ mongodb_replicaset_id }}",
+        members: [
+        {% for host in groups['database'] %}
+            { _id: {{loop.index - 1}}, host: "{{host}}:{{mongodb_port}}" },
+        {% endfor %}
+        ]
+    })
+{% endif %}

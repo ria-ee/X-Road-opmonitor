@@ -1,0 +1,5 @@
+# Database module (Ubuntu 18.04 or RHEL/Centos 7)
+[database]
+35.239.5.246
+104.198.65.223
+34.69.131.100

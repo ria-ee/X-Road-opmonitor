@@ -1,0 +1,12 @@
+---
+# Admin users
+root_pwd: "changeit"
+backup_pwd: "changeit"
+superuser_pwd: "changeit"
+readonly_pwd: "changeit"
+
+# Collector module
+collector_pwd: "changeit"
+reports_pwd: "changeit"
+analyzer_pwd: "changeit"
+analyzer_interface_pwd: "changeit"
