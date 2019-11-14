@@ -6,8 +6,17 @@
   become_user: root
   roles:
     - database
-  tags:
-    - ss
   vars_files:
     - vars_files/remote_repo.yml
+    - vars_files/passwords.yml
+    - vars_files/database.yml
+
+- hosts: collector
+  become: yes
+  become_user: root
+  roles:
+    - collector
+  vars_files:
+    - vars_files/opmon_config.yml
+    - vars_files/passwords.yml
     - vars_files/database.yml

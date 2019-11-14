@@ -1,2 +1,11 @@
 ---
+#controls lxd versions, if changed, check epel version and repo urls
+ansible_ssh_user: xvia
+ansible_ssh_private_key_file: ~/.ssh/xvia_rsa.pub
 xroad_instance: EE
+xroad_central_server: 127.0.0.1
+xroad_security_server_url: http:/127.0.0.1
+xroad_member_class: GOV
+xroad_member_code: 10001
+xroad_subsystem_code: 10001-1
+

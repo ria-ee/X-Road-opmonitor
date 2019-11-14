@@ -2,16 +2,15 @@
 
 This ansible playbook configures:
  - A primary (1) - secondary (n) Mongodb cluster.
+ - The collector module with a cron job active for every 3 hours (`roles/collector/defaults/main.yml`)
 
 The playbook has been tested in GCE using Ubuntu 18.04. Other environments might require modifications to the playbook.
 
 ## Prerequisites
 
-### Database Module
-
-* One server to act as a primary instance
+* One database server to act as a primary instance
     * No replica set will be configured if only one node is present
-* Zero or more secondary instances
+* Zero or more database secondary instances
 * The server(s) have network access to master ssh port (tcp/22)
 * The server(s) have network access to default MongoDB port (default: tcp/5433)
 
@@ -46,10 +45,15 @@ backup_pwd: "changeit"
 ...
 ```
 
-## Define the X-Road instance
+## Define the X-Road instance configuration
 Update the xroad instance name in `group_vars/all/vars.yml`
 ```
-xroad_instance: ee
+xroad_instance: EE
+xroad_central_server: central-server.example.com
+xroad_security_server_url: http://security-server.example.com
+xroad_member_class: GOV
+xroad_member_code: 10001
+xroad_subsystem_code: 10001-1
 ```
 
 ## Running the playbook

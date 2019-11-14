@@ -1,0 +1,32 @@
+---
+- import_tasks: ubuntu.yml
+  when: ansible_os_family == "Debian"
+
+- name: Ensure group "opmon" exists
+  group:
+    name: opmon
+    state: present
+
+
+- name: Checkout the project
+  git:
+    repo: "{{PROJECT_URL}}"
+    dest: "{{SOURCE}}"
+    force: yes
+
+- name: Fix the permission
+  file:
+    path: "{{SOURCE}}"
+    group: opmon
+    mode: '0775'
+
+- name: Create log and heartbeat directories with group 'opmon' and write permission
+  file:
+    path: "{{APPDIR}}/{{ item }}"
+    state: directory
+    group: opmon
+    mode: '0775'
+  with_items:
+    - "{{INSTANCE}}"
+    - "{{INSTANCE}}/logs"
+    - "{{INSTANCE}}/heartbeat"
