@@ -4,3 +4,6 @@
 
 [collector]
 127.0.0.1
+
+[corrector]
+127.0.0.1

@@ -1,0 +1,12 @@
+[Unit]
+Description=Corrector Service {{ INSTANCE }}
+After=multi-user.target
+
+[Service]
+User={{ module_user }}
+Group=opmon
+WorkingDirectory={{APPDIR}}/{{INSTANCE}}/
+ExecStart=/usr/bin/python3 {{APPDIR}}/{{INSTANCE}}/{{module_name}}/correctord.py
+
+[Install]
+WantedBy=multi-user.target

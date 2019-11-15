@@ -1,0 +1,86 @@
+---
+- import_tasks: ubuntu.yml
+  when: ansible_os_family == "Debian"
+
+- name: Install the necessary packages
+  pip:
+    name: ['pymongo']
+    executable: pip3
+
+- name: Ensure group "{{ module_user }}" exists
+  group:
+    name: "{{ module_user }}"
+    state: present
+
+- name: Create the system user {{ module_user }}
+  user:
+    name: "{{ module_user }}"
+    group: "{{ module_user }}"
+    home: "/opt/{{ module_user }}"
+    create_home: yes
+    move_home: yes
+    system: yes
+    shell: /bin/bash
+
+- name: Append the {{ module_user }} user with the required groups
+  user:
+    name: "{{ module_user }}"
+    groups: "opmon,{{ module_user }}"
+    append: yes
+
+- name: Copy the corrector code to the install folder and fix the file permissions
+  copy:
+    src: "{{SOURCE}}/{{module_name}}"
+    dest: "{{APPDIR}}/{{INSTANCE}}"
+    group: opmon
+    remote_src: yes
+    mode: preserve
+
+- name: Update the settings file
+  template:
+    src: "roles/{{ module_user }}/templates/settings.py.j2"
+    dest: "{{APPDIR}}/{{INSTANCE}}/{{module_name}}/settings_{{INSTANCE}}.py"
+
+- name: Create the symlink
+  file:
+    src: "{{APPDIR}}/{{INSTANCE}}/{{module_name}}/settings_{{INSTANCE}}.py"
+    dest: "{{APPDIR}}/{{INSTANCE}}/{{module_name}}/settings.py"
+    group: opmon
+    state: link
+    follow: yes
+
+- name: Fix the symlink permissions
+  file:
+    path: "{{APPDIR}}/{{INSTANCE}}/{{module_name}}/settings_{{INSTANCE}}.py"
+    group: opmon
+    mode: "0775"
+
+
+- name: Adjust the {{ module_user }} module permissions
+  file:
+    path: "{{APPDIR}}/{{INSTANCE}}/{{module_name}}"
+    recurse: yes
+    owner: "{{ module_user }}"
+    group: "{{ module_user }}"
+    state: directory
+    mode: "0500"
+
+- name: Fix executing permissions on .sh files
+  shell: "find  {{APPDIR}}/{{INSTANCE}}/{{module_name}}/ -name '*.sh' -type f | sudo xargs chmod u+x"
+
+- name: Prepare system service to run corrector module
+  template:
+    src: "roles/corrector/templates/corrector.service.j2"
+    dest: "/lib/systemd/system/corrector_{{INSTANCE}}.service"
+
+- name: Change the permission of the service file
+  file:
+    path: "/lib/systemd/system/corrector_{{INSTANCE}}.service"
+    mode: "0644"
+
+- name: Make sure the corrector service is running
+  systemd:
+    name: "corrector_{{INSTANCE}}.service"
+    state: started
+    daemon-reload: yes
+    enabled: yes

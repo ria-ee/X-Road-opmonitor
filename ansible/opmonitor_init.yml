@@ -20,3 +20,13 @@
     - vars_files/opmon_config.yml
     - vars_files/passwords.yml
     - vars_files/database.yml
+
+- hosts: corrector
+  become: yes
+  become_user: root
+  roles:
+    - corrector
+  vars_files:
+    - vars_files/opmon_config.yml
+    - vars_files/passwords.yml
+    - vars_files/database.yml

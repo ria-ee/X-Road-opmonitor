@@ -22,6 +22,10 @@ createOrUpdateUser("collector_{{ xroad_instance }}", "{{ collector_pwd }}", [])
 db.grantRolesToUser( "collector_{{ xroad_instance }}", [{ role: "readWrite", db: "query_db_{{ xroad_instance }}"}])
 db.grantRolesToUser( "collector_{{ xroad_instance }}", [{ role: "readWrite", db: "collector_state_{{ xroad_instance }}"}])
 
+// Corrector module
+createOrUpdateUser("corrector_{{ xroad_instance }}", "{{ corrector_pwd }}", [])
+db.grantRolesToUser( "corrector_{{ xroad_instance }}", [{ role: "readWrite", db: "query_db_{{ xroad_instance }}"}])
+
 // Reports module
 createOrUpdateUser("reports_{{ xroad_instance }}", "{{ reports_pwd }}", [])
 db.grantRolesToUser( "reports_{{ xroad_instance }}", [{ role: "read", db: "query_db_{{ xroad_instance }}" }])
