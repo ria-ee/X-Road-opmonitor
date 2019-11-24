@@ -337,7 +337,7 @@ sudo vi /etc/apache2/sites-available/analyzer.conf
         # Suffices to share static files only from one X-Road instance, as instances share the static files.
         Alias /static /var/www/sample/analysis_module/analyzer_ui/static
 
-        <Directory /var/www/sample/analysis_module/analyzer_ui/staticc>
+        <Directory /var/www/sample/analysis_module/analyzer_ui/static>
                 Require all granted
         </Directory>
         
