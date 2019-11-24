@@ -30,3 +30,13 @@
     - vars_files/opmon_config.yml
     - vars_files/passwords.yml
     - vars_files/database.yml
+
+- hosts: analyzer
+  become: yes
+  become_user: root
+  roles:
+    - analyzer
+  vars_files:
+    - vars_files/opmon_config.yml
+    - vars_files/passwords.yml
+    - vars_files/database.yml

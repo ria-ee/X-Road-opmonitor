@@ -1,0 +1,27 @@
+---
+- name: Install Python
+  apt:
+    name: [
+      "apache2",
+      "apache2-utils",
+      "libexpat1",
+      "ssl-cert",
+      "apache2-dev",
+      "ufw",
+      "python3-pip",
+      "libpq-dev",
+      "libyaml-dev"
+    ]
+    state: present
+    update_cache: yes
+
+- name: Setup firewall
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+    state: enabled
+  with_items:
+    - "22"
+    - http
+    - https

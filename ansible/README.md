@@ -3,6 +3,8 @@
 This ansible playbook configures:
  - A primary (1) - secondary (n) Mongodb cluster.
  - The collector module with a cron job active for every 3 hours (`roles/collector/defaults/main.yml`)
+ - The corrector module
+ - The analyzer module
 
 The playbook has been tested in GCE using Ubuntu 18.04. Other environments might require modifications to the playbook.
 
