@@ -1,0 +1,26 @@
+---
+- name: Install Python
+  apt:
+    name: [
+      "python3-pip",
+      "libfreetype6-dev",
+      "python3-dev",
+      "python-lxml",
+      "python-cffi",
+      "libcairo2",
+      "libpango1.0-0",
+      "libgdk-pixbuf2.0-0",
+      "libffi-dev",
+      "shared-mime-info",
+      "libtiff5-dev",
+      "libjpeg8-dev",
+      "zlib1g-dev",
+      "libfreetype6-dev",
+      "liblcms2-dev",
+      "libwebp-dev",
+      "tcl8.6-dev",
+      "tk8.6-dev",
+      "python3-tk"
+    ]
+    state: present
+    update_cache: yes

@@ -1,12 +1,10 @@
-# Database module
+# Hosts file
 [database]
-127.0.0.1
 
 [collector]
-127.0.0.1
 
 [corrector]
-127.0.0.1
 
 [analyzer]
-127.0.0.1
+
+[reports]

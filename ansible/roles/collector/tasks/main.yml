@@ -68,7 +68,7 @@
 - name: Fix executing permissions on .sh files
   shell: "find  {{APPDIR}}/{{INSTANCE}}/collector_module/ -name '*.sh' -type f | sudo xargs chmod u+x"
 
-- name: Ensure the collector job runs every 3 hours."
+- name: Enable the cron job"
   cron:
     name: "Collector"
     user: "{{ module_user }}"
