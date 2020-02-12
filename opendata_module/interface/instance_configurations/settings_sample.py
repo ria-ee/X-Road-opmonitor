@@ -17,7 +17,7 @@ from logger_manager import setup_logger
 from dateutil import relativedelta
 
 # Open Data specific settings
-# X-Road instances in Estonia: ee-dev, ee-test, EE
+# X-tee instances in Estonia: ee-dev, ee-test, EE
 X_ROAD_INSTANCE = 'sample'
 APPLICATION_DIR = '/srv/app'
 
@@ -157,8 +157,8 @@ setup_logger(logger_name='opendata-interface', log_level=LOG['level'],
              log_path=LOG['path'], max_file_size=LOG['max_file_size'],
              backup_count=LOG['backup_count'])
 
-DISCLAIMER = """<p>X-Road monitoring data is collected from Estonian X-Road members security servers available
-by X-Road Center (Republic of Estonia Information System Authority, Riigi Infosüsteemi Amet, RIA)
+DISCLAIMER = """<p>X-tee monitoring data is collected from Estonian X-tee members security servers available
+by X-tee Center (Republic of Estonia Information System Authority, Riigi Infosüsteemi Amet, RIA)
 and published as opendata with a delay of {0} days from actual transaction execution time.</p>
 <p>Data is renewed nightly, between 0:00-6:00 (EET UTC+2h / EEST UTC+3h).</p>
 <p>Timestamps (specifically <em>requestInTs</em>) are rounded to hour precision and presented in form of Unix timestamp (epoch time).</p>
@@ -166,8 +166,8 @@ and published as opendata with a delay of {0} days from actual transaction execu
 Estonian Internal Security Service and the Estonian Foreign Intelligence Service. Their authorizations are described in
 chapter 4 (§21 - 35) of the above mentioned act. Based on aspects stated in the State Secrets and
 Classified Information of Foreign States Act [2] §11 section 3, §7 p 10 and § 8 p 1 and in the
-Public Information Act [3] §35 section 1 p 1, 31, 51 the X-Road usage statistics of security authorities is
-considered to be for internal use only. X-Road data that is being published as open data by RIA does not contain
+Public Information Act [3] §35 section 1 p 1, 31, 51 the X-tee usage statistics of security authorities is
+considered to be for internal use only. X-tee data that is being published as open data by RIA does not contain
 information about the security authorities.</p>
 
 <ul style="list-style-type: none;">
@@ -181,12 +181,12 @@ HEADER = """<table width="100%" align= "center" border= "0" cellpadding= "0" cel
 <tbody>
 <tr bgcolor= "#ffffff">
 <td width="66%" align= "left">
-<a href="https://www.ria.ee/en/">
+<a href="https://www.ria.ee/en.html">
 <img src= "/static/gui/ria_100_en.png" alt= "Republic of Estonia Information System Authority"
 style= "display:block; height:auto;" height= "auto" align="left" valign="top">
 </a>
-<a href="https://www.ria.ee/en/x-road.html">
-<img src= "/static/gui/xroad_100_en.png" alt= "X-ROAD" style= "display:block; height:auto;" height= "auto" align="left" valign="top"></a>
+<a href="https://www.ria.ee/en/state-information-system/x-tee.html">
+<img src= "/static/gui/xroad_100_en.png" alt= "X-TEE" style= "display:block; height:auto;" height= "auto" align="left" valign="top"></a>
 </td>
 <td width="33%" align= "right"><img src= "/static/gui/eu_rdf_100_en.png" alt= "European Union / European Regional Development Fund / Investing in your future"
 style= "display:block; height:auto;" height= "auto" align="right" valign="top">
@@ -202,7 +202,7 @@ FOOTER = """<hr />
 <a href="https://github.com/ria-ee/X-Road-opmonitor/blob/master/docs/opendata/user_guide/ug_opendata_api.md" target="_new" style="font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:bold;line-height:16px;color:#999">API documentation</a> |
 <a href="https://github.com/ria-ee/X-Road-opmonitor/blob/master/docs/opendata/user_guide/cfg_lists/field_data.yaml" target="_new" style="font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:bold;line-height:16px;color:#999">Fields</a></p>
 <p class="text-left" style="font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:bold;line-height:16px;color:#999"><a href="https://www.ria.ee/en/contact.html" target_"new" style="font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:bold;line-height:16px;color:#999">Contact</a> |
-<a href="mailto:help@ria.ee?subject=X-Road v6 usage statistics, Opendata" style="font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:bold;line-height:16px;color:#999">Helpdesk</a></p>
+<a href="mailto:help@ria.ee?subject=X-tee v6 usage statistics, Opendata" style="font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;font-weight:bold;line-height:16px;color:#999">Helpdesk</a></p>
 <hr />
 <p class="text-left" style="font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;line-height:12px;color:#999">The Opendata application was developed by <a target="_new" href="https://www.stacc.ee/" style="font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;line-height:12px;color:#999">Tarkvara Tehnoloogia Arenduskeskus OÜ (STACC)</a></p>
 """

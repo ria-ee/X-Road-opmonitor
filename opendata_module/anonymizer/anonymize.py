@@ -92,7 +92,7 @@ except:
     except:
         records = 0
 
-    logger.log_heartbeat('Anonymizaton session failed', 'opendata-anonymizer', 'FAILED')
+    logger.log_heartbeat('Anonymization session failed', 'opendata-anonymizer', 'FAILED')
 
 end_time = datetime.now()
 logger.log_info('anonymization_session_finished',
