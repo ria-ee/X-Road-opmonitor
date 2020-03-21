@@ -56,6 +56,7 @@
     state: directory
     owner: "{{ mongodb_user }}"
     group: "{{ mongodb_user }}"
+    recurse: yes
 
 - name: Configure the data db path
   lineinfile:
