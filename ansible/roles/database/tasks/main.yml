@@ -2,6 +2,9 @@
 - import_tasks: ubuntu.yml
   when: ansible_os_family == "Debian"
 
+- import_tasks: rhel.yml
+  when: ansible_os_family == "RedHat"
+
 - name: Ensure the service is started
   systemd:
     state: started
@@ -28,12 +31,17 @@
     msg: "Can't find the keyfile on the local host. Please run 'openssl rand -base64 756 > {{ local_keyfile_path }}' to generate it"
   when: use_replication and not local_keyfile.stat.exists
 
+- name: Ensures the keyfile directory exits
+  file:
+    path: "{{ remote_keyfile_dir }}"
+    state: directory
+
 - name: Share the keyfile with the nodes
   copy:
     src: "{{ local_keyfile_path }}"
-    dest: "{{ mongodb_keyfile }}"
-    owner: "mongodb"
-    group: "mongodb"
+    dest: "{{ remote_keyfile_dir }}/keyfile"
+    owner: "{{ mongodb_user }}"
+    group: "{{ mongodb_user }}"
     mode: "0600"
 
 - name: Allow access from other nodes
@@ -42,6 +50,19 @@
     regex: "\\s+bindIp:"
     line: "  bindIp: 0.0.0.0"
 
+- name: Ensures the dbPath directory exits
+  file:
+    path: "{{ mongodb_dbpath }}"
+    state: directory
+    owner: "{{ mongodb_user }}"
+    group: "{{ mongodb_user }}"
+
+- name: Configure the data db path
+  lineinfile:
+    path: /etc/mongod.conf
+    regex: "\\s+dbPath:"
+    line: "  dbPath: {{ mongodb_dbpath }}"
+
 - name: Enable replica set
   blockinfile:
     marker: "#{mark} AUTO GENERATED REPLICATION BLOCK"
@@ -49,8 +70,8 @@
     insertafter: "#replication:"
     block: |
       replication:
-          replSetName: {{ mongodb_replicaset_id }}
-          oplogSizeMB: 100
+        replSetName: {{ mongodb_replicaset_id }}
+        oplogSizeMB: 100
   when: use_replication
 
 - name: Enable MongoDB keyfile authentication
@@ -60,7 +81,7 @@
     insertafter: "#security:"
     block: |
       security:
-          keyFile: {{ mongodb_keyfile }}
+        keyFile: {{ remote_keyfile_dir }}/keyfile
 
 - name: Create the temporary scripts directory
   file:

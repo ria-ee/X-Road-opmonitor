@@ -6,8 +6,8 @@ mongodb_ubuntu_18_apt_repo: "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubu
 mongodb_replicaset_id: "rs0"
 mongodb_port: 27017
 
-mongodb_dbpath: /tmp/mongo
-mongodb_keyfile: /etc/ssl/keyfile
+mongodb_dbpath: /var/lib/mongo
 
 scripts_dir: /tmp/scripts
 local_keyfile_path: /tmp/keyfile
+remote_keyfile_dir: /etc/ssl

@@ -30,7 +30,7 @@ chmod 400 <path-to-keyfile>
 
 2. Reference the keyfile path (on the host) inside `vars_file/database.yml`
 ```
-keyfile: <path-to-keyfile>
+local_keyfile_path: <path-to-keyfile>
 ```
 
 #### Set the database users's password
@@ -43,7 +43,7 @@ Change those values to use strong password is highly recommended.
 # file: roles/database/defaults/main.yml
 ---
 root_pwd: "changeit"
-backup_pwd: "changeit"
+backup_pwd: "changeit"w
 ...
 ```
 

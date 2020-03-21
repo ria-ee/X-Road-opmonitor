@@ -16,3 +16,7 @@
     state: present
     update_cache: yes
 
+- name: Set the mongodb user
+  set_fact:
+    mongodb_user: "mongodb"
+
