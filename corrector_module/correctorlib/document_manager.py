@@ -6,8 +6,6 @@ import hashlib
 
 from .logger_manager import LoggerManager
 
-TIME_1_MINUTE = 1 * 60 * 1000
-
 
 class DocumentManager:
     def __init__(self, settings):
@@ -16,6 +14,7 @@ class DocumentManager:
 
         self.logger_m = LoggerManager(self.settings.LOGGER_NAME, self.settings.MODULE)
 
+        self.TIME_WINDOW = self.settings.TIME_WINDOW
         self.CALC_TOTAL_DURATION = self.settings.CALC_TOTAL_DURATION
         self.CALC_CLIENT_SS_REQUEST_DURATION = self.settings.CALC_CLIENT_SS_REQUEST_DURATION
         self.CALC_CLIENT_SS_RESPONSE_DURATION = self.settings.CALC_CLIENT_SS_RESPONSE_DURATION
@@ -264,17 +263,20 @@ class DocumentManager:
         # Check if client/producer object exist
         if client is None or producer is None:
             return False
+
         # Check time exists
         if client['requestInTs'] is None or producer['requestInTs'] is None:
             return False
+
         # Check time difference
-        if abs(client['requestInTs'] - producer['requestInTs']) > TIME_1_MINUTE:
+        if abs(client['requestInTs'] - producer['requestInTs']) > self.TIME_WINDOW:
             return False
 
         # Check attribute list
         for attribute in self.COMPARISON_LIST:
             if client.get(attribute, None) != producer.get(attribute, None):
                 return False
+
         # If here, all matching conditions are OK
         return True
 
@@ -302,16 +304,20 @@ class DocumentManager:
         # Check if client/producer object exist
         if client is None or producer is None:
             return False
+
         # Check attribute list
         for attribute in self.orphan_comparison_list:
             if client.get(attribute, None) != producer.get(attribute, None):
                 return False
+
         # Check time exists
         if client['requestInTs'] is None or producer['requestInTs'] is None:
             return False
+
         # Check time difference
-        if abs(client['requestInTs'] - producer['requestInTs']) > TIME_1_MINUTE:
+        if abs(client['requestInTs'] - producer['requestInTs']) > self.TIME_WINDOW:
             return False
+
         # If here, all matching conditions are OK
         return True
 

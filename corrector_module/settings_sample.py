@@ -43,6 +43,10 @@ class Settings:
     # Match THREAD_COUNT with number of cores * CPUs available to ensure best performance
     THREAD_COUNT = 4
 
+    # Time window to match documents (in milliseconds)
+    # TIME_WINDOW = 1 * 60 * 1000
+    TIME_WINDOW = 10 * 60 * 1000
+
     CALC_TOTAL_DURATION = True
     CALC_CLIENT_SS_REQUEST_DURATION = True
     CALC_CLIENT_SS_RESPONSE_DURATION = True
