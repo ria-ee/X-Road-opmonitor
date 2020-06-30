@@ -14,10 +14,13 @@ Data is renewed nightly, between 0:00-6:00 (EET UTC+2h / EEST UTC+3h).
 
 Logs are anonymized, ie sensitive fields are removed, incl:
 
-- monitoringDataTs - The Unix timestamp in seconds when the record was received by the monitoring daemon
-- securityServerInternalIp - Internal IP address of the security server
-- messageUserId - Personal code of the client that initiated the request
-- messageIssue - Client's internal identifier of a file or document related to the service
+- monitoringDataTs: The Unix timestamp in seconds when the record was received by the monitoring daemon
+- securityServerInternalIp: Internal IP address of the security server
+- messageUserId: Personal code of the client that initiated the request
+- messageIssue: Client's internal identifier of a file or document related to the service
+- messageId: Unique identifier of the message
+- clientSecurityServerAddress: External address of client's security server (IP or name)
+- serviceSecurityServerAddress: External address of service provider's security server (IP or name)
 
 Timestamps (specifically *requestInTs*) are rounded to hour precision and presented in form of Unix timstamp (epoch time).
 
@@ -52,7 +55,7 @@ After selecting date (sample: September 19, 2017) and clicking on the green "Pre
 
 ## Column constraints
 
-When we change the date to (sample: September 20, 2017) and select "id", "messageid", and "totalDuration"
+When we change the date to (sample: September 20, 2017) and select "id" and "totalDuration"
 
 ![Interface datetimepicker](../../img/opendata/4_interface_20_sept_col_subset_1.png
  "Interface datetimepicker")

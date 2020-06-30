@@ -22,14 +22,8 @@ client.serviceCode -> serviceCode
 producer.serviceCode -> serviceCode
 client.serviceVersion -> serviceVersion
 producer.serviceVersion -> serviceVersion
-client.messageId -> messageId
-producer.messageId -> messageId
 client.messageProtocolVersion -> messageProtocolVersion
 producer.messageProtocolVersion -> messageProtocolVersion
-client.clientSecurityServerAddress -> clientSecurityServerAddress
-producer.clientSecurityServerAddress -> clientSecurityServerAddress
-client.serviceSecurityServerAddress -> serviceSecurityServerAddress
-producer.serviceSecurityServerAddress -> serviceSecurityServerAddress
 totalDuration -> totalDuration
 producerDurationProducerView -> producerDurationProducerView
 client.requestSoapSize -> requestSoapSize

@@ -150,7 +150,7 @@ Specifies the columns to return.
 _Note:_ If missing or an empty list, all available columns are included.
 
 > **type:** list of strings
-> **example:** `{"columns": ["clientSubsystemCode", "messageId", "succeeded"]}`
+> **example:** `{"columns": ["clientMemberCode", "clientSubsystemCode", "succeeded"]}`
 
 **constraints** (optional)
 
@@ -162,7 +162,7 @@ _Note:_  If missing or an empty list, no constraints will be applied to the logs
 > **format:** `{"column": "columnName", "operator": "validOperator", "value": "someValue"}`
 > > **column:** name of the column
 > > **operator:** valid operator for the column's data type (`"=", "!=", "<", "<=", ">", ">="`)
-> **example:** `{"constraints": [{"operator": "=", "value": "a12c-035f11052dc6", "column": "messageId"}]}`
+> **example:** `{"constraints": [{"operator": "=", "value": "70006317", "column": "clientMemberCode"}, {"operator": "=", "value": "monitoring", "column": "clientSubsystemCode"}]}`
 
 **order clauses** (optional)
 
@@ -196,9 +196,9 @@ If columns were not provide, the order is identical to the column order from [co
 # export DATE=$(date -d "10 days ago" '+%Y-%m-%d')
 curl --get --url "${URL}/api/logs_sample" \
     --data-urlencode "date=${DATE}" \
-    --data-urlencode "columns=[\"id\",\"messageId\",\"requestInDate\",\"responseAttachmentCount\",\"succeeded\",\"totalDuration\"]" \
-    --data-urlencode "constraints=[{\"column\":\"totalDuration\",\"operator\":\"<=\",\"value\":\"150\"}]" \
-    --data-urlencode "order-clauses=[{\"column\":\"messageId\",\"order\":\"asc\"}]"
+    --data-urlencode "columns=[\"id\", \"requestInDate\", \"responseAttachmentCount\", \"succeeded\", \"totalDuration\"]" \
+    --data-urlencode "constraints=[{\"column\": \"totalDuration\", \"operator\": \"<=\", \"value\": \"150\"}]" \
+    --data-urlencode "order-clauses=[{\"column\":\"totalDuration\",\"order\":\"asc\"}]"
 ```
 
 The same in POST version:
@@ -209,9 +209,9 @@ The same in POST version:
 curl --request --url "${URL}/api/logs_sample" \
     --header "Content-Type:application/json" \
     --data "{\"date\": \"${DATE}\", \
-           \"columns\": [\"id\", \"messageId\", \"requestInDate\", \"responseAttachmentCount\", \"succeeded\", \"totalDuration\"], \
+           \"columns\": [\"id\", \"requestInDate\", \"responseAttachmentCount\", \"succeeded\", \"totalDuration\"], \
            \"constraints\": [{\"column\": \"totalDuration\", \"operator\": \"<=\", \"value\": \"150\"}], \
-           \"order-clauses\": [{\"column\": \"messageId\", \"order\": \"asc\"}]}"
+           \"order-clauses\": [{\"column\": \"totalDuration\", \"order\": \"asc\"}]}"
 ```
 
 ### Daily logs
@@ -240,9 +240,9 @@ GET version:
 TEMPFILE=$(tempfile)
 curl --get --url "${URL}/api/daily_logs" \
     --data-urlencode "date=${DATE}" \
-    --data-urlencode "columns=[\"id\",\"messageId\",\"requestInDate\",\"responseAttachmentCount\",\"succeeded\",\"totalDuration\"]" \
-    --data-urlencode "constraints=[{\"column\":\"totalDuration\",\"operator\":\"<=\",\"value\":\"150\"}]" \
-    --data-urlencode "order-clauses=[{\"column\":\"messageId\",\"order\":\"asc\"}]"
+    --data-urlencode "columns=[\"id\", \"requestInDate\", \"responseAttachmentCount\", \"succeeded\", \"totalDuration\"]" \
+    --data-urlencode "constraints=[{\"column\": \"totalDuration\", \"operator\": \"<=\", \"value\": \"150\"}]" \
+    --data-urlencode "order-clauses=[{\"column\": \"totalDuration\", \"order\": \"asc\"}]"
     > ${TEMPFILE}
 
 tar tzvf ${TEMPFILE} # See download content
@@ -260,9 +260,9 @@ TEMPFILE=$(tempfile)
 curl --request --url "${URL}/api/daily_logs" \
     --header "Content-Type:application/json" \
     --data "{\"date\": \"${DATE}\", \
-           \"columns\": [\"id\", \"messageId\", \"requestInDate\", \"responseAttachmentCount\", \"succeeded\", \"totalDuration\"], \
+           \"columns\": [\"id\", \"requestInDate\", \"responseAttachmentCount\", \"succeeded\", \"totalDuration\"], \
            \"constraints\": [{\"column\": \"totalDuration\", \"operator\": \"<=\", \"value\": \"150\"}], \
-           \"order-clauses\": [{\"column\": \"messageId\", \"order\": \"asc\"}]}" \
+           \"order-clauses\": [{\"column\": \"totalDuration\", \"order\": \"asc\"}]}" \
     > ${TEMPFILE}
 
 tar tzvf ${TEMPFILE} # See download content

@@ -45,17 +45,8 @@ fields:
     serviceVersion:
         description: Version of the service
         type: varchar(255)
-    messageId:
-        description: Unique identifier of the message
-        type: varchar(255)
     messageProtocolVersion:
         description: X-Road message protocol version
-        type: varchar(255)
-    clientSecurityServerAddress:
-        description: External address of client's security server (IP or name) defined in global configuration
-        type: varchar(255)
-    serviceSecurityServerAddress:
-        description: External address of service provider's security server (IP or name) defined in global configuration
         type: varchar(255)
     totalDuration:
         description: Request duration from sending the request to getting a response from the client's perspective
