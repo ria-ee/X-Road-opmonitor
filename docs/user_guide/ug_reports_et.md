@@ -62,7 +62,7 @@ Palun selgitust, miks soovite teavitustest loobuda?
 
 ### Miks just TEMA selle raporti sai?
 
-Sest just tema on selle X-tee alamsüsteemi kontakt [RIHA](https://www.riha.ee/) andmetel. 
+Sest just tema on selle X-tee alamsüsteemi kontaktisik [RIHA](https://www.riha.ee/) andmetel. 
 Palun veenduge RIHA andmete ajakohasuses (vajalik eelnev autentimine).
 
 ### Miks ei ole raportit sellel viitel?
@@ -83,8 +83,8 @@ Need on andmed Teie X-tee alamsüsteemi kohta ja just Teie teate ise, kellele ja
 Küll ta tuleb!
 
 X-tee keskkonnad on erineva mahuga, arendus- ja testkeskkonna raportid koostatakse üldjuhul iga kuu 8.kpv öösel / varahommikul.
-Toodangukeskkond on oluliselt mahukam päringute arvu poolest, raportite koostamine võtab kauem aega ja valmivad üldjuhul iga kuu 9.kpv öösel / varahommikul.
-Põhjust üleküsimiseks on alles siis kui kuu 10.kpv jooksul ei ole raportit Teieni jõudnud.
+Toodangukeskkond on oluliselt mahukam päringute arvu poolest, raportite koostamine võtab kauem aega ja valmivad üldjuhul iga kuu 5.kpv öösel / varahommikul.
+Põhjust üleküsimiseks on alles siis kui kuu 8.kpv jooksul ei ole raportit Teieni jõudnud.
 
 ### Liiga palju raporteid!
 
@@ -117,7 +117,7 @@ Lisatud ülevaatlik pilt, mis hetkede kellaajad eri andmevahetuspartnerite turva
 
 **Päringu kestus kliendi (lõppkasutaja) vaates**
 
-X-tee päringu kestus kliendi (lõppkasutaja) vaates arvutatakse X-tee kliendi rollis oleva liikme alamsüsteemi teenindavas turvaserveris fikseeritud kliendi turvaserve-rist kliendi infosüsteemile vastuse saatmise aja (8) ning kliendi infosüsteemi poolt algatatud päringu kliendi turvaserverisse jõudmise aja (1) vahena.
+X-tee päringu kestus kliendi (lõppkasutaja) vaates arvutatakse X-tee kliendi rollis oleva liikme alamsüsteemi teenindavas turvaserveris fikseeritud kliendi turvaserverist kliendi infosüsteemile vastuse saatmise aja (8) ning kliendi infosüsteemi poolt algatatud päringu kliendi turvaserverisse jõudmise aja (1) vahena.
 
 ```
 totalDuration = Client responseOutTs (8) - Client requestInTs (1)
@@ -160,9 +160,12 @@ Raporti koostamise aluseks olev andmestik on üldjoontes kättesaadav ka avaandm
 
 Metateenusteks nimetame teenuseid (äri)teenuste kohta. Need on abiteenused, mille abil on võimalik pärida infot andmeteenuste sooritamiseks. 
 Ka X-tee raportite alusandmete, samuti erinevate nimekirjade, kataloogide, statistika ja ülevaadete jaoks kasutatakse metateenuseid, 
-peamiselt päringud `listMethods`, `getWsdl`, `getSecurityServerMetrics`, `getSecurityServerOperationalData`, `getSecurityServerHealthData`.
+peamiselt päringud `listMethods`, `getWsdl` ja `getOpenAPI`.
 
-Täpsemalt on metateenuseid kirjeldatud X-tee andmeteenuste arendajate koolitusmaterjalides, ptk [Teenused](https://moodle.ria.ee/mod/page/view.php?id=467). 
+Täpsemalt on metateenuseid kirjeldatud [X-Road: Service Metadata Protocol](https://www.x-tee.ee/docs/live/xroad/pr-meta_x-road_service_metadata_protocol.html) ja 
+[X-Road: Service Metadata Protocol for REST](https://www.x-tee.ee/docs/live/xroad/pr-mrest_x-road_service_metadata_protocol_for_rest.html)
+
+Raportite kontekstis loeme metateenusteks ka X-tee keskkonnamonitooringu kasutatava päringu `getSecurityServerMetrics` ning teenuste monitooringu kasutatavad päringud `getSecurityServerOperationalData`, `getSecurityServerHealthData`.
 
 ### Kuidas Te seda infot kogute? 
 

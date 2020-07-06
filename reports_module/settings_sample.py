@@ -54,7 +54,8 @@ PRODUCED_SERVICES_GROUPING_ORDER = ["SERVICE", "CLIENT"]
 CONSUMED_SERVICES_GROUPING_ORDER = ["PRODUCER", "SERVICE"]
 # The list of services that are considered as meta services
 META_SERVICE_LIST = ["getWsdl", "listMethods", "allowedMethods", "getSecurityServerMetrics",
-                     "getSecurityServerOperationalData", "getSecurityServerHealthData"]
+                     "getSecurityServerOperationalData", "getSecurityServerHealthData",
+                     "getOpenAPI"]
 # The following producer fields are merged
 PRODUCER_MERGED_FIELDS_1 = (["serviceCode", "serviceVersion"], ".", "service")
 PRODUCER_MERGED_FIELDS_2 = (
