@@ -20,20 +20,6 @@ Overall system is also designed in a way, that can be used by X-Road Centre for 
 
 The database is implemented with the MongoDB technology: a non-SQL database with replication and sharding capabilities.
 
-Please note about warnings and recommendations of MongoDB:
-
-```
-# mongo admin --username root --password
-STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
-STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
-CONTROL  [initandlisten]
-CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/enabled is 'always'.
-CONTROL  [initandlisten] **        We suggest setting it to 'never'
-CONTROL  [initandlisten]
-CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/defrag is 'always'.
-CONTROL  [initandlisten] **        We suggest setting it to 'never'
-```
-
 This document describes the installation steps for Ubuntu 16.04. For other Linux distribution, please refer to: [MongoDB 3.4 documentation](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)
 
 Add the MongoDB repository key and location:
@@ -648,3 +634,70 @@ For additional details and recommendations about MongoDB replication set, please
 
 To change the size of oplog, follow the steps
 provided in manual https://docs.mongodb.com/manual/tutorial/change-oplog-size/
+
+
+## MongoDB performance, tuning
+
+Please note, that performance of MongoDB and its tuning really depends on physical hardware, its drivers, HDD, CPU, RAM, SWP settings, operating system tunings etc.
+
+The performance also depends on size of database, existing indexes and their sizes, how they fit into RAM. The solution with small amount of data (less than 100 millions rows, less than 10G data), speed of different queries is usually very good and satisfactory (less than a second) but might rapidly increase when data amount increases (up to 1 billion rows, up to 2T of data etc).
+
+We cannot predict all the nyances here, please be prepared within your own team.
+
+Some of the tunings that might be important follows:
+
+### Warnings and recommendations of MongoDB
+
+```
+# mongo admin --username root --password
+STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+CONTROL  [initandlisten]
+CONTROL  [initandlisten] ** WARNING: You are running on a NUMA machine.
+CONTROL  [initandlisten] **          We suggest launching mongod like this to avoid performance problems:
+CONTROL  [initandlisten] **              numactl --interleave=all mongod [other options]
+CONTROL  [initandlisten]
+CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/enabled is 'always'.
+CONTROL  [initandlisten] **        We suggest setting it to 'never'
+CONTROL  [initandlisten]
+CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/defrag is 'always'.
+CONTROL  [initandlisten] **        We suggest setting it to 'never'
+```
+
+### Disable ipv6 settings
+
+Edit and add into `/etc/sysctl.conf`
+```
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+```
+
+### Virtual memory
+
+Edit and add into `/etc/sysctl.conf`
+```
+vm.dirty_ratio = 15
+vm.dirty_background_ratio = 5
+```
+
+### Swapiness
+
+See also https://en.wikipedia.org/wiki/Paging#Swappiness
+
+Edit and add into `/etc/sysctl.conf`
+```
+vm.swappiness = 1
+# or max vm.swappiness = 10
+```
+
+### Set up Linux Ulimit
+
+Edit and add into `/etc/security/limits.d/mongod.conf`
+```
+mongod       soft        nproc        64000
+mongod       hard        nproc        64000
+mongod       soft        nofile       64000
+mongod       hard        nofile       64000
+```
+
