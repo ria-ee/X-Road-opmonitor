@@ -38,7 +38,7 @@ SECRET_KEY = ''
 DEBUG = True
 
 # Sample: ALLOWED_HOSTS = ['opmon-opendata', 'localhost', '127.0.0.1']
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['logs.x-tee.ee', 'localhost', '127.0.0.1']
 
 # Application definition
 
