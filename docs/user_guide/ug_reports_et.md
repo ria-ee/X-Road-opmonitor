@@ -6,7 +6,7 @@
 
 ## Üldist
 
-Raportid on mõeldud eelkõige isikutele, kes on märgitud [X-tee iseteenindusportaalis (XTSS)](https://www.x-tee.ee/) (kuni 01.09.202 [RIHAs](https://www.riha.ee/)) vastava alamsüsteemi kontaktisikuteks (infosüsteemi ülematele).
+Raportid on mõeldud eelkõige isikutele, kes on märgitud [X-tee iseteenindusportaalis (XTSS)](https://www.x-tee.ee/) (kuni 01.09.2020 [RIHAs](https://www.riha.ee/)) vastava alamsüsteemi kontaktisikuteks (infosüsteemi ülematele).
 
 Raportid võiksid anda neile ülevaate, mis üldse toimub X-teel Teie vastavas alamsüsteemis: 
 - kes ja kui palju seda kasutab (**Osutatud teenused**) ning 
@@ -189,7 +189,7 @@ Tõenäoliselt saab ka nendelt abi juhul kui otsustate teha just Teile sobiva s�
 ## Tehnilist
 
 Monitooringuandmete saamiseks Teie X-tee v6 turvaserverist palun veenduge, et:
-- kasutusel on uusim versioon https://x-tee.ee/packages/, arendus- ja testkeskkond https://x-tee.ee/packages/test/
+- kasutusel on uusim versioon https://x-tee.ee/packages/live/, arendus- ja testkeskkond https://x-tee.ee/packages/test/
 - Teie asutuse tulemüür lubab X-tee päringuid RIA monitooringusüsteemist EE IP 195.80.123.159 (ee-dev IP 195.80.123.169, ee-test IP 195.80.123.164), pordid 5500 ja 5577.
 
 Tagamaks turvaserveri tarkvara pakettide korrektset paigaldumist, palume v6 turvaserveri uuendusi paigaldada alati käsuga (vaata ka https://www.x-tee.ee/docs/live/xroad/ig-ss_x-road_v6_security_server_installation_guide.html#45-different-versions-of-xroad--packages-after-successful-upgrade)
