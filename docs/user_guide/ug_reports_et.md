@@ -6,7 +6,7 @@
 
 ## Üldist
 
-Raportid on mõeldud eelkõige isikutele, kes on märgitud [RIHAs](https://www.riha.ee/) vastava alamsüsteemi kontaktisikuteks (infosüsteemi ülematele).
+Raportid on mõeldud eelkõige isikutele, kes on märgitud [X-tee iseteenindusportaalis (XTSS)](https://www.x-tee.ee/) (kuni 01.09.202 [RIHAs](https://www.riha.ee/)) vastava alamsüsteemi kontaktisikuteks (infosüsteemi ülematele).
 
 Raportid võiksid anda neile ülevaate, mis üldse toimub X-teel Teie vastavas alamsüsteemis: 
 - kes ja kui palju seda kasutab (**Osutatud teenused**) ning 
@@ -30,7 +30,7 @@ Avaldamiskeskkonnas on kaustapuude kaudu kõigi seal asuvate raportite vaatamine
 -	asutuse uus kontaktisik ei näe vanu raporteid ilma, et kas eelmine (või olemasolev) kontakt talle neid viiteid jagaks;
 -	asutusest lahkunud kontaktisik ei saa enam teavitust uute koostatud raportite kohta.
 
-Raportid koostatakse nii arendus- (ee-dev), test- (ee-test) kui toodangukeskkonna (EE) kohta iga kalendrikuu 8-10. kuupäeval.
+Raportid koostatakse nii arendus- (ee-dev), test- (ee-test) kui toodangukeskkonna (EE) kohta iga kalendrikuu 5-8. kuupäeval.
 
 Juhul kui on soovitusi raporti sisu, vormi jms osas, palun lahkesti teada anda, püüame RIA poolt kaasa aidata parema selguse ja läbipaistvuse loomisele selles, mis X-tee peal tegelikult toimub. Palun andke märku aadressil help@ria.ee kõikides seotud küsimustes.
 
@@ -46,23 +46,23 @@ Juhul, kui Teie hinnangul esineb mõnede statistiliste andmete osas asutusesises
 
 ### Miks just MINA selle raporti sain?
 
-Sest just Teie olete selle X-tee alamsüsteemi kontakt [RIHA](https://www.riha.ee/) andmetel. 
-Palun veenduge RIHA andmete ajakohasuses (vajalik eelnev autentimine).
+Sest just Teie olete selle X-tee alamsüsteemi kontaktisik [X-tee iseteeninduskeskkonna (XTSS)](https://www.x-tee.ee/) (kuni 01.09.2020 [RIHA](https://www.riha.ee/)) andmetel. 
+Palun veenduge oma andmete ajakohasuses (vajalik eelnev autentimine).
 
 ### Kas raportite saamise võib ka "maha võtta"? Kuidas?
 
-Hetkel meil raportite väljasaatmise süsteemile nn "opt-out" nimekirja pole. Raportid saadetakse kõigile selle X-tee alamsüsteemi RIHAs märgitud kontaktisikutele.
+Hetkel meil raportite väljasaatmise süsteemile nn "opt-out" nimekirja pole. Raportid saadetakse kõigile selle X-tee alamsüsteemi märgitud kontaktisikutele.
 
 Palun selgitust, miks soovite teavitustest loobuda?
 
-- Kui Te ei ole nimetatud alamsüsteemiga enam seotud, siis lihtsaim lahendus on enda kontakti eemaldamine RIHAst;
+- Kui Te ei ole nimetatud alamsüsteemiga enam seotud, siis lihtsaim lahendus on enda kontakti eemaldamine X-tee iseteeninduskeskkonnast;
 - kui te olete küll seotud kuid ei soovi neid kirju, siis üks võimalus on ka oma e-kirjade postkastis vastav suunav filter moodustada;
 - kui te olete seotud aga tahaksite näha ülevaateid mingil teisel kujul, siis ootame tagasidet, milline see parem ja sobivam vorm võiks olla;
 - kui te lihtsalt ei vaja niisugust lisainfot raportite näol, siis püüame juurutada ka "opt-out" nimekirja võimaluse.
 
 ### Miks just TEMA selle raporti sai?
 
-Sest just tema on selle X-tee alamsüsteemi kontaktisik [RIHA](https://www.riha.ee/) andmetel. 
+Sest just tema on selle X-tee alamsüsteemi kontaktisik [X-tee iseteeninduskeskkonna (XTSS)](https://www.x-tee.ee/) (kuni 01.09.2020 [RIHA](https://www.riha.ee/)) andmetel. 
 Palun veenduge RIHA andmete ajakohasuses (vajalik eelnev autentimine).
 
 ### Miks ei ole raportit sellel viitel?
@@ -82,8 +82,8 @@ Need on andmed Teie X-tee alamsüsteemi kohta ja just Teie teate ise, kellele ja
 
 Küll ta tuleb!
 
-X-tee keskkonnad on erineva mahuga, arendus- ja testkeskkonna raportid koostatakse üldjuhul iga kuu 8.kpv öösel / varahommikul.
-Toodangukeskkond on oluliselt mahukam päringute arvu poolest, raportite koostamine võtab kauem aega ja valmivad üldjuhul iga kuu 5.kpv öösel / varahommikul.
+X-tee keskkonnad on erineva mahuga, arendus- ja testkeskkonna raportid koostatakse üldjuhul iga kuu 5.kpv öösel / varahommikul.
+Toodangukeskkond on oluliselt mahukam päringute arvu poolest, raportite koostamine võtab kauem aega ja valmivad üldjuhul iga kuu 5-8.kpv.
 Põhjust üleküsimiseks on alles siis kui kuu 8.kpv jooksul ei ole raportit Teieni jõudnud.
 
 ### Liiga palju raporteid!
@@ -228,5 +228,5 @@ ii xroad-proxy <versioon> all X-Road security server
 ii xroad-securityserver <versioon> all X-Road security server
 ```
 
-X-tee turvaserverite administraatorite korduma kippuvad küsimused (KKK) ja vastused neile - https://moodle.ria.ee/mod/page/view.php?id=419
+X-tee turvaserverite administraatorite korduma kippuvad küsimused (KKK) ja vastused neile - https://abi.ria.ee/xtee/et/turvaserveri-haldus/kkk-korduma-kippuvad-kuesimused
 
