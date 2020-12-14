@@ -113,11 +113,23 @@ class DatabaseManager:
 
             queries = [query_a, query_b, query_c, query_d]
             for q in queries:
-                for doc in collection.find(q, projection):
+                # 2020-12-13: use cursor and no_cursor_timeout=True to avoid cursor timeout error
+                # Close cursor later
+                # for doc in collection.find(q, projection):
+                #     yield doc
+                cursor = collection.find(q, projection, no_cursor_timeout=True)
+                for doc in cursor:
                     yield doc
+                cursor.close()
+
         except Exception as e:
+            cursor.close()
             self.logger_m.log_error('DatabaseManager.get_matching_documents', '{0}'.format(repr(e)))
             raise e
+
+        # Just in case, final close of cursor
+        # finally:
+        #     cursor.close()
 
     def get_faulty_documents(self, member_code, subsystem_code, member_class, x_road_instance, start_time, end_time):
         try:
