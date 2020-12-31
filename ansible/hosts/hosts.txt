@@ -1,0 +1,10 @@
+# Hosts file
+[database]
+
+[collector]
+
+[corrector]
+
+[analyzer]
+
+[reports]

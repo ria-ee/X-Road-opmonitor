@@ -1,0 +1,12 @@
+/var/log/mongodb/mongod.log {
+  daily
+  rotate 30
+  compress
+  dateext
+  notifempty
+  missingok
+  sharedscripts
+  postrotate
+    /bin/kill -SIGUSR1 `pgrep mongod` 2> /dev/null || true
+  endscript
+}

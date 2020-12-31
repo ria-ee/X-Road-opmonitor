@@ -1,0 +1,4 @@
+---
+# The cron job interval (in hours)
+module_user: "collector"
+cron_interval: "3"

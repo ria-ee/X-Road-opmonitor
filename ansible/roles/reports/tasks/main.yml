@@ -1,0 +1,124 @@
+---
+- import_tasks: ubuntu.yml
+  when: ansible_os_family == "Debian"
+
+- name: Install the necessary packages
+  pip:
+    name: [
+      'pymongo',
+      'matplotlib',
+      'pandas',
+      'Jinja2',
+      'WeasyPrint',
+      'Pillow',
+      'tinycss',
+      'requests',
+    ]
+    executable: pip3
+
+- name: Ensure group "{{ module_user }}" exists
+  group:
+    name: "{{ module_user }}"
+    state: present
+
+- name: Create the system user {{ module_user }}
+  user:
+    name: "{{ module_user }}"
+    group: "{{ module_user }}"
+    home: "/opt/{{ module_user }}"
+    create_home: yes
+    move_home: yes
+    system: yes
+    shell: /bin/bash
+
+- name: Append the opmon group to {{ module_user }} and www-data
+  user:
+    name: "{{ item }}"
+    groups: "opmon"
+    append: yes
+  with_items:
+    - "{{ module_user }}"
+    - "www-data"
+
+- name: Ensure the ssh directory exists
+  file:
+    path: "~/.ssh"
+    state: directory
+  become: yes
+  become_user: reports
+
+- name: Generate the keypair
+  openssh_keypair:
+    path: "~/.ssh/id_rsa"
+  become: yes
+  become_user: reports
+  register: keyfile
+
+- name: Register the generated public key
+  slurp:
+    src: "~/.ssh/id_rsa.pub"
+  register: publicKeyFile
+  become: yes
+  become_user: reports
+
+- name: Append public key to a remote host via SSH
+  shell: "/bin/cat /.ssh/id_rsa.pub | ssh -o StrictHostKeyChecking=no {{reports_publishing_user}}@{{reports_publishing_server}} /bin/cat >> ~/.ssh/authorized_keys"
+  become: yes
+  become_user: reports
+  when: reports_publishing_server != '127.0.0.1'
+
+- name: Append public key the local host
+  authorized_key:
+    user: reports
+    state: present
+    key: "{{ publicKeyFile.content | b64decode }}"
+  when: reports_publishing_server == '127.0.0.1'
+
+- name: Copy the analyzer module to the install folder
+  copy:
+    src: "{{SOURCE}}/{{module_name}}"
+    dest: "{{APPDIR}}/{{INSTANCE}}"
+    remote_src: yes
+    mode: preserve
+
+- name: Update the settings file
+  template:
+    src: "roles/reports/templates/settings.py.j2"
+    dest: "{{APPDIR}}/{{INSTANCE}}/{{module_name}}/settings_{{INSTANCE}}.py"
+
+- name: Create the symlink
+  file:
+    src: "{{APPDIR}}/{{INSTANCE}}/{{module_name}}/settings_{{INSTANCE}}.py"
+    dest: "{{APPDIR}}/{{INSTANCE}}/{{module_name}}/settings.py"
+    group: opmon
+    state: link
+    follow: yes
+
+- name: Fix the symlink permissions
+  file:
+    path: "{{APPDIR}}/{{INSTANCE}}/{{module_name}}/settings_{{INSTANCE}}.py"
+    group: opmon
+    mode: "0775"
+
+
+- name: Adjust the collector module permissions
+  file:
+    path: "{{APPDIR}}/{{INSTANCE}}/{{module_name}}"
+    recurse: yes
+    owner: "{{ module_user }}"
+    group: "{{ module_user }}"
+    state: directory
+    mode: "0500"
+
+- name: Fix executing permissions on .sh files
+  shell: "find  {{APPDIR}}/{{INSTANCE}}/{{module_name}}/ -name '*.sh' -type f | sudo xargs chmod u+x"
+
+
+- name: Enable the cron job
+  cron:
+    name: "Reports"
+    user: "{{ module_user }}"
+    minute: "34"
+    hour: "12"
+    day: "10"
+    job: "export APPDIR=\"{{APPDIR}}\"; export INSTANCE=\"{{INSTANCE}}\"; cd ${APPDIR}/${INSTANCE}/{{module_name}}; ./cron_reports.sh"

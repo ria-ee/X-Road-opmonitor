@@ -1,0 +1,6 @@
+---
+- name: Install the required libraries
+  apt:
+    name: ["git"]
+    state: present
+    update_cache: yes

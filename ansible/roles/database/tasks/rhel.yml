@@ -1,0 +1,17 @@
+---
+- name: Configure the package management system (yum)
+  template:
+    src: "roles/database/templates/{{ item }}.j2"
+    dest: "/etc/yum.repos.d/{{ item }}"
+  with_items:
+    - "mongodb-org-4.2.repo"
+
+- name: Install MongoDB service (Ubuntu)
+  yum:
+    name: mongodb-org
+    state: present
+    update_cache: yes
+
+- name: Set the mongodb user
+  set_fact:
+    mongodb_user: "mongod"

@@ -1,0 +1,4 @@
+---
+# The cron job interval (in hours)
+module_user: "corrector"
+module_name: "corrector_module"

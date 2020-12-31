@@ -1,0 +1,6 @@
+---
+# The cron job interval (in hours)
+module_user: "analyzer"
+module_name: "analysis_module"
+secret_key: "{{root_pwd}}"
+WEBDIR: "/var/www"

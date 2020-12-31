@@ -1,0 +1,7 @@
+---
+TMP_DIR: /tmp
+PROJECT: X-Road-opmonitor
+PROJECT_URL: "https://github.com/ria-ee/{{PROJECT}}.git"
+SOURCE: "{{TMP_DIR}}/{{PROJECT}}"
+APPDIR: "/srv/app"
+INSTANCE: "{{xroad_instance}}"

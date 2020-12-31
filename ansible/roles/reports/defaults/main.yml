@@ -1,0 +1,11 @@
+---
+# The cron job interval (in hours)
+module_user: "reports"
+module_name: "reports_module"
+reports_publishing_server: "127.0.0.1"
+reports_publishing_directory: "/var/www/reports"
+reports_publishing_user: "{{module_user}}"
+sender_email: "yourname@yourdomain"
+smtp_host: "smtp.yourdomain"
+smtp_port: 25
+WEBDIR: "/var/www"
