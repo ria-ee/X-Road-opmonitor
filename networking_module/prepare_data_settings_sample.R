@@ -11,7 +11,7 @@ interval=30
 buffer=10
 
 # List of metaservices (services related to the X-road monitoring by the Information System Authority).
-metaservices<-c("getWsdl", "listMethods", "allowedMethods", "getSecurityServerMetrics", "getSecurityServerOperationalData", "getSecurityServerHealthData")
+metaservices<-c("getWsdl", "listMethods", "allowedMethods", "getSecurityServerMetrics", "getSecurityServerOperationalData", "getSecurityServerHealthData", "getOpenAPI")
 
 # Open data PostgreSQL database credentials. 
 host=""
