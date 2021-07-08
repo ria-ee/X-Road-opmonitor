@@ -1,0 +1,8 @@
+---
+xroad_instance: EE
+xroad_central_server: 127.0.0.1
+xroad_security_server_url: http://127.0.0.1
+xroad_member_class: GOV
+xroad_member_code: 10001
+xroad_subsystem_code: 10001-1
+

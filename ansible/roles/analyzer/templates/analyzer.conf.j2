@@ -1,0 +1,26 @@
+<VirtualHost *:80>
+        ServerName {{ inventory_hostname }}
+        ServerAdmin yourname@yourdomain
+        
+        ErrorLog ${APACHE_LOG_DIR}/analysis-error.log
+        CustomLog ${APACHE_LOG_DIR}/analysis-access.log combined
+
+        LoadModule wsgi_module "/usr/lib/apache2/modules/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so"
+
+        WSGIApplicationGroup %{GLOBAL}
+
+        #### Interface instances ####
+
+        ## SAMPLE ##
+
+        WSGIDaemonProcess {{INSTANCE}}
+        WSGIScriptAlias /{{INSTANCE}} {{WEBDIR}}/{{INSTANCE}}/{{module_name}}/analyzer_ui/analyzer_ui/wsgi.py process-group={{ INSTANCE }}
+
+        # Suffices to share static files only from one X-Road instance, as instances share the static files.
+        Alias /{{INSTANCE}}/static {{WEBDIR}}/{{INSTANCE}}/{{module_name}}/analyzer_ui/static
+
+        <Directory {{WEBDIR}}/{{INSTANCE}}/{{module_name}}/analyzer_ui/static>
+                Require all granted
+        </Directory>
+        
+</VirtualHost>

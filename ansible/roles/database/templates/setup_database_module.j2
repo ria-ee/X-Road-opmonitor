@@ -1,0 +1,46 @@
+function createOrUpdateUser(username, password, roles) {
+    if(!db.getUsers().find(u => u.user === username)) {
+       // Create the root user
+       db.createUser( { user: username, pwd: password, roles: roles })
+    } else {
+       db.changeUserPassword(username, password)
+    }
+}
+
+// Enable log rotation
+db.runCommand( { logRotate : 1 } )
+
+db = db.getSiblingDB('admin')
+createOrUpdateUser("root", "{{ root_pwd }}", ["root"])
+createOrUpdateUser("db_backup", "{{ backup_pwd }}", ["backup"])
+createOrUpdateUser("superuser", "{{ superuser_pwd }}", ["root"])
+createOrUpdateUser("user_read", "{{ readonly_pwd }}", ["readAnyDatabase"])
+
+db = db.getSiblingDB('auth_db')
+// Collector module
+createOrUpdateUser("collector_{{ xroad_instance }}", "{{ collector_pwd }}", [])
+db.grantRolesToUser( "collector_{{ xroad_instance }}", [{ role: "readWrite", db: "query_db_{{ xroad_instance }}"}])
+db.grantRolesToUser( "collector_{{ xroad_instance }}", [{ role: "readWrite", db: "collector_state_{{ xroad_instance }}"}])
+
+// Corrector module
+createOrUpdateUser("corrector_{{ xroad_instance }}", "{{ corrector_pwd }}", [])
+db.grantRolesToUser( "corrector_{{ xroad_instance }}", [{ role: "readWrite", db: "query_db_{{ xroad_instance }}"}])
+
+// Reports module
+createOrUpdateUser("reports_{{ xroad_instance }}", "{{ reports_pwd }}", [])
+db.grantRolesToUser( "reports_{{ xroad_instance }}", [{ role: "read", db: "query_db_{{ xroad_instance }}" }])
+db.grantRolesToUser( "reports_{{ xroad_instance }}", [{ role: "readWrite", db: "reports_state_{{ xroad_instance }}" }])
+
+// Analyzer module
+createOrUpdateUser("analyzer_{{ xroad_instance }}", "{{ analyzer_pwd }}", []);
+db.grantRolesToUser( "analyzer_{{ xroad_instance }}", [{ role: "read", db: "query_db_{{ xroad_instance }}" }])
+db.grantRolesToUser( "analyzer_{{ xroad_instance }}", [{ role: "readWrite", db: "analyzer_database_{{ xroad_instance }}" }])
+
+createOrUpdateUser("analyzer_interface_{{ xroad_instance }}", "{{ analyzer_interface_pwd }}", []);
+db.grantRolesToUser( "analyzer_interface_{{ xroad_instance }}", [{ role: "read", db: "query_db_{{ xroad_instance }}" }])
+db.grantRolesToUser( "analyzer_interface_{{ xroad_instance }}", [{ role: "readWrite", db: "analyzer_database_{{ xroad_instance }}" }])
+
+// Anonymizer
+createOrUpdateUser("anonymizer_{{ xroad_instance }}", "{{ analyzer_pwd }}", []);
+db.grantRolesToUser( "anonymizer_{{ xroad_instance }}", [{ role: "read", db: "query_db_{{ xroad_instance }}" }])
+db.grantRolesToUser( "anonymizer_{{ xroad_instance }}", [{ role: "readWrite", db: "anonymizer_state_{{ xroad_instance }}" }])

@@ -1,3 +1,10 @@
+// Without the trailing slash on the URL, the relative links will try to resolve
+// at the same level as the main page. It prevents the page to load the scripts
+// when different instances are configured as pathname
+if(!location.pathname.endsWith('/')) {
+    location.pathname = location.pathname + '/';
+}
+
 var incident_table = initialize_incident_table('#incident_table', 'get_incident_data_serverside', '#toggle-service-call-incident', "#incident-add-constraint-column", "#incident-alert")
 
 $("#new-selector").click(function () {

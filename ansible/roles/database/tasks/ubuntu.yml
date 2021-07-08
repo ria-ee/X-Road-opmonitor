@@ -1,0 +1,22 @@
+---
+- name: Add an Apt signing key to a specific keyring file (Ubuntu)
+  apt_key:
+    id: "{{ mongodb_ubuntu_18_apt_id }}"
+    keyserver: "{{ mongodb_ubuntu_18_apt_keyserver }}"
+    state: present
+
+- name: Add MongoDB repository (Ubuntu)
+  apt_repository:
+    repo: "{{ mongodb_ubuntu_18_apt_repo }}"
+    state: present
+
+- name: Install MongoDB service (Ubuntu)
+  apt:
+    name: mongodb-org
+    state: present
+    update_cache: yes
+
+- name: Set the mongodb user
+  set_fact:
+    mongodb_user: "mongodb"
+
