@@ -528,6 +528,7 @@ sudo vi /etc/apache2/sites-available/opendata.conf
         Alias /static /var/www/sample/opendata_module/interface/static
 
         <Directory /var/www/sample/opendata_module/interface/static>
+                Options -Indexes
                 Require all granted
         </Directory>
 
