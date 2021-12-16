@@ -6,6 +6,10 @@
 
 ## Introduction
 
+REPO IS ARCHIVED. PLEASE USE [NIIS REPO](https://github.com/nordic-institute/X-Road-Metrics)
+
+
+
 The project maintains X-Road v6 log of service calls (queries). 
 Logs are collected and corrected. 
 Further analysis about anomalies (possible incidents) is made. 
