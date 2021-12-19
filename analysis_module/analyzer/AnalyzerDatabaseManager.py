@@ -1,8 +1,6 @@
+
 from pymongo import MongoClient
-import pymongo
 import pandas as pd
-import numpy as np
-import sys
 
 pd.options.mode.chained_assignment = None
 
@@ -283,17 +281,6 @@ class AnalyzerDatabaseManager(object):
         
         return self._generate_dataframe(list(res))
     
-    def get_request_ids_from_incidents(self, incident_status=["new", "showed", "normal", "incident", "viewed"],
-                                       relevant_anomalous_metrics=None, max_incident_creation_timestamp=None):
-        filter_dict = {"incident_status": {"$in": incident_status}}
-        if relevant_anomalous_metrics is not None:
-            filter_dict["anomalous_metric"] = {"$in": relevant_anomalous_metrics}
-        if max_incident_creation_timestamp is not None:
-            filter_dict["incident_creation_timestamp"] = {"$lte": max_incident_creation_timestamp}
-        incident_collection = self._get_incident_collection()
-        request_ids = incident_collection.distinct("request_ids", filter_dict)
-        return request_ids
-    
     def delete_incidents(self, field=None, value=None):
         incident_collection = self._get_incident_collection()
         if field is None or value is None:
@@ -372,13 +359,7 @@ class AnalyzerDatabaseManager(object):
 
     def get_data_for_train_stages(self, sc_regular, sc_first_model, sc_second_model, relevant_anomalous_metrics,
                                   max_incident_creation_timestamp, last_fit_timestamp, agg_minutes, max_request_timestamp):
-        
-        # exclude requests that are part of a "true" incident
-        ids_to_exclude = self.get_request_ids_from_incidents(
-            incident_status=["incident"],
-            relevant_anomalous_metrics=relevant_anomalous_metrics,
-            max_incident_creation_timestamp=max_incident_creation_timestamp)
-    
+
         # make the timestamps correspond to the millisecond format
         if max_request_timestamp is not None:
             max_request_timestamp = max_request_timestamp.timestamp() * 1000
@@ -389,7 +370,7 @@ class AnalyzerDatabaseManager(object):
         data_first_train = pd.DataFrame()
         data_first_retrain = pd.DataFrame()
         
-        # for the first-time training, don't exclude anything
+        # for the first-time training
         if len(sc_first_model) > 0:
             if len(sc_first_model) > 100:
                 data_first_train = self.aggregate_data_for_historic_averages_model(agg_minutes=agg_minutes,
@@ -402,29 +383,25 @@ class AnalyzerDatabaseManager(object):
                     end_time=max_request_timestamp,
                     service_calls=sc_first_model[self._config.service_call_fields])
             
-        # for the second model, exclude queries that were marked as "incident" after the first training,
-        # but don't limit the start time
+        # for the second model
         if len(sc_second_model) > 0:
             if len(sc_second_model) > 100:
                 data_first_retrain = self.aggregate_data_for_historic_averages_model(agg_minutes=agg_minutes,
-                                                                                     end_time=max_request_timestamp,
-                                                                                     ids_to_exclude=ids_to_exclude)
+                                                                                     end_time=max_request_timestamp)
                 if len(data_first_retrain) > 0:
                     data_first_retrain = data_first_retrain.merge(sc_second_model[self._config.service_call_fields])
             else:
                 data_first_retrain = self.aggregate_data_for_historic_averages_model(
                     agg_minutes=agg_minutes,
                     service_calls=sc_second_model[self._config.service_call_fields],
-                    end_time=max_request_timestamp,
-                    ids_to_exclude=ids_to_exclude)
-            
-        # for regular training, exclude the incidents and limit the start time
+                    end_time=max_request_timestamp)
+
+        # for regular training
         if len(sc_regular) > 0:
             data_regular = self.aggregate_data_for_historic_averages_model(
                 agg_minutes=agg_minutes,
                 start_time=last_fit_timestamp,
-                end_time=max_request_timestamp,
-                ids_to_exclude=ids_to_exclude)
+                end_time=max_request_timestamp)
             if len(data_regular) > 0:
                 data_regular = data_regular.merge(sc_regular[self._config.service_call_fields])
         
